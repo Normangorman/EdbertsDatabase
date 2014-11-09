@@ -1,3 +1,9 @@
-$maybe msg <- mmsg
-    <div #message>#{msg}
-^{widget}
+<div .container>
+    $maybe msg <- mmsg
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            <strong>Warning!</strong>#{msg}
+    <div .row>
+        <div .col-md-12 .page-header>
+            <h1>Edberts Database
+    ^{widget}

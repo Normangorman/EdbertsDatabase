@@ -1,0 +1,36 @@
+<h2>Viewing details:
+<div .row>
+    <dl class="dl-horizontal">
+        <dt>First name
+        <dd>#{personFirstName person}
+
+        <dt>Last name
+        <dd>#{personLastName person}
+
+        
+        <dt>Birthday
+        $maybe birthday <- personBirthday person 
+            <dd>#{birthday}
+        $nothing
+            <dt>Not given
+    
+        <dt>Home number
+        $maybe homeNumber <- personHomeNumber person 
+            <dd>#{homeNumber}
+        $nothing
+            <dd>Not given
+        
+        <dt>Mobile number
+        $maybe mobileNumber <- personMobileNumber person
+            <dd>#{mobileNumber}
+        $nothing
+            <dd>Not set 
+
+        <dt>Email address
+        $maybe emailAddress <- personEmailAddress person
+            <dd>#{emailAddress}
+        $nothing 
+            <dd>Not set 
+
+        <dt>Gender
+        <dd>NOT IMPLEMENTED YET

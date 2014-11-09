@@ -61,14 +61,15 @@ instance Yesod App where
         -- default-layout-wrapper is the entire page. Since the final
         -- value passed to hamletToRepHtml cannot be a widget, this allows
         -- you to use normal widget features in default-layout.
-
+        
         pc <- widgetToPageContent $ do
+            setTitle "Edberts Database"
+            --JQuery
+            addScriptRemote "https://code.jquery.com/jquery-2.1.1.min.js"
             --Bootstrap CSS
             addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
             --Bootstrap Javascript
             addScriptRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"
-            --JQuery
-            addScriptRemote "https://code.jquery.com/jquery-2.1.1.min.js"
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
@@ -91,7 +92,7 @@ instance Yesod App where
             | otherwise   = base64md5 lbs
 
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
-    jsLoader _ = BottomOfBody
+    jsLoader _ = BottomOfHeadBlocking
 
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.
