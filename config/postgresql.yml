@@ -1,0 +1,33 @@
+# NOTE: These settings can be overridden by environment variables as well, in
+# particular:
+#
+#    PGHOST
+#    PGPORT
+#    PGUSER
+#    PGPASS
+#    PGDATABASE
+
+Default: &defaults
+  user: EdbertsDatabase
+  password: EdbertsDatabase
+  host: localhost
+  port: 5432
+  database: EdbertsDatabase
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: EdbertsDatabase_test
+  <<: *defaults
+
+Staging:
+  database: EdbertsDatabase_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: EdbertsDatabase_production
+  poolsize: 100
+  <<: *defaults
