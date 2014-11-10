@@ -1,36 +1,44 @@
-<h2>Viewing details:
 <div .row>
-    <dl class="dl-horizontal">
-        <dt>First name
-        <dd>#{personFirstName person}
+    <div .col-md-4 .col-md-offset-4>
+        <h2>Viewing details:
+        <dl class="dl-horizontal">
+            <dt>First name
+            <dd>#{personFirstName person}
 
-        <dt>Last name
-        <dd>#{personLastName person}
+            <dt>Last name
+            <dd>#{personLastName person}
 
+            <dt>Birthday
+            <dd>
+                $maybe birthday <- personBirthday person 
+                    #{birthday}
+                $nothing
+                    Not given
         
-        <dt>Birthday
-        $maybe birthday <- personBirthday person 
-            <dd>#{birthday}
-        $nothing
-            <dt>Not given
-    
-        <dt>Home number
-        $maybe homeNumber <- personHomeNumber person 
-            <dd>#{homeNumber}
-        $nothing
-            <dd>Not given
-        
-        <dt>Mobile number
-        $maybe mobileNumber <- personMobileNumber person
-            <dd>#{mobileNumber}
-        $nothing
-            <dd>Not set 
+            <dt>Home number
+            <dd>
+                $maybe homeNumber <- personHomeNumber person 
+                    #{homeNumber}
+                $nothing
+                    Not given
+            
+            <dt>Mobile number
+            <dd>
+                $maybe mobileNumber <- personMobileNumber person
+                    #{mobileNumber}
+                $nothing
+                    Not given 
 
-        <dt>Email address
-        $maybe emailAddress <- personEmailAddress person
-            <dd>#{emailAddress}
-        $nothing 
-            <dd>Not set 
+            <dt>Email address
+            <dd>
+                $maybe emailAddress <- personEmailAddress person
+                    #{emailAddress}
+                $nothing 
+                    Not given 
 
-        <dt>Gender
-        <dd>NOT IMPLEMENTED YET
+            <dt>Gender
+            <dd>
+                $maybe gender <- personGender person
+                    #{gender}
+                $nothing
+                    Not given

@@ -1,24 +1,23 @@
 <div .row>
-    <div .col-md-4 .col-md-offset-4>
-      <form .form-horizontal role="form">
-        <fieldset>
-
-          <legend>Person Details</legend>
+  <div .col-md-4 .col-md-offset-4>
+    <form .form-horizontal method=post action=@{NewPersonR} role="form">
+      <fieldset>
+        <legend>Person Details</legend>
 
           <div .form-group>
             <label .col-sm-2 .control-label for="textinput">First name
             <div .col-sm-10>
-              <input type="text" name="First name" placeholder="First name" .form-control>
+              <input type="text" name="First name" placeholder="First name" .form-control required>
 
           <div .form-group>
             <label .col-sm-2 .control-label for="textinput">Last name
             <div .col-sm-10>
-              <input type="text" name="Last name" placeholder="Last name" .form-control>
+              <input type="text" name="Last name" placeholder="Last name" .form-control required>
 
           <div .form-group>
             <label .col-sm-2 .control-label for="textinput">Birthday
             <div .col-sm-10>
-              <input type="text" name="Birthday" data-provide="datepicker" placeholder="01/01/1980" data-date-format="dd/mm/yyyy" .form-control>
+              <input type="text" name="Birthday" data-provide="datepicker" placeholder="01/01/1980" data-date-format="yyyy/mm/dd" .form-control>
 
           <div .form-group>
             <label .col-sm-2 .control-label for="textinput">Home number
@@ -37,7 +36,15 @@
               <input type="text" name="Email Address" placeholder="johnsmith@gmail.com" .form-control>
 
           <div .form-group>
-            <div .col-sm-offset-2 .col-sm-10>
+            <label .col-sm-2 .control-label for="textinput">Gender
+            <div class="col-sm-10">
+              <select type="text" name="Gender" placeholder="Male" .form-control>
+                <option value="Male">Male
+                <option value="Female">Female
+                <option value="Other">Other
+
+            <div .form-group>
+              <div .col-sm-offset-2 .col-sm-10>
               <div .pull-right>
                 <button type="submit" .btn .btn-default>Cancel
                 <button type="submit" .btn .btn-primary>Save

@@ -16,6 +16,7 @@ import Model
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)
+import Yesod.Form.Jquery
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -32,6 +33,7 @@ data App = App
 
 instance HasHttpManager App where
     getHttpManager = httpManager
+
 
 -- Set up i18n messages. See the message folder.
 mkMessage "App" "messages" "en"

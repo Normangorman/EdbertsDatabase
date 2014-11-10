@@ -4,5 +4,6 @@
 /robots.txt RobotsR GET
 
 / HomeR GET POST
-/person/#PersonId PersonR GET POST PUT
 /person/edit/#PersonId EditPersonR GET POST
+!/person/create NewPersonR GET POST
+!/person/#PersonId PersonR GET POST PUT
