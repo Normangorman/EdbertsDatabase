@@ -1,0 +1,21 @@
+<div .row>
+    <div .col-md-8 .col-md-offset-2>
+        <table .table .table-bordered .table-striped .table-hover>
+                <tr>
+                    <th>First name
+                    <th>Last name
+                    <th>Birthday
+                    <th>Home number
+                    <th>Mobile number
+                    <th>Email address
+                    <th>Gender
+
+            $forall Entity pid person <- people
+                <tr>
+                    <td><a href=@{PersonR pid}>#{personFirstName person}
+                    <td>#{personLastName person}
+                    <td>#{fromMaybe $ personBirthday person}
+                    <td>#{fromMaybe $ personHomeNumber person}
+                    <td>#{fromMaybe $ personMobileNumber person}
+                    <td>#{fromMaybe $ personEmailAddress person}
+                    <td>#{fromMaybe $ personGender person}

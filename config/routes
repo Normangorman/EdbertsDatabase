@@ -7,3 +7,4 @@
 /person/edit/#PersonId EditPersonR GET POST
 !/person/create NewPersonR GET POST
 !/person/#PersonId PersonR GET POST PUT
+/people PeopleR GET POST
