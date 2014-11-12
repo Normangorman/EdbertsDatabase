@@ -1,0 +1,16 @@
+$("#quick_search_form").submit(function(event) {
+    console.log("submit handler called");
+    var query = $("#quick_search_box").val();
+    console.log("query:", query);
+    if (query === "") {
+        alert("You didn't enter anything in the search box!");
+    } else {
+        window.location = '@{QueryR}' + "?query=" + query;
+    }
+    event.preventDefault();
+});
+
+
+//   $("#people_rows").html(function() {
+//        return "<h1>test</h1>";
+//    });    

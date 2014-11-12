@@ -1,5 +1,12 @@
+<div .row style="margin-bottom: 10px">
+    <div .col-lg-2>
+        <h3>Query Builder:
+        <button #query_builder_submit type=submit>Submit query
+    <div .col-lg-10>
+        <div #query_builder>
+    
 <div .row>
-    <div .col-lg-10 .col-lg-offset-1>
+    <div .col-lg-12>
         <table #data_table .table .table-bordered .table-striped .table-hover>
                 <tr>
                     <th>First name
@@ -10,4 +17,4 @@
                     <th>Email address
                     <th>Gender
             <div #people_rows>
-                ^{peopleRows}
+                ^{peopleTableRows}

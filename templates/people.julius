@@ -1,12 +1,15 @@
-$() {
-    $('#quick_search_button').click(function() {
-        $.ajax({
-            type: 'POST',
-            data: 'person_first_name='.concat($('#quick_search_box').val()),
-            success: function(data) {alert(data); },
-            error: function(data){ alert(data); },
-            url: '@{PeopleR}',
-            cache:false
-        });
-    });
+$("#query_builder").queryBuilder({
+    filters: [
+        {   id : "person_first_name",
+            field: "first_name",
+            label: "First name",
+            type: "string",
+        }
+    ]
+});
+
+$("#query_builder_submit").click(function() {
+    // the two 'false' parameters mean: output plain SQL, don't use new lines in output
+    var res = $('#query_builder').queryBuilder('getSQL', false, false);
+    console.log("generated SQL:", res.sql);
 });

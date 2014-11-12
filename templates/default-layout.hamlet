@@ -16,8 +16,9 @@
                     <li><a href=@{PeopleR}>People</a>
                     <li><a href="#">Groups</a>
                     <li><a href="#">Qualifications</a>
-                <form method=post .navbar-form .navbar-right role="search">
+                  
+                <form #quick_search_form action="" .navbar-form .navbar-right role="search">
                     <div .form-group>
-                        <input #quick_search_box name="quick_search_query" type="text" .form-control placeholder="Quick search">
-                    <button type="submit" #quick_search_button .btn .btn-default>Search
+                        <input #quick_search_box type="text" .form-control placeholder="Quick search">
+                        <button type="submit" .btn .btn-default>Search
     ^{widget}
