@@ -5,7 +5,7 @@ $("#quick_search_form").submit(function(event) {
     if (query === "") {
         alert("You didn't enter anything in the search box!");
     } else {
-        window.location = '@{QueryR}' + "?query=" + query;
+        window.location = '@{QuickQueryR}' + "?query=" + query;
     }
     event.preventDefault();
 });

@@ -24,6 +24,8 @@ library
                      Handler.EditPerson
                      Handler.NewPerson
                      Handler.People
+                     Handler.QuickQuery
+                     Handler.QueryUtils
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
