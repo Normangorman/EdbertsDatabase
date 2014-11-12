@@ -1,0 +1,12 @@
+$() {
+    $('#quick_search_button').click(function() {
+        $.ajax({
+            type: 'POST',
+            data: 'person_first_name='.concat($('#quick_search_box').val()),
+            success: function(data) {alert(data); },
+            error: function(data){ alert(data); },
+            url: '@{PeopleR}',
+            cache:false
+        });
+    });
+});
