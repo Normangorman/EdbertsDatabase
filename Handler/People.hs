@@ -2,6 +2,8 @@ module Handler.People where
 
 import Import
 import Handler.QueryUtils
+import Database.Persist.Sql (rawSql)
+import qualified Data.Text as T
 -- import Yesod.Request
 
 getPeopleR :: Handler Html
@@ -12,14 +14,19 @@ getPeopleR = do
         addStylesheet $ StaticR css_query_builder_min_css
         addScript     $ StaticR js_query_builder_min_js
         --this hamlet interpolates the peopleRows widget
+        $(widgetFile "query-builder")
         $(widgetFile "people")
 
-
-
--- postPeopleR :: Handler ()
+postPeopleR :: Handler Html
 postPeopleR = do
-    query <- runInputPost $ ireq textField "quick_search_query"
-    people <- runDB $ selectList [PersonFirstName ==. "Polly"] [Asc PersonFirstName, Asc PersonLastName]
-    defaultLayout $ do
-        mkPeopleRows people
+    maybeQuery <- lookupPostParam "query"
+    case maybeQuery of
+        Nothing -> do
+            withUrlRenderer [hamlet|Something went wrong...|]
+        Just sql -> do 
+            let sqlToRun = "SELECT ?? FROM person WHERE (" `T.append` sql `T.append` ") "
+            people <- runDB $ rawSql sqlToRun []
+            rows <- widgetToPageContent $ mkPeopleRows people
+            withUrlRenderer [hamlet|^{pageBody rows}|]
+
 

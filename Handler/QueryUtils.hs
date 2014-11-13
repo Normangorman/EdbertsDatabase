@@ -21,5 +21,3 @@ fromMaybe Nothing  = ""
 fromMaybe (Just a) = show a
 
 
---    rows <- widgetToPageContent $ mkPeopleRows people
---    withUrlRenderer [hamlet|^{pageBody rows}|]

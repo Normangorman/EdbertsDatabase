@@ -1,0 +1,7 @@
+<div .row style="margin-bottom: 10px">
+    <div .col-lg-2>
+        <h3>Query Builder:
+        <button #query_builder_submit type=submit>Submit query
+    <div .col-lg-10>
+        <div #query_builder>
+    

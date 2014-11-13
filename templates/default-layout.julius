@@ -11,6 +11,3 @@ $("#quick_search_form").submit(function(event) {
 });
 
 
-//   $("#people_rows").html(function() {
-//        return "<h1>test</h1>";
-//    });    
