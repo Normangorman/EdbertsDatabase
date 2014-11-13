@@ -13,7 +13,11 @@
                 <div .navbar-brand>Edberts Database</a>
             <div .navbar-collapse collapse>
                 <ul .nav .navbar-nav>
-                    <li><a href=@{PeopleR}>People</a>
+                    <li .dropdown>
+                        <a href="#" .dropdown-toggle data-toggle="dropdown" role="button" aria-expanded="false">People<span class="caret"></span></a>
+                        <ul .dropdown-menu role="menu">
+                            <li><a href=@{NewPersonR}>Add a person<span .h1>TEST</span></a>
+                            <li><a href=@{PeopleR}>View all people</a>
                     <li><a href="#">Groups</a>
                     <li><a href="#">Qualifications</a>
                   
