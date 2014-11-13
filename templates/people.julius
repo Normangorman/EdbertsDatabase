@@ -1,9 +1,51 @@
 $("#query_builder").queryBuilder({
     filters: [
-        {   id : "person_first_name",
-            field: "first_name",
-            label: "First name",
-            type: "string",
+        {   id:     "person_first_name",
+            field:  "first_name",
+            label:  "First name",
+            type:   "string",
+        },
+        
+        {   id:     "person_last_name",
+            field:  "last_name",
+            label:  "Last name",
+            type:   "string"
+        },
+
+        {   id:     "person_birthday",
+            field:  "birthday",
+            label:  "Birthday",
+            type:   "date"
+        },
+
+        {   id:     "person_home_number",
+            field:  "home_number",
+            label:  "Home number",
+            type:   "string"
+        },
+
+        {   id:     "person_mobile_number",
+            field:  "mobile_number",
+            label:  "Mobile number",
+            type:   "string"
+        },
+
+        {   id :    "person_email_address",
+            field:  "email_address",
+            label:  "Email address",
+            type:   "string"
+        },
+
+        {   id:     "person_gender",
+            field:  "gender",
+            label:  "Gender",
+            type:   "string",
+            input:  "radio",
+            values: {
+                "Male":     "Male",
+                "Female":   "Female",
+                "Other":    "Other"
+            }
         }
     ]
 });
