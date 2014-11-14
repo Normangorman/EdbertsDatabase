@@ -1,6 +1,9 @@
 module Handler.QueryUtils where
 
 import Import
+import qualified Data.Text as T
+import Data.Time.Calendar (Day, toGregorian)
+import Model (prettyGregorian)
 
 mkPeopleRows :: [Entity Person] -> Widget
 mkPeopleRows people = do
@@ -14,10 +17,20 @@ mkPeopleRows people = do
             <td>#{fromMaybe $ personMobileNumber person}
             <td>#{fromMaybe $ personEmailAddress person}
             <td>#{fromMaybe $ personGender person}
+            <td>#{fromMaybe $ personNationality person}
     |]
 
-fromMaybe :: Show a => Maybe a -> String
-fromMaybe Nothing  = ""
-fromMaybe (Just a) = show a
+class FromMaybe a where
+    fromMaybe :: Maybe a -> String
 
+instance FromMaybe String where
+    fromMaybe (Just s) = s
+    fromMaybe Nothing = ""
 
+instance FromMaybe Text where
+    fromMaybe (Just t) = T.unpack t
+    fromMaybe Nothing = ""
+
+instance FromMaybe Day where
+    fromMaybe (Just d) = prettyGregorian . toGregorian $ d
+    fromMaybe Nothing = ""

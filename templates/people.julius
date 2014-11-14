@@ -46,6 +46,23 @@ $("#query_builder").queryBuilder({
                 "Female":   "Female",
                 "Other":    "Other"
             }
+        },
+
+        {   id:    "person_nationality",
+            field: "nationality",
+            label: "Nationality",
+            type:  "string",
+            input: "select",
+            values: {
+                "White British"     :"White British",
+                "White other"       :"White other",
+                "Asian"             :"Asian",
+                "Black Caribbean"   :"Black Caribbean",
+                "Black African"     :"Black African",
+                "Black other"       :"Black other",
+                "Chinese"           :"Chinese",
+                "Other"             :"Other"
+            }
         }
     ]
 });

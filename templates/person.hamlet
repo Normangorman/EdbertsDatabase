@@ -1,44 +1,40 @@
 <div .row>
     <div .col-md-4 .col-md-offset-4>
-        <h2>Viewing details:
-        <dl class="dl-horizontal">
-            <dt>First name
-            <dd>#{personFirstName person}
+        <h2>Viewing #{personFirstName person}'s details:
+        <hr>
+        <div .row>
+            <table .table .table-bordered .table-hover> 
+                <tr>
+                    <td><strong>First name</strong>
+                    <td>#{personFirstName person}
 
-            <dt>Last name
-            <dd>#{personLastName person}
+                <tr>
+                    <td><strong>Last name</strong>
+                    <td>#{personLastName person}
 
-            <dt>Birthday
-            <dd>
-                $maybe birthday <- personBirthday person 
-                    #{birthday}
-                $nothing
-                    Not given
-        
-            <dt>Home number
-            <dd>
-                $maybe homeNumber <- personHomeNumber person 
-                    #{homeNumber}
-                $nothing
-                    Not given
-            
-            <dt>Mobile number
-            <dd>
-                $maybe mobileNumber <- personMobileNumber person
-                    #{mobileNumber}
-                $nothing
-                    Not given 
+                <tr>
+                    <td><strong>Birthday</strong>
+                    <td>#{fromMaybe $ personBirthday person}
 
-            <dt>Email address
-            <dd>
-                $maybe emailAddress <- personEmailAddress person
-                    #{emailAddress}
-                $nothing 
-                    Not given 
+                <tr>
+                    <td><strong>Home numer</strong>
+                    <td>#{fromMaybe $ personHomeNumber person}
 
-            <dt>Gender
-            <dd>
-                $maybe gender <- personGender person
-                    #{gender}
-                $nothing
-                    Not given
+                <tr>
+                    <td><strong>Mobile number</strong>
+                    <td>#{fromMaybe $ personMobileNumber person}
+
+                <tr>
+                    <td><strong>Email address</strong>
+                    <td>#{fromMaybe $ personEmailAddress person}
+
+                <tr>
+                    <td><strong>Gender</strong>
+                    <td>#{fromMaybe $ personGender person}
+
+                <tr>
+                    <td><strong>Nationality</strong>
+                    <td>#{fromMaybe $ personNationality person}
+        <div .row>
+            <button #edit_person_button .btn .btn-primary type="button">Edit
+            <button #delete_person_button .btn .btn-danger type="button" >Delete

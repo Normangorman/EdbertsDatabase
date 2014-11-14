@@ -10,5 +10,6 @@
                     <th>Mobile number
                     <th>Email address
                     <th>Gender
+                    <th>Nationality
             <tbody>
                 ^{peopleTableRows}

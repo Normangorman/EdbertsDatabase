@@ -1,1 +1,20 @@
+$(function() {
+    var gender = '#{gender}';
+    var nationality = '#{nationality}';
+    console.log("Gender:", gender);
+    console.log("Nationality:", nationality);
+    
+    if (gender != "") {
+        $("#select_gender option[value='" + gender + "']")
+            .prop('selected', true);
+        console.log("Set default gender selection.");
+    }
+
+    if (nationality != "") {
+        $("#select_nationality option[value='" + nationality + "']")
+            .prop('selected', true);
+        console.log("Set default nationality option.");
+    }
+
+});
 

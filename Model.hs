@@ -13,7 +13,15 @@ instance ToMarkup Day where
 
 prettyGregorian :: (Integer, Int, Int) -> String
 prettyGregorian (year, month, day) =
-    show day ++ "/" ++ show month ++ "/" ++ show year
+    --for a day to be correctly parsed as a day field, both the month and day must be two characters long.
+    let prettyYear = show year
+        prettyMonth
+            | month < 10 = '0' : show month
+            | otherwise  = show month
+        prettyDay
+            | day < 10   = '0' : show day
+            | otherwise  = show day
+    in prettyYear ++ "/" ++ prettyMonth ++ "/" ++ prettyDay
 
 -- You can define all of your database entities in the entities file.
 -- You can find more information on persistent and how to declare entities

@@ -1,0 +1,16 @@
+$("#delete_person_button").click(function() {
+    var confirmation = confirm("Are you sure you want to delete this person? Their data cannot be recovered.");
+    if (confirmation) {
+        $.ajax({
+            url: '@{PersonR pid}',
+            type: 'DELETE',
+            success: function () {
+                window.location.assign('@{PeopleR}')
+            }
+        });
+    }
+});
+
+$("#edit_person_button").click(function() {
+    window.location.assign('@{EditPersonR pid}');
+});
