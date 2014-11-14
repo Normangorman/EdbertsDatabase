@@ -22,7 +22,7 @@ postPeopleR = do
     maybeQuery <- lookupPostParam "query"
     case maybeQuery of
         Nothing -> do
-            withUrlRenderer [hamlet|Something went wrong...|]
+            withUrlRenderer [hamlet|No query given...|]
         Just sql -> do 
             let sqlToRun = "SELECT ?? FROM person WHERE (" `T.append` sql `T.append` ") "
             people <- runDB $ rawSql sqlToRun []

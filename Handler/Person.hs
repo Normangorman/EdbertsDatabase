@@ -1,7 +1,8 @@
 module Handler.Person where
 
 import Import
-import Handler.QueryUtils (fromMaybe)
+import Handler.QueryUtils (fromMaybe, getPersonAge)
+import System.IO.Unsafe (unsafePerformIO)
 
 getPersonR :: PersonId -> Handler Html
 getPersonR pid = do

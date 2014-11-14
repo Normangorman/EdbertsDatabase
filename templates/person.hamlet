@@ -17,6 +17,10 @@
                     <td>#{fromMaybe $ personBirthday person}
 
                 <tr>
+                    <td><strong>Age</strong>
+                    <td>#{fromMaybe $ unsafePerformIO (getPersonAge person)}
+
+                <tr>
                     <td><strong>Home numer</strong>
                     <td>#{fromMaybe $ personHomeNumber person}
 
