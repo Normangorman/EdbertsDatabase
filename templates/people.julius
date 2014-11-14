@@ -88,3 +88,23 @@ handleQueryReturn = function(data) {
     console.log(data);
     $('#data_table tbody').html(data);
 };
+
+//Table sorting
+var date_from_string = function(str){
+    var pattern = "^(\\d{4})\/(\\d{2})\/(\\d{2})$";
+    var regexp = new RegExp(pattern);
+    var DateParts = regexp.exec(str).slice(1);
+
+    var Year    = DateParts[0];
+    var Month   = DateParts[1];
+    var Day     = DateParts[2];
+    return new Date(Year, Month, Day);
+}
+
+$("#data_table").stupidtable({
+    "custom-date": function(a,b) {
+            aDate = date_from_string(a);
+            bDate = date_from_string(b);
+            return aDate - bDate;
+        }
+});

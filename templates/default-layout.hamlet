@@ -24,5 +24,7 @@
                 <form #quick_search_form action="" .navbar-form .navbar-right role="search">
                     <div .form-group>
                         <input #quick_search_box type="text" .form-control placeholder="Quick search">
-                        <button type="submit" .btn .btn-default>Search
+                        <button type="submit" .btn .btn-default>
+                            <span .glyphicon .glyphicon-search>
+                            Search
     ^{widget}

@@ -58,4 +58,6 @@
 
           <div .form-group>
               <div .pull-right>
-                <button type="submit" .btn .btn-primary>Save Changes
+                <button type="submit" .btn .btn-primary>
+                    <span .glyphicon .glyphicon-ok>
+                    Save Changes

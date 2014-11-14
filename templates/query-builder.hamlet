@@ -1,7 +1,9 @@
 <div .row> 
      <div #query_builder_heading .col-lg-2>
         <h3>Query Builder
-        <button .btn .btn-primary .btn-block #query_builder_submit type=submit>Submit query
+        <button .btn .btn-primary .btn-block #query_builder_submit type=submit>
+            <span .glyphicon .glyphicon-search>
+            Submit query
     <div .col-lg-10>
         <div #query_builder>
     

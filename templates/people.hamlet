@@ -3,14 +3,32 @@
         <table #data_table .table .table-bordered .table-striped .table-hover>
             <thead>
                 <tr>
-                    <th>First name
-                    <th>Last name
-                    <th>Birthday
-                    <th>Age
-                    <th>Home number
-                    <th>Mobile number
-                    <th>Email address
-                    <th>Gender
-                    <th>Nationality
+                    <th data-sort="string">
+                        First name
+                        <span .caret>
+                    <th data-sort="string">
+                        Last name
+                        <span .caret>
+                    <th data-sort="custom-date">
+                        Birthday
+                        <span .caret>
+                    <th data-sort="int">
+                        Age
+                        <span .caret>
+                    <th data-sort="int">
+                        Home number
+                        <span .caret>
+                    <th data-sort="int">
+                        Mobile number
+                        <span .caret>
+                    <th data-sort="string">
+                        Email address
+                        <span .caret>
+                    <th data-sort="string">
+                        Gender
+                        <span .caret>
+                    <th data-sort="string">
+                        Nationality
+                        <span .caret>
             <tbody>
                 ^{peopleTableRows}

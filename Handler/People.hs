@@ -11,8 +11,12 @@ getPeopleR = do
     people <- runDB $ selectList [] [Asc PersonFirstName, Asc PersonLastName]
     let peopleTableRows = mkPeopleRows people
     defaultLayout $ do
+        --query builder plugin
         addStylesheet $ StaticR css_query_builder_min_css
         addScript     $ StaticR js_query_builder_min_js
+        --table sorter plugin
+        addScript     $ StaticR js_stupidtable_min_js
+        
         --this hamlet interpolates the peopleRows widget
         $(widgetFile "query-builder")
         $(widgetFile "people")
