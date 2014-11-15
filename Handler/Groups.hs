@@ -29,7 +29,7 @@ mkGroupRows pGroups = do
     [whamlet|
         $forall Entity key pGroup <- pGroups 
           <tr>
-            <td>#{pGroupName pGroup}
+            <td><a href=@{GroupR key}>#{pGroupName pGroup}
             <td>#{pGroupProject pGroup}
             <td>#{fromMaybe $ pGroupMeetsOnDay pGroup}
             <td>#{fromMaybe $ pGroupMeetsAtTime pGroup}

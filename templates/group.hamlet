@@ -22,7 +22,7 @@
 
         <div .row>
             <div .pull-right>
-                <a href=@{GroupsR} .btn .btn-primary>
+                <a href=@{EditGroupR pgid} .btn .btn-primary>
                     <span .glyphicon .glyphicon-edit>
                     Edit
                 <button #delete_group_button .btn .btn-danger type="button">

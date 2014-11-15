@@ -1,0 +1,20 @@
+$(function() {
+    var project = '#{project}';
+    var meetsOnDay = '#{meetsOnDay}';
+    console.log("Project:", project);
+    console.log("Meets on day:", meetsOnDay);
+    
+    //project should not be empty as it is a required field
+    $("#select_project option[value='" + project + "']")
+        .prop('selected', true);
+    console.log("Set default project selection.");
+
+    if (meetsOnDay != "") {
+        $("#select_day option[value='" + meetsOnDay + "']")
+            .prop('selected', true);
+        console.log("Set default meets on day option.");
+    }
+
+});
+
+$(".clockpicker").clockpicker({ autoclose: true });

@@ -29,6 +29,7 @@ library
                      Handler.Groups
                      Handler.NewGroup
                      Handler.Group
+                     Handler.EditGroup
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

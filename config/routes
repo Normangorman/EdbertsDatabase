@@ -14,3 +14,4 @@
 /groups GroupsR GET POST
 !/group/create NewGroupR GET POST
 /group/#PGroupId GroupR GET DELETE
+/group/edit/#PGroupId EditGroupR GET POST
