@@ -10,7 +10,3 @@ $("#delete_person_button").click(function() {
         });
     }
 });
-
-$("#edit_person_button").click(function() {
-    window.location.assign('@{EditPersonR pid}');
-});

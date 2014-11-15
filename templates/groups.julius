@@ -9,25 +9,36 @@ $("#query_builder").queryBuilder({
         {   id:     "group_project",
             field:  "project",
             label:  "Project",
-            type:   "string"
+            type:   "string",
+            input:  "select",
+            values: {
+                "High Lanes" : "High Lanes",
+                "The Fold"   : "The Fold"
+            }
         },
 
         {   id:     "group_meets_on_day",
             field:  "meets_on_day",
             label:  "Meets on day",
-            type:   "string"
+            type:   "string",
+            input:  "select",
+            values: {
+                "Monday"    : "Monday",
+                "Tuesday"   : "Tuesday",
+                "Wednesday" : "Wednesday",
+                "Thursday"  : "Thursday",
+                "Friday"    : "Friday",
+                "Saturday"  : "Saturday",
+                "Sunday"    : "Sunday"
+            }
         },
 
         {   id:     "group_meets_at_time",
             field:  "meets_at_time",
             label:  "Meets at time",
             type:   "time",
-            input:  function(rule, filter) {
-                //use jquery clock picker plugin
-                var input = $('<input type="text"></input>');
-                input.clockpicker({ autoclose: true });
-                return input;
-            }
+            plugin: "clockpicker", //use jquery clockpicker plugin
+            plugin_config: { autoclose: true}
         }
     ]
 });

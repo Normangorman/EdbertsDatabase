@@ -28,6 +28,7 @@ library
                      Handler.QueryUtils
                      Handler.Groups
                      Handler.NewGroup
+                     Handler.Group
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

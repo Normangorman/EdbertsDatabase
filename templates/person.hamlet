@@ -41,7 +41,7 @@
                     <td>#{fromMaybe $ personNationality person}
         <div .row>
             <div .pull-right>
-                <button #edit_person_button .btn .btn-primary type="button">
+                <a href=@{EditPersonR pid} .btn .btn-primary>
                     <span .glyphicon .glyphicon-edit>
                     Edit
                 <button #delete_person_button .btn .btn-danger type="button">

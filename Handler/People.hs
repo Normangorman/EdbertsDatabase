@@ -16,10 +16,14 @@ getPeopleR = do
         addScript     $ StaticR js_query_builder_min_js
         --table sorter plugin
         addScript     $ StaticR js_stupidtable_min_js
-        
-        --this hamlet interpolates the peopleRows widget
+        --date picker plugin
+        addStylesheet $ StaticR css_datepicker_css 
+        addScript     $ StaticR js_datepicker_js
+
         $(widgetFile "query-builder")
+        --this hamlet file interpolates the peopleRows widget
         $(widgetFile "people")
+
 
 postPeopleR :: Handler Html
 postPeopleR = do

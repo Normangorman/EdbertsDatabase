@@ -15,7 +15,12 @@ $("#query_builder").queryBuilder({
         {   id:     "person_birthday",
             field:  "birthday",
             label:  "Birthday",
-            type:   "date"
+            type:   "date",
+            plugin: "datepicker", //use datepicker plugin
+            plugin_config: { format: 'yyyy/mm/dd' },
+            validation: {
+                format: "YYYY/MM/DD"
+            }
         },
 
         {   id:     "person_home_number",

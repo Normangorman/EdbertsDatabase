@@ -1,0 +1,12 @@
+$("#delete_group_button").click(function() {
+    var confirmation = confirm("Are you sure you want to delete this group? It's data cannot be recovered.");
+    if (confirmation) {
+        $.ajax({
+            url: '@{GroupR pgid}',
+            type: 'DELETE',
+            success: function () {
+                window.location.assign('@{GroupsR}')
+            }
+        });
+    }
+});
