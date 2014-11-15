@@ -21,7 +21,13 @@ $("#query_builder").queryBuilder({
         {   id:     "group_meets_at_time",
             field:  "meets_at_time",
             label:  "Meets at time",
-            type:   "time"
+            type:   "time",
+            input:  function(rule, filter) {
+                //use jquery clock picker plugin
+                var input = $('<input type="text"></input>');
+                input.clockpicker({ autoclose: true });
+                return input;
+            }
         }
     ]
 });
@@ -50,20 +56,36 @@ handleQueryReturn = function(data) {
 
 //Table sorting
 var time_from_string = function(str){
-    var pattern = "^(\\d{4})\/(\\d{2})\/(\\d{2})$";
-    var regexp = new RegExp(pattern);
-    var DateParts = regexp.exec(str).slice(1);
+    console.log("parsing time from string:", str);
 
-    var Year    = DateParts[0];
-    var Month   = DateParts[1];
-    var Day     = DateParts[2];
-    return new Date(Year, Month, Day);
+    if (str.length) {
+        var pattern = "^(\\d{2}):(\\d{2}):(\\d{2})$";
+        var regexp = new RegExp(pattern);
+        var timeParts = regexp.exec(str).slice(1);
+
+        var timeObject = {
+            hour:   timeParts [0],
+            minute: timeParts [1],
+            second: timeParts [2],
+            calcTimeValue: function() {
+                return (this.hour * 3600 + this.minute * 60 + this.second);
+            }
+        };
+        return timeObject;
+    }
+    //if the string is empty it can't be parsed.
+    else {
+        var failObject = {
+            calcTimeValue: function() { return 0 }
+        };
+        return failObject;
+    }
 }
 
 $("#groups_table").stupidtable({
     "custom-time": function(a,b) {
-            aTime = time_from_string(a);
-            bTime = time_from_string(b);
+            var aTime = time_from_string(a).calcTimeValue();
+            var bTime = time_from_string(b).calcTimeValue();
             return aTime - bTime;
         }
 });

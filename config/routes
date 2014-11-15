@@ -9,7 +9,7 @@
 /people PeopleR GET POST
 /person/edit/#PersonId EditPersonR GET POST
 !/person/create NewPersonR GET POST
-!/person/#PersonId PersonR GET POST DELETE
+!/person/#PersonId PersonR GET DELETE
 
 /groups GroupsR GET POST
 !/group/create NewGroupR GET POST

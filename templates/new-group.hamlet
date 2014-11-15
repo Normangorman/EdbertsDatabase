@@ -7,19 +7,19 @@
           <div .form-group>
             <label .col-sm-3 .control-label for="textinput">Name
             <div .col-sm-9>
-              <input type="text" name="Name" placeholder="Sumo wrestling club" .form-control>
+              <input type="text" name="name" placeholder="Sumo wrestling club" .form-control>
 
           <div .form-group>
             <label .col-sm-3 .control-label>Project
             <div .col-sm-9>
-                <select .form-control placeholder="High Lanes" name="Project">
+                <select .form-control placeholder="High Lanes" name="project">
                     <option>High Lanes
                     <option>The Fold
 
           <div .form-group>
             <label .col-sm-3 .control-label>Meets on day
             <div .col-sm-9>
-                <select .form-control placeholder="Monday" name="Meets on day">
+                <select .form-control placeholder="Monday" name="meets_on_day">
                     <option>Monday
                     <option>Tuesday
                     <option>Wednesday
@@ -32,7 +32,7 @@
               <label .col-sm-3 .control-label>Meets at time
               <div .col-sm-9>
                 <div .input-group .clockpicker>
-                  <input type="text" .form-control value="12:00">
+                  <input name="meets_at_time" type="text" .form-control value="12:00">
                   <span .input-group-addon>
                     <span .glyphicon .glyphicon-time>
 

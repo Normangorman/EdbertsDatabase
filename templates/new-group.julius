@@ -1,6 +1,1 @@
-$(".clockpicker").clockpicker(
-    {
-    autoclose: false,
-    donetext: 'Done'
-    }
-);
+$(".clockpicker").clockpicker({ autoclose: true });

@@ -12,11 +12,11 @@ getNewGroupR = do
 
 postNewGroupR :: Handler ()
 postNewGroupR = do
-    group <- runInputPost $ Group
-        <$> ireq textField "Name"
-        <*> ireq textField "Project"
-        <*> iopt textField "Meets on day"  
-        <*> iopt timeField "Meets at time"
-    groupId <- runDB $ insert group
+    pGroup <- runInputPost $ PGroup
+        <$> ireq textField "name"
+        <*> ireq textField "project"
+        <*> iopt textField "meets_on_day"  
+        <*> iopt timeField "meets_at_time"
+    pGroupId <- runDB $ insert pGroup
     setMessage "Group succesfully created!"
-    redirect HomeR --CHANGE THIS 
+    redirect GroupsR

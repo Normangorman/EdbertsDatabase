@@ -13,9 +13,6 @@ getPersonR pid = do
         Just person -> defaultLayout $  do
             $(widgetFile "person")
 
-postPersonR :: PersonId -> Handler Html
-postPersonR = error "Not yet implemented: postPersonR"
-
 deletePersonR :: PersonId -> Handler ()
 deletePersonR pid = do
     setMessage "Person deleted succesfully."

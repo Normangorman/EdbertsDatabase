@@ -8,7 +8,7 @@ Person
     gender          Text Maybe
     nationality     Text Maybe
     deriving Show
-Group
+PGroup
     name            Text
     project         Text
     meetsOnDay      Text Maybe
