@@ -18,7 +18,11 @@
                         <ul .dropdown-menu role="menu">
                             <li><a href=@{NewPersonR}>Add a person</a>
                             <li><a href=@{PeopleR}>View all people</a>
-                    <li><a href="#">Groups</a>
+                    <li .dropdown>
+                        <a href="#" .dropdown-toggle data-toggle="dropdown" role="button" aria-expanded="false">Groups<span class="caret"></span></a>
+                        <ul .dropdown-menu role="menu">
+                            <li><a href=@{NewGroupR}>Add a group</a>
+                            <li><a href=@{GroupsR}>View all groups</a>
                     <li><a href="#">Qualifications</a>
                   
                 <form #quick_search_form action="" .navbar-form .navbar-right role="search">

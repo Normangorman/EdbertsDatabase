@@ -86,7 +86,7 @@ $("#query_builder_submit").click(function() {
 handleQueryReturn = function(data) {
     console.log("Data received from server after POST request.");
     console.log(data);
-    $('#data_table tbody').html(data);
+    $('#people_table tbody').html(data);
 };
 
 //Table sorting
@@ -101,7 +101,7 @@ var date_from_string = function(str){
     return new Date(Year, Month, Day);
 }
 
-$("#data_table").stupidtable({
+$("#people_table").stupidtable({
     "custom-date": function(a,b) {
             aDate = date_from_string(a);
             bDate = date_from_string(b);

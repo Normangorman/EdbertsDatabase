@@ -26,6 +26,8 @@ library
                      Handler.People
                      Handler.QuickQuery
                      Handler.QueryUtils
+                     Handler.Groups
+                     Handler.NewGroup
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

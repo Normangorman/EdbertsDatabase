@@ -14,6 +14,5 @@ yesod-devel/
 .cabal-sandbox
 cabal.sandbox.config
 .DS_Store
-JQueryBuilder/*
-JTablesorter/*
+JPlugins/*
 *.swp

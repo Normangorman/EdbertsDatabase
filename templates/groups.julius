@@ -1,0 +1,69 @@
+$("#query_builder").queryBuilder({
+    filters: [
+        {   id:     "group_name",
+            field:  "name",
+            label:  "Name",
+            type:   "string",
+        },
+        
+        {   id:     "group_project",
+            field:  "project",
+            label:  "Project",
+            type:   "string"
+        },
+
+        {   id:     "group_meets_on_day",
+            field:  "meets_on_day",
+            label:  "Meets on day",
+            type:   "string"
+        },
+
+        {   id:     "group_meets_at_time",
+            field:  "meets_at_time",
+            label:  "Meets at time",
+            type:   "time"
+        }
+    ]
+});
+
+$("#query_builder_submit").click(function() {
+    // the two 'false' parameters mean: output plain SQL, don't use new lines in output
+    var res = $('#query_builder').queryBuilder('getSQL', false, false);
+    console.log("generated SQL:", res.sql);
+    console.log("About to POST to server...");
+    $.ajax({
+        type: "POST",
+        url: '@{GroupsR}',
+        data: {
+            "query": res.sql
+        },
+        success: handleQueryReturn,
+        dataType: "html" //expect the server to return some html encoding the new rows to add 
+    });
+});
+
+handleQueryReturn = function(data) {
+    console.log("Data received from server after POST request.");
+    console.log(data);
+    $('#groups_table tbody').html(data);
+};
+
+//Table sorting
+var time_from_string = function(str){
+    var pattern = "^(\\d{4})\/(\\d{2})\/(\\d{2})$";
+    var regexp = new RegExp(pattern);
+    var DateParts = regexp.exec(str).slice(1);
+
+    var Year    = DateParts[0];
+    var Month   = DateParts[1];
+    var Day     = DateParts[2];
+    return new Date(Year, Month, Day);
+}
+
+$("#groups_table").stupidtable({
+    "custom-time": function(a,b) {
+            aTime = time_from_string(a);
+            bTime = time_from_string(b);
+            return aTime - bTime;
+        }
+});

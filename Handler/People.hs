@@ -32,5 +32,3 @@ postPeopleR = do
             people <- runDB $ rawSql sqlToRun []
             rows <- widgetToPageContent $ mkPeopleRows people
             withUrlRenderer [hamlet|^{pageBody rows}|]
-
-

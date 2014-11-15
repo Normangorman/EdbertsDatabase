@@ -4,6 +4,7 @@ import Import
 import qualified Data.Text as T
 import Data.Time.Calendar (Day, toGregorian, diffDays)
 import Data.Time.Clock (getCurrentTime, utctDay)
+import Data.Time.LocalTime (TimeOfDay)
 import System.IO.Unsafe (unsafePerformIO)
 import Model (prettyGregorian)
 --import Control.Monad.Trans.Class (lift)        
@@ -33,15 +34,13 @@ getPersonAge person = do
         yearDifference x = (`div` 365) . diffDays x
 
 class FromMaybe a where
-    fromMaybe :: Maybe a -> String
+    fromMaybe :: Show a => Maybe a -> String
+    fromMaybe (Just a) = show a
+    fromMaybe Nothing  = ""
 
 instance FromMaybe String where
     fromMaybe (Just s) = s
     fromMaybe Nothing = ""
-
-instance FromMaybe Integer where
-    fromMaybe (Just i) = show i
-    fromMaybe Nothing  = ""
 
 instance FromMaybe Text where
     fromMaybe (Just t) = T.unpack t
@@ -50,3 +49,6 @@ instance FromMaybe Text where
 instance FromMaybe Day where
     fromMaybe (Just d) = prettyGregorian . toGregorian $ d
     fromMaybe Nothing = ""
+
+instance FromMaybe Integer
+instance FromMaybe TimeOfDay

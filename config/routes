@@ -4,8 +4,12 @@
 /robots.txt RobotsR GET
 
 / HomeR GET POST
+/quickquery QuickQueryR GET
+
+/people PeopleR GET POST
 /person/edit/#PersonId EditPersonR GET POST
 !/person/create NewPersonR GET POST
 !/person/#PersonId PersonR GET POST DELETE
-/people PeopleR GET POST
-/quickquery QuickQueryR GET
+
+/groups GroupsR GET POST
+!/group/create NewGroupR GET POST

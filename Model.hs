@@ -3,6 +3,7 @@ module Model where
 import Yesod
 import Data.Text (Text)
 import Database.Persist.Quasi
+import Data.Time.LocalTime (TimeOfDay)
 import Data.Typeable (Typeable)
 import Prelude
 import Data.Time.Calendar --used for storing birthdays

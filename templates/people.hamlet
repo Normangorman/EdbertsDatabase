@@ -1,6 +1,6 @@
 <div .row>
     <div .col-lg-12>
-        <table #data_table .table .table-bordered .table-striped .table-hover>
+        <table #people_table .table .table-bordered .table-striped .table-hover .tablesorter>
             <thead>
                 <tr>
                     <th data-sort="string">
