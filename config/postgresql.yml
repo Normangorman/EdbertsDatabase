@@ -19,7 +19,6 @@ Development:
   <<: *defaults
 
 Testing:
-  database: EdbertsDatabase_test
   <<: *defaults
 
 Staging:

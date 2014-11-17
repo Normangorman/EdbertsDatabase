@@ -11,6 +11,7 @@ import Test.Hspec (hspec)
 import Application (makeFoundation)
 
 import HomeTest
+import PeopleTest
 
 main :: IO ()
 main = do

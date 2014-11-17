@@ -1,17 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
-module HomeTest
-    ( homeSpecs
+module PeopleTest
+    ( peopleSpecs
     ) where
 
 import TestImport
 import qualified Data.List as L
 
-homeSpecs :: Spec
-homeSpecs =
-    ydescribe "Home page tests:" $ do
+peopleSpecs :: Spec
+peopleSpecs =
+    ydescribe "People page tests:" $ do
 
-        yit "loads the home page and checks it looks right" $ do
-            get HomeR
+        yit "loads the people page and checks it looks right" $ do
+            get PeopleR
             statusIs 200
             htmlAnyContain "h1" "Edberts Database"
 

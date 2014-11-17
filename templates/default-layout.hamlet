@@ -1,8 +1,8 @@
 <div .container>
     $maybe msg <- mmsg
       <div .row>
-        <div class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        <div .alert .alert-info .alert-dismissible role="alert">
+            <button type="button" .close data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
             <strong>#{msg}
     <div .row>
         <div .col-md-12 .page-header>

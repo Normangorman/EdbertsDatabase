@@ -1,15 +1,12 @@
 module Handler.NewPerson where
 
 import Import
+import Handler.Plugins
 
 getNewPersonR :: Handler Html 
 getNewPersonR = defaultLayout $ do
-    addStylesheet $ StaticR css_datepicker_css 
-    addScript $ StaticR js_datepicker_js
+    datePickerWidget
     $(widgetFile "new-person")
-    -- some javascript to set the default datepicker options
-    $(widgetFile "datepicker")
-    
 
 postNewPersonR :: Handler ()
 postNewPersonR = do

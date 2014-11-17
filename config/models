@@ -14,5 +14,8 @@ PGroup
     meetsOnDay      Text Maybe
     meetsAtTime     TimeOfDay Maybe
     deriving Show
+PersonGroupRelation
+    person          PersonId
+    group           PGroupId
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

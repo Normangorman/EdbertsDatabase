@@ -1,3 +1,0 @@
-.tablesorter thead tr > th {
-    cursor: pointer;
-}

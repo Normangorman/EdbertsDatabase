@@ -1,7 +1,8 @@
 module Handler.Groups where
 
 import Import
-import Handler.QueryUtils (fromMaybe)
+import Handler.Plugins
+import Handler.Utils
 import Database.Persist.Sql (rawSql)
 import qualified Data.Text as T
 
@@ -10,17 +11,10 @@ getGroupsR = do
     groups <- runDB $ selectList [] [Asc PGroupName]
     let groupsTableRows = mkGroupRows groups
     defaultLayout $ do
-        --query builder plugin
-        addStylesheet $ StaticR css_query_builder_min_css
-        addScript     $ StaticR js_query_builder_min_js
-        --table sorter plugin
-        addScript     $ StaticR js_stupidtable_min_js
-        --time picker plugin
-        addStylesheet $ StaticR css_clockpicker_min_css
-        addScript $ StaticR js_clockpicker_min_js
-        
+        queryBuilderWidget
+        clockPickerWidget 
+        tableSorterWidget 
         --this hamlet interpolates the peopleRows widget
-        $(widgetFile "query-builder")
         $(widgetFile "groups")
 
 

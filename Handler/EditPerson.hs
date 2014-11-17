@@ -1,8 +1,10 @@
 module Handler.EditPerson where
 
 import Import
-import Handler.QueryUtils (fromMaybe)
+import Handler.Plugins
+import Handler.Utils (fromMaybe)
 import Text.Julius (rawJS)
+import Data.Maybe (fromJust)
 
 getEditPersonR :: PersonId -> Handler Html
 getEditPersonR pid = do
@@ -14,12 +16,25 @@ getEditPersonR pid = do
         Just person -> do
             let gender = (rawJS . fromMaybe . personGender) person
             let nationality = (rawJS . fromMaybe . personNationality) person
+
+            allGroups    <- runDB $ selectList ([] :: [Filter PGroup]) []
+            personGroups <- getPersonGroups pid
+            --this is interpolated in the julius file and used to set the default selected options
+            let personGroupNames = toJSON $ map (\(Entity _ pgroup) -> pGroupName pgroup) personGroups
+
             defaultLayout $ do
-                addStylesheet $ StaticR css_datepicker_css 
-                addScript $ StaticR js_datepicker_js
+                datePickerWidget
+                selectMultipleWidget
                 $(widgetFile "edit-person") 
-                -- some javascript to set the default datepicker options
-                $(widgetFile "datepicker")
+
+
+getPersonGroups :: PersonId -> Handler [Entity PGroup]
+getPersonGroups pid = runDB $ do
+    relations <- selectList [PersonGroupRelationPerson ==. pid] []
+    let groupKeys = map groupKey relations
+
+    selectList [PGroupId <-. groupKeys] []
+    where groupKey (Entity _ r) = personGroupRelationGroup r
 
 postEditPersonR :: PersonId -> Handler Html
 postEditPersonR pid = do
@@ -32,7 +47,21 @@ postEditPersonR pid = do
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
+    
+    --Wipe all existing relations to groups, then add the new ones 
+    runDB $ deleteWhere [PersonGroupRelationPerson ==. pid]    
+
+    groupNames <- lookupPostParams "groups"
+    mapM_ insertRelation groupNames
+
     runDB $ replace pid editedPerson
     setMessage "Person succesfully edited."
     redirect (PersonR pid)
+    where insertRelation :: Text -> Handler ()
+          insertRelation "" = return ()
+          insertRelation groupName = runDB $ do
+              maybeEntity <- selectFirst [PGroupName ==. groupName] []   
+              -- if a group name is given then it's assumed it definitely does exist in the database
+              let gid = (\(Just (Entity key _)) -> key) maybeEntity
+              insert_ $ PersonGroupRelation pid gid
 

@@ -25,11 +25,13 @@ library
                      Handler.NewPerson
                      Handler.People
                      Handler.QuickQuery
-                     Handler.QueryUtils
+                     Handler.Utils
                      Handler.Groups
                      Handler.NewGroup
                      Handler.Group
                      Handler.EditGroup
+                     Handler.Plugins
+                     Handler.PersonUtils
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

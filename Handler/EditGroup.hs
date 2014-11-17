@@ -1,12 +1,15 @@
 module Handler.EditGroup where
 
 import Import
-import Handler.QueryUtils (fromMaybe)
+import Handler.Plugins
+import Handler.Utils
+import Handler.PersonUtils
 import Text.Julius (rawJS)
+import Handler.Group (getGroupPeople)
 
 getEditGroupR :: PGroupId -> Handler Html
-getEditGroupR pgid = do
-    maybeGroup <- runDB $ get pgid
+getEditGroupR gid = do
+    maybeGroup <- runDB $ get gid
     case maybeGroup of 
         Nothing -> do
             setMessage "No group found with that ID."
@@ -14,11 +17,18 @@ getEditGroupR pgid = do
         Just group -> do
             let project = (rawJS . pGroupProject) group
             let meetsOnDay = (rawJS . fromMaybe . pGroupMeetsOnDay) group
-            defaultLayout $ do
-                addStylesheet $ StaticR css_clockpicker_min_css
-                addScript     $ StaticR js_clockpicker_min_js
 
+            allPeople   <- runDB $ selectList ([]::[Filter Person]) []
+            groupPeople <- getGroupPeople gid
+
+            let allPeopleNames      = jsonArrayOfNames allPeople
+            let allGroupPeopleNames = jsonArrayOfNames groupPeople
+
+            defaultLayout $ do
+                clockPickerWidget
+                typeaheadWidget
                 $(widgetFile "edit-group") 
+    where jsonArrayOfNames entities = toJSON $ map (\(Entity _ p) -> personWholeName p) entities
 
 postEditGroupR :: PGroupId -> Handler Html
 postEditGroupR pgid = do

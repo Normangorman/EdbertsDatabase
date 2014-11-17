@@ -1,13 +1,12 @@
 module Handler.NewGroup where
 
 import Import
+import Handler.Plugins
 
 getNewGroupR :: Handler Html
 getNewGroupR = do
     defaultLayout $ do
-        --JQuery clockpicker
-        addStylesheet $ StaticR css_clockpicker_min_css
-        addScript $ StaticR js_clockpicker_min_js
+        clockPickerWidget
         $(widgetFile "new-group") 
 
 postNewGroupR :: Handler ()

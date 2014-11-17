@@ -1,7 +1,10 @@
 module Handler.Person where
 
 import Import
-import Handler.QueryUtils (fromMaybe, getPersonAge)
+--import Handler.Plugins
+import Handler.Utils (fromMaybe)
+import Handler.PersonUtils (getPersonAge)
+import Handler.EditPerson (getPersonGroups)
 import System.IO.Unsafe (unsafePerformIO)
 
 getPersonR :: PersonId -> Handler Html
@@ -10,8 +13,9 @@ getPersonR pid = do
     case maybePerson of
         Nothing -> defaultLayout $ do
             setMessage "Nobody exists with that ID!"
-        Just person -> defaultLayout $  do
-            $(widgetFile "person")
+        Just person -> do 
+            personGroups <- getPersonGroups pid
+            defaultLayout $(widgetFile "person")
 
 deletePersonR :: PersonId -> Handler ()
 deletePersonR pid = do

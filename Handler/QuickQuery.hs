@@ -1,7 +1,7 @@
 module Handler.QuickQuery where
 
 import Import
-import Handler.QueryUtils
+import Handler.PersonUtils (mkPeopleRows)
 
 -- used for a quick search by first name
 getQuickQueryR :: Handler Html
@@ -16,3 +16,4 @@ getQuickQueryR = do
             let peopleTableRows = mkPeopleRows people
             defaultLayout $ do 
                 $(widgetFile "people")
+

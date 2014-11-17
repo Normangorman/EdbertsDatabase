@@ -1,26 +1,21 @@
 module Handler.People where
 
 import Import
-import Handler.QueryUtils
+import Handler.Plugins
+--import Handler.Utils (fromMaybe)
+import Handler.PersonUtils (mkPeopleRows)
 import Database.Persist.Sql (rawSql)
 import qualified Data.Text as T
--- import Yesod.Request
 
 getPeopleR :: Handler Html
 getPeopleR = do
     people <- runDB $ selectList [] [Asc PersonFirstName, Asc PersonLastName]
     let peopleTableRows = mkPeopleRows people
     defaultLayout $ do
-        --query builder plugin
-        addStylesheet $ StaticR css_query_builder_min_css
-        addScript     $ StaticR js_query_builder_min_js
-        --table sorter plugin
-        addScript     $ StaticR js_stupidtable_min_js
-        --date picker plugin
-        addStylesheet $ StaticR css_datepicker_css 
-        addScript     $ StaticR js_datepicker_js
+        queryBuilderWidget
+        tableSorterWidget
+        datePickerWidget
 
-        $(widgetFile "query-builder")
         --this hamlet file interpolates the peopleRows widget
         $(widgetFile "people")
 

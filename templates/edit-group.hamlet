@@ -1,43 +1,57 @@
 <div .row>
-    <div .col-md-4 .col-md-offset-4>
-      <form action=@{EditGroupR pgid} method=post #edit_group_form .form-horizontal role="form">
-        <fieldset>
-          <legend>Editing #{pGroupName group}'s details:</legend>
+  <div .col-md-8 .col-md-offset-2>
+    <h2>Editing group details:
+    <hr>
+<div .row>
+  <form action=@{EditGroupR gid} method=post #edit_group_form .form-horizontal role="form">
+    <div .col-md-4 .col-md-offset-2>
+      <fieldset>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Name
+          <div .col-sm-9>
+            <input type="text" name="name" value="#{pGroupName group}" .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Name
-            <div .col-sm-9>
-              <input type="text" name="name" value="#{pGroupName group}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label>Project
+          <div .col-sm-9>
+            <select #select_project .form-control name="project">
+              <option value="High Lanes">High Lanes
+              <option value="The Fold">The Fold
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Project
-            <div .col-sm-9>
-                <select #select_project .form-control name="project">
-                    <option value="High Lanes">High Lanes
-                    <option value="The Fold">The Fold
+        <div .form-group>
+          <label .col-sm-3 .control-label>Meets on day
+          <div .col-sm-9>
+            <select #select_day .form-control name="meets_on_day">
+              <option>Monday
+              <option>Tuesday
+              <option>Wednesday
+              <option>Thursday
+              <option>Friday
+              <option>Saturday
+              <option>Sunday
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Meets on day
-            <div .col-sm-9>
-                <select #select_day .form-control name="meets_on_day">
-                    <option>Monday
-                    <option>Tuesday
-                    <option>Wednesday
-                    <option>Thursday
-                    <option>Friday
-                    <option>Saturday
-                    <option>Sunday
+        <div .form-group>
+          <label .col-sm-3 .control-label>Meets at time
+          <div .col-sm-9>
+            <div .input-group .clockpicker>
+              <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
+                <span .input-group-addon>
+                  <span .glyphicon .glyphicon-time>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Meets at time
-            <div .col-sm-9>
-              <div .input-group .clockpicker>
-                <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
-                  <span .input-group-addon>
-                    <span .glyphicon .glyphicon-time>
+        <input #hidden_people_in_group_input name="people_names">
 
-          <div .form-group>
-              <div .pull-right>
-                <button type="submit" .btn .btn-primary>
-                    <span .glyphicon .glyphicon-ok>
-                    Save Changes
+        <div .form-group>
+          <div .pull-left>
+            <button type="submit" .btn .btn-primary>
+              <span .glyphicon .glyphicon-ok>
+              Save Changes
+
+      <div .col-md-4>
+        <div .input-group>
+          <input #person_name_input .typeahead type="text" .form-control placeholder="Add a person">
+            <span #add_name_button .input-group-addon>
+              <span .glyphicon .glyphicon-plus>
+
+        <hr>
+        <div .col-sm-9-offset-3>
+          <ul #people_in_group_list .list-group>

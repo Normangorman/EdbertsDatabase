@@ -57,6 +57,13 @@
                     <option value="Other">Other
 
           <div .form-group>
+            <label .col-sm-3 .control-label>Member of groups
+            <div .col-sm-9>
+                <select multiple #select_groups .selectpicker .show-menu-arrow .form-control name="groups">
+                    $forall Entity pgid pgroup <- allGroups 
+                        <option value="#{pGroupName pgroup}">#{pGroupName pgroup}
+
+          <div .form-group>
               <div .pull-right>
                 <button type="submit" .btn .btn-primary>
                     <span .glyphicon .glyphicon-ok>
