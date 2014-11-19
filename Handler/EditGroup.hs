@@ -4,11 +4,9 @@ import Import
 import Handler.Plugins
 import Handler.Utils
 import Handler.PersonUtils
-import Text.Julius (rawJS)
 import Handler.Group (getGroupPeople)
-import Database.Persist.Sql (toSqlKey, fromSqlKey)
 --Used for parsing textual database ids
-import Data.Int (Int64)
+import Database.Persist.Sql (toSqlKey, fromSqlKey)
 import Data.Text.Read (decimal)
 
 getEditGroupR :: PGroupId -> Handler Html

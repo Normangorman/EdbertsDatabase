@@ -1,7 +1,8 @@
 module Handler.QuickQuery where
 
 import Import
-import Handler.PersonUtils (mkPeopleRows)
+import Handler.People (peoplePageWidget)
+
 
 -- used for a quick search by first name
 getQuickQueryR :: Handler Html
@@ -13,7 +14,4 @@ getQuickQueryR = do
             redirect HomeR
         Just q -> do
             people <- runDB $ selectList [PersonFirstName ==. q] [Asc PersonFirstName, Asc PersonLastName]
-            let peopleTableRows = mkPeopleRows people
-            defaultLayout $ do 
-                $(widgetFile "people")
-
+            defaultLayout $ peoplePageWidget people

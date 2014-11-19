@@ -1,70 +1,69 @@
 <div .row>
-    <div .col-md-4 .col-md-offset-4>
-      <form action=@{EditPersonR pid} method=post #edit_person_form .form-horizontal role="form">
-        <fieldset>
-          <legend>Editing #{personFirstName person}'s details:</legend>
+  <div .col-md-4 .col-md-offset-4>
+    <form action=@{EditPersonR pid} method=post #edit_person_form .form-horizontal role="form">
+      <fieldset>
+        <legend>Editing #{personFirstName person}'s details:</legend>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">First name
-            <div .col-sm-9>
-              <input type="text" name="First name" value="#{personFirstName person}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">First name
+          <div .col-sm-9>
+            <input type="text" name="First name" value="#{personFirstName person}" .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Last name
-            <div .col-sm-9>
-              <input type="text" name="Last name" value="#{personLastName person}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Last name
+          <div .col-sm-9>
+            <input type="text" name="Last name" value="#{personLastName person}" .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Birthday
-            <div .col-sm-9>
-              <input type="text" name="Birthday"  value="#{fromMaybe $ personBirthday person}" .datepicker .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Birthday
+          <div .col-sm-9>
+            <input type="text" name="Birthday"  value="#{fromMaybe $ personBirthday person}" .datepicker .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Home number
-            <div .col-sm-9>
-              <input type="text" name="Home number" value="#{fromMaybe $ personHomeNumber person}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Home number
+          <div .col-sm-9>
+            <input type="text" name="Home number" value="#{fromMaybe $ personHomeNumber person}" .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Mobile number
-            <div .col-sm-9>
-              <input type="text" name="Mobile number" value="#{fromMaybe $ personMobileNumber person}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Mobile number
+          <div .col-sm-9>
+            <input type="text" name="Mobile number" value="#{fromMaybe $ personMobileNumber person}" .form-control>
 
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Email address
+          <div .col-sm-9>
+            <input type="text" name="Email address" value="#{fromMaybe $ personEmailAddress person}" .form-control>
 
-          <div .form-group>
-            <label .col-sm-3 .control-label for="textinput">Email address
-            <div .col-sm-9>
-              <input type="text" name="Email address" value="#{fromMaybe $ personEmailAddress person}" .form-control>
+        <div .form-group>
+          <label .col-sm-3 .control-label>Gender
+          <div .col-sm-9>
+            <select #select_gender .form-control name="Gender">
+              <option value="Male">Male
+              <option value="Female">Female
+              <option value="Other">Other
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Gender
-            <div .col-sm-9>
-                <select #select_gender .form-control name="Gender">
-                    <option value="Male">Male
-                    <option value="Female">Female
-                    <option value="Other">Other
+        <div .form-group>
+          <label .col-sm-3 .control-label>Nationality
+          <div .col-sm-9>
+            <select #select_nationality .form-control name="Nationality">
+              <option value="White British">White British
+              <option value="White other">White other
+              <option value="Asian">Asian
+              <option value="Black Caribbean">Black Caribbean
+              <option value="Black African">Black African
+              <option value="Black other">Black other
+              <option value="Chinese">Chinese
+              <option value="Other">Other
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Nationality
-            <div .col-sm-9>
-                <select #select_nationality .form-control name="Nationality">
-                    <option value="White British">White British
-                    <option value="White other">White other
-                    <option value="Asian">Asian
-                    <option value="Black Caribbean">Black Caribbean
-                    <option value="Black African">Black African
-                    <option value="Black other">Black other
-                    <option value="Chinese">Chinese
-                    <option value="Other">Other
+        <div .form-group>
+          <label .col-sm-3 .control-label>Member of groups
+          <div .col-sm-9>
+            <select multiple #group_select .chosen_select .form-control name="group_ids" placeholder="Which groups does this person belong to?">
+              $forall Entity gid group <- allGroups 
+                <option value="#{fromSqlKey gid}">#{pGroupName group}
 
-          <div .form-group>
-            <label .col-sm-3 .control-label>Member of groups
-            <div .col-sm-9>
-                <select multiple #select_groups .selectpicker .show-menu-arrow .form-control name="groups">
-                    $forall Entity pgid pgroup <- allGroups 
-                        <option value="#{pGroupName pgroup}">#{pGroupName pgroup}
-
-          <div .form-group>
-              <div .pull-right>
-                <button type="submit" .btn .btn-primary>
-                    <span .glyphicon .glyphicon-ok>
-                    Save Changes
+        <div .form-group>
+          <div .pull-right>
+            <button type="submit" .btn .btn-primary>
+              <span .glyphicon .glyphicon-ok>
+              Save Changes

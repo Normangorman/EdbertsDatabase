@@ -10,15 +10,17 @@ import qualified Data.Text as T
 getPeopleR :: Handler Html
 getPeopleR = do
     people <- runDB $ selectList [] [Asc PersonFirstName, Asc PersonLastName]
+    defaultLayout $ peoplePageWidget people
+
+peoplePageWidget :: [Entity Person] -> Widget
+peoplePageWidget people = do
+    --this widget is interpolated in the hamlet file
     let peopleTableRows = mkPeopleRows people
-    defaultLayout $ do
-        queryBuilderWidget
-        tableSorterWidget
-        datePickerWidget
+    queryBuilderWidget
+    tableSorterWidget
+    datePickerWidget
 
-        --this hamlet file interpolates the peopleRows widget
-        $(widgetFile "people")
-
+    $(widgetFile "people")
 
 postPeopleR :: Handler Html
 postPeopleR = do

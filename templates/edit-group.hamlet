@@ -41,7 +41,7 @@
         <div .form-group>
           <label .col-sm-3 .control-label>Members
           <div .col-sm-9>
-            <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control placeholder="Add people to the group">
+            <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control placeholder="Which people belong to this group?">
               $forall Entity pid person <- allPeople
                 <option value=#{fromSqlKey pid}>#{personWholeName person} 
 

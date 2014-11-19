@@ -2,9 +2,11 @@ module Handler.EditPerson where
 
 import Import
 import Handler.Plugins
+import Handler.PersonUtils
 import Handler.Utils (fromMaybe)
-import Text.Julius (rawJS)
-import Data.Maybe (fromJust)
+--Used for parsing textual database ids
+import Database.Persist.Sql (toSqlKey, fromSqlKey)
+import Data.Text.Read (decimal)
 
 getEditPersonR :: PersonId -> Handler Html
 getEditPersonR pid = do
@@ -14,27 +16,19 @@ getEditPersonR pid = do
             setMessage "No person found with that ID."
             redirect HomeR
         Just person -> do
-            let gender = (rawJS . fromMaybe . personGender) person
-            let nationality = (rawJS . fromMaybe . personNationality) person
-
             allGroups    <- runDB $ selectList ([] :: [Filter PGroup]) []
             personGroups <- getPersonGroups pid
             --this is interpolated in the julius file and used to set the default selected options
-            let personGroupNames = toJSON $ map (\(Entity _ pgroup) -> pGroupName pgroup) personGroups
+            let gender         = (toJSON . fromMaybe . personGender) person
+            let nationality    = (toJSON . fromMaybe . personNationality) person
+            let personGroupIds = toJSON $ map (\(Entity key _) -> key) personGroups
 
             defaultLayout $ do
                 datePickerWidget
-                selectMultipleWidget
+                chosenWidget
                 $(widgetFile "edit-person") 
 
 
-getPersonGroups :: PersonId -> Handler [Entity PGroup]
-getPersonGroups pid = runDB $ do
-    relations <- selectList [PersonGroupRelationPerson ==. pid] []
-    let groupKeys = map groupKey relations
-
-    selectList [PGroupId <-. groupKeys] []
-    where groupKey (Entity _ r) = personGroupRelationGroup r
 
 postEditPersonR :: PersonId -> Handler Html
 postEditPersonR pid = do
@@ -47,23 +41,18 @@ postEditPersonR pid = do
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
-
     runDB $ replace pid editedPerson
     
-    --Wipe all existing relations to groups, then add the new ones 
+    groupIds <- lookupPostParams "group_ids"
     runDB $ deleteWhere [PersonGroupRelationPerson ==. pid]    
-
-    groupNames <- lookupPostParams "groups"
-    mapM_ (insertRelation pid) groupNames
+    mapM_ (insertRelation pid) groupIds
 
     setMessage "Person succesfully edited."
     redirect (PersonR pid)
 
 insertRelation :: PersonId -> Text -> Handler ()
-insertRelation pid ""        = return ()
-insertRelation pid groupName = runDB $ do
-    maybeEntity <- selectFirst [PGroupName ==. groupName] []   
-    -- if a group name is given then it's assumed it definitely does exist in the database
-    let gid = (\(Just (Entity key _)) -> key) maybeEntity
-    insert_ $ PersonGroupRelation pid gid
-
+insertRelation _   ""       = return ()
+insertRelation pid textGid  = runDB $ do
+    case decimal textGid of
+        Left  _        -> return ()
+        Right (gid, _) -> insert_ $ PersonGroupRelation pid (toSqlKey gid)

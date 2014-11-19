@@ -18,6 +18,14 @@ getPersonAge person = do
         yearDifference :: Day -> Day -> Integer
         yearDifference x = (`div` 365) . diffDays x
 
+getPersonGroups :: PersonId -> Handler [Entity PGroup]
+getPersonGroups pid = runDB $ do
+    relations <- selectList [PersonGroupRelationPerson ==. pid] []
+    let groupKeys = map groupKey relations
+
+    selectList [PGroupId <-. groupKeys] []
+    where groupKey (Entity _ r) = personGroupRelationGroup r
+
 mkPeopleRows :: [Entity Person] -> Widget
 mkPeopleRows people = do
     [whamlet|

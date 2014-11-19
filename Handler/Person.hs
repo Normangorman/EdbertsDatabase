@@ -3,8 +3,7 @@ module Handler.Person where
 import Import
 --import Handler.Plugins
 import Handler.Utils (fromMaybe)
-import Handler.PersonUtils (getPersonAge)
-import Handler.EditPerson (getPersonGroups)
+import Handler.PersonUtils (getPersonAge, getPersonGroups)
 import System.IO.Unsafe (unsafePerformIO)
 
 getPersonR :: PersonId -> Handler Html

@@ -15,15 +15,19 @@ $(function() {
             .prop('selected', true);
         console.log("Set default nationality option.");
     }
-
     
-    //var groupPeopleIds = ;
-    //console.log("Group names:", groupPeopleIds);
-    //if (groupPeopleIds.length != 0) {
-    //    $('#sepreselects').selectpicker('val', groupNames);
-    //    $('#select_groups').selectpicker('render');
-    //    console.log("Set default group options");
-    //}
+    var personGroupIds = #{personGroupIds};
+    if (personGroupIds != []) {
 
+        for (var i=0; i < personGroupIds.length; i++) {
+            var id = personGroupIds[i];
+            $("#group_select option")
+              .filter('[value="' + id + '"]')
+              .prop('selected', true); 
+        };
+    
+        //Update the Chosen input box to account for the changes
+        $('#group_select').trigger('chosen:updated'); 
+    }
 });
 
