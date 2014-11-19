@@ -57,7 +57,15 @@ $('.selectpicker').selectpicker({
 });
     |]
 
-typeaheadWidget :: Widget
-typeaheadWidget = do
-    addScript $ StaticR js_typeahead_min_js
-    $(widgetFile "typeahead") 
+chosenWidget :: Widget
+chosenWidget = do
+    addScript $ StaticR js_chosen_jquery_min_js
+    addStylesheet $ StaticR css_chosen_css
+    addStylesheet $ StaticR css_chosen_bootstrap_css
+    toWidget [julius|
+$(".chosen_select").chosen({
+    disable_search_threshold: 10,
+    no_results_text: "Oops, nothing found!",
+});
+    |]
+    

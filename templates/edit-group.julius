@@ -14,140 +14,18 @@ $(function() {
             .prop('selected', true);
         console.log("Set default meets on day option.");
     }
-});
 
-var allPeopleNames = #{allPeopleNames};
-console.log("All names:", allPeopleNames);
+    var groupPeopleIds = #{groupPeopleIds};
+    if (groupPeopleIds != []) {
 
-var groupPeopleNames = #{allGroupPeopleNames};
-console.log("All group people names:", groupPeopleNames);
-
-var searcher = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: $.map(allPeopleNames, function(name) { return { value: name }; })
-});
-
-searcher.initialize();
-
-$('.typeahead').typeahead(
-    {
-      minLength: 1,
-      highlight: false,
-    },
-    {
-      name: 'allPeopleNames',
-      source: searcher.ttAdapter() 
+        for (var i=0; i < groupPeopleIds.length; i++) {
+            var id = groupPeopleIds[i];
+            $("#person_select option")
+              .filter('[value="' + id + '"]')
+              .prop('selected', true); 
+        };
+    
+        //Update the Chosen input box to account for the changes
+        $('#person_select').trigger('chosen:updated'); 
     }
-);
-
-// Add the names of all people in the group to the visible list. 
-var name_list = $("#people_in_group_list");
-name_list.addName = function(name) {
-    console.log("Adding name to visible name list:", name);
-    var newListElement =
-        $('<li class="list-group-item">' + 
-            '<span class="close-button glyphicon glyphicon-remove"></span>' + 
-             name +
-        '</li>');
-
-    //Add an event listener to remove the name when the remove icon is clicked
-    newListElement.find("span").click(function() {
-        console.log("Close button clicked.");
-        var name = $(this).parent().text();
-        console.log("Removing name", name);
-        removeName(name);
-    });
-    this.append(newListElement);
-    console.log("New list element:", newListElement);
-};
-
-name_list.removeName = function(name) {
-    console.log("Removing name from visible name list:", name);
-    
-    var elementsMatchingName = 
-        this.children()
-            .filter( function() {
-                return $(this).text() === name;
-            });
-    
-    //there should only be one matching element
-    var elementToRemove = $(elementsMatchingName[0]);
-    console.log("Element to remove:", elementToRemove);
-
-    elementToRemove.slideUp(
-        400, //duration
-        'swing', //animation style
-        function() { this.remove() } //callback when done
-        );
-};
-
-var hidden_input = $("#hidden_people_in_group_input");
-hidden_input.addName = function(name) {
-    console.log("Adding name to hidden input:", name);
-    var oldNames = this.val();
-    
-    //don't prepend a comma if the value is empty. 
-    if (oldNames === "") {
-        var newNames = name; 
-    } 
-    else {
-        var newNames = oldNames + ',' + name;
-    }
-
-    this.val(newNames);
-    console.log("Old names:", oldNames);
-    console.log("New names:", this.val());
-};
-hidden_input.removeName = function(name) {
-    console.log("Removing name from hidden input", name);
-    var oldList = this.val().split(',');
-    var newList = oldList.filter( function(n) {return n != name;});
-
-    this.val(newList.join(','));
-    console.log("Old names:", oldList);
-    console.log("New names:", this.val());
-};
-hidden_input.nameIsPresent = function(name) {
-    //this is used to validate whether a new person should be added
-    //so as to prevent duplicate names being added
-    var names = this.val().split(',');
-    return $.inArray(name, names) != -1;
-};
-
-function addName(name) {
-    hidden_input.addName(name);
-    name_list.addName(name);
-}; 
-function removeName(name) {
-    hidden_input.removeName(name);
-    name_list.removeName(name);
-}; 
-
-// Add a name when it has been selected.
-$("#add_name_button").click(function() {
-    console.log("Name input button clicked.");
-    var input_element = $("#person_name_input");
-    var name = input_element.val();
-
-    //Only add the input if it's not an empty string and it is in the list of all names.
-    //We don't want to add the name if the user has just typed in some garbage.
-    //Note that $.inArray returns -1 if the element is not found in the list.
-    var validation =
-        name != "" &&
-        $.inArray(name, allPeopleNames) != -1 &&
-        hidden_input.nameIsPresent(name) === false;
-
-    if (validation) {
-        console.log("Adding a name:", name);
-        addName(name);
-        //reset input text
-        input_element.val("");
-    };
 });
-
-//set the default list to have all the group members in it.
-console.log("Setting default people names to hidden and visible list.");
-for (var i=0; i < groupPeopleNames.length; i++) {
-    addName(groupPeopleNames[i]);
-};

@@ -1,10 +1,10 @@
 <div .row>
-  <div .col-md-8 .col-md-offset-2>
+  <div .col-md-4 .col-md-offset-4>
     <h2>Editing group details:
     <hr>
 <div .row>
-  <form action=@{EditGroupR gid} method=post #edit_group_form .form-horizontal role="form">
-    <div .col-md-4 .col-md-offset-2>
+  <div .col-md-4 .col-md-offset-4>
+    <form action=@{EditGroupR gid} method=post #edit_group_form .form-horizontal role="form">
       <fieldset>
         <div .form-group>
           <label .col-sm-3 .control-label for="textinput">Name
@@ -15,8 +15,8 @@
           <label .col-sm-3 .control-label>Project
           <div .col-sm-9>
             <select #select_project .form-control name="project">
-              <option value="High Lanes">High Lanes
-              <option value="The Fold">The Fold
+                <option value="High Lanes">High Lanes
+                <option value="The Fold">The Fold
 
         <div .form-group>
           <label .col-sm-3 .control-label>Meets on day
@@ -34,24 +34,19 @@
           <label .col-sm-3 .control-label>Meets at time
           <div .col-sm-9>
             <div .input-group .clockpicker>
-              <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
+                <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
                 <span .input-group-addon>
-                  <span .glyphicon .glyphicon-time>
-
-        <input #hidden_people_in_group_input name="people_names">
+                    <span .glyphicon .glyphicon-time>
 
         <div .form-group>
-          <div .pull-left>
+          <label .col-sm-3 .control-label>Members
+          <div .col-sm-9>
+            <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control placeholder="Add people to the group">
+              $forall Entity pid person <- allPeople
+                <option value=#{fromSqlKey pid}>#{personWholeName person} 
+
+        <div .form-group>
+          <div .col-sm-offset-3>
             <button type="submit" .btn .btn-primary>
-              <span .glyphicon .glyphicon-ok>
-              Save Changes
-
-      <div .col-md-4>
-        <div .input-group>
-          <input #person_name_input .typeahead type="text" .form-control placeholder="Add a person">
-            <span #add_name_button .input-group-addon>
-              <span .glyphicon .glyphicon-plus>
-
-        <hr>
-        <div .col-sm-9-offset-3>
-          <ul #people_in_group_list .list-group>
+                <span .glyphicon .glyphicon-ok>
+                Save Changes

@@ -47,21 +47,23 @@ postEditPersonR pid = do
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
+
+    runDB $ replace pid editedPerson
     
     --Wipe all existing relations to groups, then add the new ones 
     runDB $ deleteWhere [PersonGroupRelationPerson ==. pid]    
 
     groupNames <- lookupPostParams "groups"
-    mapM_ insertRelation groupNames
+    mapM_ (insertRelation pid) groupNames
 
-    runDB $ replace pid editedPerson
     setMessage "Person succesfully edited."
     redirect (PersonR pid)
-    where insertRelation :: Text -> Handler ()
-          insertRelation "" = return ()
-          insertRelation groupName = runDB $ do
-              maybeEntity <- selectFirst [PGroupName ==. groupName] []   
-              -- if a group name is given then it's assumed it definitely does exist in the database
-              let gid = (\(Just (Entity key _)) -> key) maybeEntity
-              insert_ $ PersonGroupRelation pid gid
+
+insertRelation :: PersonId -> Text -> Handler ()
+insertRelation pid ""        = return ()
+insertRelation pid groupName = runDB $ do
+    maybeEntity <- selectFirst [PGroupName ==. groupName] []   
+    -- if a group name is given then it's assumed it definitely does exist in the database
+    let gid = (\(Just (Entity key _)) -> key) maybeEntity
+    insert_ $ PersonGroupRelation pid gid
 

@@ -16,13 +16,14 @@ $(function() {
         console.log("Set default nationality option.");
     }
 
-    var groupNames = #{personGroupNames};
-    console.log("Group names:", groupNames);
-    if (groupNames.length != 0) {
-        $('#select_groups').selectpicker('val', groupNames);
-        $('#select_groups').selectpicker('render');
-        console.log("Set default group options");
-    }
+    
+    //var groupPeopleIds = ;
+    //console.log("Group names:", groupPeopleIds);
+    //if (groupPeopleIds.length != 0) {
+    //    $('#sepreselects').selectpicker('val', groupNames);
+    //    $('#select_groups').selectpicker('render');
+    //    console.log("Set default group options");
+    //}
 
 });
 
