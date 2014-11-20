@@ -20,18 +20,22 @@ library
                      Settings.StaticFiles
                      Settings.Development
                      Handler.Home
-                     Handler.Person
-                     Handler.EditPerson
-                     Handler.NewPerson
-                     Handler.People
                      Handler.QuickQuery
                      Handler.Utils
-                     Handler.Groups
-                     Handler.NewGroup
-                     Handler.Group
-                     Handler.EditGroup
                      Handler.Plugins
-                     Handler.PersonUtils
+                     Handler.People.Person
+                     Handler.People.EditPerson
+                     Handler.People.NewPerson
+                     Handler.People.People
+                     Handler.People.PersonUtils
+                     Handler.Groups.Groups
+                     Handler.Groups.NewGroup
+                     Handler.Groups.Group
+                     Handler.Groups.EditGroup
+                     Handler.Quals.Quals
+                     Handler.Quals.Qual
+                     Handler.Quals.NewQual
+                     Handler.Quals.EditQual
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

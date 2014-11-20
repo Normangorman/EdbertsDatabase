@@ -1,8 +1,8 @@
-module Handler.EditPerson where
+module Handler.People.EditPerson where
 
 import Import
 import Handler.Plugins
-import Handler.PersonUtils
+import Handler.People.PersonUtils
 import Handler.Utils (fromMaybe)
 --Used for parsing textual database ids
 import Database.Persist.Sql (toSqlKey, fromSqlKey)
@@ -26,7 +26,7 @@ getEditPersonR pid = do
             defaultLayout $ do
                 datePickerWidget
                 chosenWidget
-                $(widgetFile "edit-person") 
+                $(widgetFile "People/edit-person") 
 
 
 

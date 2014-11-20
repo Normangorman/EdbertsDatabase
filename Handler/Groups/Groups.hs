@@ -1,4 +1,4 @@
-module Handler.Groups where
+module Handler.Groups.Groups where
 
 import Import
 import Handler.Plugins
@@ -15,7 +15,7 @@ getGroupsR = do
         clockPickerWidget 
         tableSorterWidget 
         --this hamlet interpolates the peopleRows widget
-        $(widgetFile "groups")
+        $(widgetFile "Groups/groups")
 
 
 mkGroupRows :: [Entity PGroup] -> Widget

@@ -15,3 +15,7 @@
 !/group/create NewGroupR GET POST
 /group/#PGroupId GroupR GET DELETE
 /group/edit/#PGroupId EditGroupR GET POST
+/quals QualsR GET
+!/qual/#QualId QualR GET DELETE
+!/qual/create NewQualR GET POST
+/qual/edit/#QualId EditQualR GET POST

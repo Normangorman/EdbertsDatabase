@@ -38,7 +38,9 @@
               <span class="caret">
             <ul .dropdown-menu role="menu">
               <li>
-                <a href="#">Do something
+                <a href=@{NewQualR}>Add a qualification
+              <li>
+                <a href=@{QualsR}>View all qualifications
             
         <form #quick_search_form action=@{QuickQueryR} name="query" .navbar-form .navbar-right role="search">
           <div .form-group>

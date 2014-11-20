@@ -1,0 +1,21 @@
+<div .row>
+  <div .col-lg-12>
+    <table #groups_table .table .table-bordered .table-striped .table-hover .tablesorter>
+      <thead>
+        <tr>
+          <th data-sort="string">
+            Name
+            <span .caret>
+          <th data-sort="string">
+            Project
+            <span .caret>
+          <th data-sort="string">
+            Meets on day
+            <span .caret>
+          <th data-sort="custom-time">
+            Meets at time
+            <span .caret>
+      <tbody>
+        ^{groupsTableRows}
+
+

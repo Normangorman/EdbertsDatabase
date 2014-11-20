@@ -1,0 +1,19 @@
+<div .row>
+  <div .col-md-6 .col-md-offset-3>
+    <div .row>
+      <h2>Browsing Qualifications
+      <hr>
+
+    <div .row>
+      $forall Entity qid qual <- quals
+        <div .row>
+          <h4>
+            <a href=@{QualR qid}>#{qualName qual}
+
+          $maybe details <- qualDetails qual
+            <p>#{details}
+          $nothing
+            <p>
+              <i>No details provided... 
+
+

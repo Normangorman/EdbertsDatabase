@@ -8,14 +8,26 @@ Person
     gender          Text Maybe
     nationality     Text Maybe
     deriving Show
+--PGroup because SQL was getting confused by "group"
 PGroup
     name            Text
     project         Text
     meetsOnDay      Text Maybe
     meetsAtTime     TimeOfDay Maybe
     deriving Show
+Qual
+    name            Text
+    details         Text Maybe
 PersonGroupRelation
     person          PersonId
     group           PGroupId
-
+    deriving Show
+QualGroupRelation
+    qual            QualId
+    group           PGroupId
+PersonQualOwnership
+    person          PersonId
+    qual            QualId
+    grade           Text Maybe
+    
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

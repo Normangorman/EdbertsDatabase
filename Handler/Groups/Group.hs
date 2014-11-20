@@ -1,4 +1,4 @@
-module Handler.Group where
+module Handler.Groups.Group where
 
 import Import
 --import Handler.Plugins
@@ -12,7 +12,7 @@ getGroupR gid = do
             setMessage "No group exists with that ID!"
         Just group -> do 
             groupPeople <- getGroupPeople gid
-            defaultLayout $(widgetFile "group")
+            defaultLayout $(widgetFile "Groups/group")
 
 deleteGroupR :: PGroupId -> Handler ()
 deleteGroupR pgid = do

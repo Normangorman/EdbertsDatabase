@@ -1,0 +1,30 @@
+<div .row>
+  <div .col-md-4 .col-md-offset-4>
+    <h2>Editing qualification details:
+    <hr>
+<div .row>
+  <div .col-md-4 .col-md-offset-4>
+    <form action=@{EditQualR qid} method=post #edit_qual_form .form-horizontal role="form">
+      <fieldset>
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Name
+          <div .col-sm-9>
+            <input type="text" name="name" value="#{qualName qual}" .form-control>
+
+        <div .form-group>
+          <label .col-sm-3 .control-label>Details
+          <div .col-sm-9>
+            <textarea .form-control name="details" value="#{fromMaybe $ qualDetails qual}">
+
+        <div .form-group>
+          <label .col-sm-3 .control-label>Groups:
+          <div .col-sm-9>
+            <select multiple #group_select .chosen_select name="group_ids" type="text" .form-control placeholder="Which groups offer this qualification?">
+              $forall Entity gid group <- allGroups
+                <option value=#{fromSqlKey gid}>#{pGroupName group} 
+
+        <div .form-group>
+          <div .col-sm-offset-3>
+            <button type="submit" .btn .btn-primary>
+                <span .glyphicon .glyphicon-ok>
+                Save Changes

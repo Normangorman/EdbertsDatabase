@@ -1,4 +1,4 @@
-module Handler.NewPerson where
+module Handler.People.NewPerson where
 
 import Import
 import Handler.Plugins
@@ -6,7 +6,7 @@ import Handler.Plugins
 getNewPersonR :: Handler Html 
 getNewPersonR = defaultLayout $ do
     datePickerWidget
-    $(widgetFile "new-person")
+    $(widgetFile "People/new-person")
 
 postNewPersonR :: Handler ()
 postNewPersonR = do

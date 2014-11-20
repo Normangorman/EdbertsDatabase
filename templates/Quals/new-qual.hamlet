@@ -1,0 +1,22 @@
+<div .row>
+  <div .col-md-4 .col-md-offset-4>
+    <form action=@{NewQualR} method=post .form-horizontal role="form">
+      <fieldset>
+        <legend>Creating a new qualification:</legend>
+
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Name
+          <div .col-sm-9>
+            <input type="text" name="Name" placeholder="Advanced Sumo Wrestling" .form-control>
+
+        <div .form-group>
+          <label .col-sm-3 .control-label for="textinput">Details
+          <div .col-sm-9>
+            <textarea type="text" name="Details" placeholder="Not for the faint hearted." .form-control>
+
+        <div .form-group>
+          <div .col-sm-offset-3 .col-sm-9>
+            <div .pull-right>
+              <button type="submit" .btn .btn-primary>
+                <span .glyphicon .glyphicon-ok>
+                Create qualification

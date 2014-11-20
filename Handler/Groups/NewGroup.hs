@@ -1,4 +1,4 @@
-module Handler.NewGroup where
+module Handler.Groups.NewGroup where
 
 import Import
 import Handler.Plugins
@@ -7,7 +7,7 @@ getNewGroupR :: Handler Html
 getNewGroupR = do
     defaultLayout $ do
         clockPickerWidget
-        $(widgetFile "new-group") 
+        $(widgetFile "Groups/new-group") 
 
 postNewGroupR :: Handler ()
 postNewGroupR = do
@@ -16,6 +16,6 @@ postNewGroupR = do
         <*> ireq textField "project"
         <*> iopt textField "meets_on_day"  
         <*> iopt timeField "meets_at_time"
-    pGroupId <- runDB $ insert pGroup
+    runDB $ insert_ pGroup
     setMessage "Group succesfully created!"
     redirect GroupsR

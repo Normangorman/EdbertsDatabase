@@ -1,10 +1,10 @@
-module Handler.EditGroup where
+module Handler.Groups.EditGroup where
 
 import Import
 import Handler.Plugins
 import Handler.Utils
-import Handler.PersonUtils
-import Handler.Group (getGroupPeople)
+import Handler.People.PersonUtils
+import Handler.Groups.Group (getGroupPeople)
 --Used for parsing textual database ids
 import Database.Persist.Sql (toSqlKey, fromSqlKey)
 import Data.Text.Read (decimal)
@@ -27,7 +27,7 @@ getEditGroupR gid = do
             defaultLayout $ do
                 clockPickerWidget
                 chosenWidget
-                $(widgetFile "edit-group") 
+                $(widgetFile "Groups/edit-group") 
 
 postEditGroupR :: PGroupId -> Handler Html
 postEditGroupR gid = do

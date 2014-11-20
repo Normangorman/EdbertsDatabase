@@ -1,7 +1,7 @@
 module Handler.QuickQuery where
 
 import Import
-import Handler.People (peoplePageWidget)
+import Handler.People.People (peoplePageWidget)
 
 
 -- used for a quick search by first name

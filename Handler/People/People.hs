@@ -1,9 +1,9 @@
-module Handler.People where
+module Handler.People.People where
 
 import Import
 import Handler.Plugins
 --import Handler.Utils (fromMaybe)
-import Handler.PersonUtils (mkPeopleRows)
+import Handler.People.PersonUtils (mkPeopleRows)
 import Database.Persist.Sql (rawSql)
 import qualified Data.Text as T
 
@@ -20,7 +20,7 @@ peoplePageWidget people = do
     tableSorterWidget
     datePickerWidget
 
-    $(widgetFile "people")
+    $(widgetFile "People/people")
 
 postPeopleR :: Handler Html
 postPeopleR = do

@@ -1,4 +1,4 @@
-module Handler.PersonUtils where
+module Handler.People.PersonUtils where
 
 import Import
 import Handler.Utils (fromMaybe)

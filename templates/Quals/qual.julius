@@ -1,0 +1,12 @@
+$("#delete_qual_button").click(function() {
+    var confirmation = confirm("Are you sure you want to delete this qualification? Its data cannot be recovered.");
+    if (confirmation) {
+        $.ajax({
+            url: '@{QualR qid}',
+            type: 'DELETE',
+            success: function () {
+                window.location.assign('@{QualsR}')
+            }
+        });
+    }
+});
