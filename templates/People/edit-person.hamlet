@@ -58,7 +58,7 @@
         <div .form-group>
           <label .col-sm-3 .control-label>Member of groups
           <div .col-sm-9>
-            <select multiple #group_select .chosen_select .form-control name="group_ids" placeholder="Which groups does this person belong to?">
+            <select multiple #group_select .chosen_select .form-control name="group_ids" data-placeholder="Which groups does this person belong to?">
               $forall Entity gid group <- allGroups 
                 <option value="#{fromSqlKey gid}">#{pGroupName group}
 

@@ -15,17 +15,22 @@ $(function() {
         console.log("Set default meets on day option.");
     }
 
-    var groupPeopleIds = #{groupPeopleIds};
-    if (groupPeopleIds != []) {
+    chosenPreselect( #{groupPeopleIds}, "#person_select"); 
+    chosenPreselect( #{groupQualIds},   "#qual_select"); 
+});
 
-        for (var i=0; i < groupPeopleIds.length; i++) {
-            var id = groupPeopleIds[i];
-            $("#person_select option")
+function chosenPreselect(items, inputDivId) {
+    if (items != []) {
+        //Loop through each item and select its respective option div,
+        //using the "value" property of the div to locate it 
+        for (var i=0; i < items.length; i++) {
+            var id = items[i];
+            $(inputDivId + " option")
               .filter('[value="' + id + '"]')
               .prop('selected', true); 
         };
-    
+
         //Update the Chosen input box to account for the changes
-        $('#person_select').trigger('chosen:updated'); 
+        $(inputDivId).trigger('chosen:updated'); 
     }
-});
+};

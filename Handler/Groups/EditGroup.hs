@@ -4,7 +4,7 @@ import Import
 import Handler.Plugins
 import Handler.Utils
 import Handler.People.PersonUtils
-import Handler.Groups.Group (getGroupPeople)
+import Handler.Groups.Group (getGroupPeople, getGroupQuals)
 --Used for parsing textual database ids
 import Database.Persist.Sql (toSqlKey, fromSqlKey)
 import Data.Text.Read (decimal)
@@ -20,14 +20,20 @@ getEditGroupR gid = do
             allPeople   <- runDB $ selectList ([]::[Filter Person]) []
             groupPeople <- getGroupPeople gid
 
+            allQuals    <- runDB $ selectList ([]::[Filter Qual])   []
+            groupQuals  <- getGroupQuals  gid
+
             --These are all interpolated in the julius file for form preselects
             let project         = (toJSON . pGroupProject) group
             let meetsOnDay      = (toJSON . fromMaybe . pGroupMeetsOnDay) group
-            let groupPeopleIds  = toJSON $ map (\(Entity key _) -> key) groupPeople
+            let groupPeopleIds  = toJSON $ map entityKey groupPeople
+            let groupQualIds    = toJSON $ map entityKey groupQuals 
             defaultLayout $ do
                 clockPickerWidget
                 chosenWidget
                 $(widgetFile "Groups/edit-group") 
+    
+    where entityKey (Entity key _) = key
 
 postEditGroupR :: PGroupId -> Handler Html
 postEditGroupR gid = do

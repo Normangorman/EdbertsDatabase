@@ -19,7 +19,7 @@
         <div .form-group>
           <label .col-sm-3 .control-label>Groups:
           <div .col-sm-9>
-            <select multiple #group_select .chosen_select name="group_ids" type="text" .form-control placeholder="Which groups offer this qualification?">
+            <select multiple #group_select .chosen_select name="group_ids" type="text" .form-control data-placeholder="Which groups offer this qualification?">
               $forall Entity gid group <- allGroups
                 <option value=#{fromSqlKey gid}>#{pGroupName group} 
 

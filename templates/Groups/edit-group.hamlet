@@ -41,9 +41,16 @@
         <div .form-group>
           <label .col-sm-3 .control-label>Members
           <div .col-sm-9>
-            <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control placeholder="Which people belong to this group?">
+            <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control data-placeholder="Which people belong to this group?">
               $forall Entity pid person <- allPeople
                 <option value=#{fromSqlKey pid}>#{personWholeName person} 
+                
+        <div .form-group>
+          <label .col-sm-3 .control-label>Qualifications
+          <div .col-sm-9>
+            <select multiple #qual_select .chosen_select name="qual_ids" type="text" .form-control data-placeholder="Which qualifications are offered by this group?">
+              $forall Entity qid qual <- allQuals
+                <option value=#{fromSqlKey qid}>#{qualName qual} 
 
         <div .form-group>
           <div .col-sm-offset-3>

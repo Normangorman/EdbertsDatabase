@@ -12,6 +12,7 @@ getGroupR gid = do
             setMessage "No group exists with that ID!"
         Just group -> do 
             groupPeople <- getGroupPeople gid
+            groupQuals  <- getGroupQuals  gid
             defaultLayout $(widgetFile "Groups/group")
 
 deleteGroupR :: PGroupId -> Handler ()
@@ -27,3 +28,11 @@ getGroupPeople gid = runDB $ do
 
     selectList [PersonId <-. personKeys] []
     where groupKey (Entity _ r) = personGroupRelationPerson r
+
+getGroupQuals :: PGroupId -> Handler [Entity Qual]
+getGroupQuals gid = runDB $ do
+    relations <- selectList [QualGroupRelationGroup ==. gid] []
+    let qualKeys = map qualKey relations
+
+    selectList [QualId <-. qualKeys] []
+    where qualKey (Entity _ r) = qualGroupRelationQual r
