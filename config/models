@@ -28,5 +28,9 @@ QualGroupRelation
 PersonQualRelation
     person          PersonId
     qual            QualId
+Register
+    date            Day
+    group           PGroupId
+    people          [PersonId]
     
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

@@ -47,16 +47,6 @@ tableSorterWidget = do
 }
     |]
 
-selectMultipleWidget :: Widget
-selectMultipleWidget = do
-    addScript     $ StaticR js_selectmultiple_min_js 
-    addStylesheet $ StaticR css_selectmultiple_min_css
-    toWidget [julius|
-$('.selectpicker').selectpicker({
-    liveSearch: true
-});
-    |]
-
 chosenWidget :: Widget
 chosenWidget = do
     addScript $ StaticR js_chosen_jquery_min_js
@@ -65,7 +55,7 @@ chosenWidget = do
     toWidget [julius|
 $(".chosen_select").chosen({
     disable_search_threshold: 10,
-    no_results_text: "Oops, nothing found!",
+    no_results_text: "Oops, nothing found!"
 });
 
 function chosenPreselect(items, inputDivId) {

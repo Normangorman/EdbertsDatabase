@@ -19,3 +19,4 @@
 !/qual/#QualId QualR GET DELETE
 !/qual/create NewQualR GET POST
 /qual/edit/#QualId EditQualR GET POST
+/register RegisterR GET POST

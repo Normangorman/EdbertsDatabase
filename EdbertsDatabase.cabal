@@ -36,6 +36,7 @@ library
                      Handler.Quals.Qual
                      Handler.Quals.NewQual
                      Handler.Quals.EditQual
+                     Handler.Registers.Register
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
