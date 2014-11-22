@@ -2,6 +2,7 @@ module Handler.Quals.Qual where
 
 import Import
 import Handler.Utils
+import Handler.People.PersonUtils (personWholeName)
 
 getQualR :: QualId -> Handler Html
 getQualR qid = do
@@ -9,19 +10,27 @@ getQualR qid = do
     case maybeQual of
         Nothing   -> notFound
         Just qual -> do
-            qualGroups <- getQualGroups qid
+            qualGroups <- relations qid
+            qualPeople <- relations qid
             defaultLayout $(widgetFile "Quals/qual")
     
-getQualGroups :: QualId -> Handler [Entity PGroup]
-getQualGroups qid = runDB $ do
-    relations <- selectList [QualGroupRelationQual ==. qid] []
-    let groupKeys = map groupKey relations
-
-    selectList [PGroupId <-. groupKeys] []
-    where groupKey (Entity _ r) = qualGroupRelationGroup r
-
 deleteQualR :: QualId -> Handler ()
 deleteQualR qid = do
     setMessage "Qualification deleted succesfully."
     runDB $ delete qid
     return ()
+
+instance Related Qual Person where
+    relations key = runDB $ do  
+        rs <- selectList [PersonQualRelationQual ==. key] []
+        let rKeys = map rKey rs
+        selectList [PersonId <-. rKeys] []
+        where rKey (Entity _ r) = personQualRelationPerson r
+        
+instance Related Qual PGroup where
+    relations key = runDB $ do  
+        rs <- selectList [QualGroupRelationQual ==. key] []
+        let rKeys = map rKey rs
+        selectList [PGroupId <-. rKeys] []
+        where rKey (Entity _ r) = qualGroupRelationGroup r
+

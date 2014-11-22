@@ -1,51 +1,51 @@
-  <div .col-md-10 .col-md-offset-1>
-    <div .row>
-        <h2>Viewing group details:
-        <hr>
+<div .col-md-10 .col-md-offset-1>
+  <div .row>
+      <h2>Viewing group details:
+      <hr>
 
-    <div .row>
-      <div .col-md-6>
-        <div .row>
-          <table .table .table-bordered .table-hover> 
-            <tr>
-              <td><strong>Name</strong>
-              <td>#{pGroupName group}
-
-            <tr>
-              <td><strong>Project</strong>
-              <td>#{pGroupProject group}
-
-            <tr>
-              <td><strong>Meets on day</strong>
-              <td>#{fromMaybe $ pGroupMeetsOnDay group}
-
-            <tr>
-              <td><strong>Meets at time</strong>
-              <td>#{fromMaybe $ pGroupMeetsAtTime group}
-
-        <div .row>
-          <div .pull-left>
-            <a href=@{EditGroupR gid} .btn .btn-primary>
-              <span .glyphicon .glyphicon-edit>
-              Edit
-            <button #delete_group_button .btn .btn-danger type="button">
-              <span .glyphicon .glyphicon-exclamation-sign>
-              Delete
-
-      <div .col-md-3>
+  <div .row>
+    <div .col-md-6>
+      <div .row>
         <table .table .table-bordered .table-hover> 
           <tr>
-            <td><strong>People in this group:</strong>
-          $forall Entity pid person <- groupPeople
-            <tr>
-              <td>
-                <a href=@{PersonR pid}>#{personFirstName person} #{personLastName person}
+            <td><strong>Name</strong>
+            <td>#{pGroupName group}
 
-      <div .col-md-3>
-        <table .table .table-bordered .table-hover> 
           <tr>
-            <td><strong>Qualifications offered by this group:</strong>
-          $forall Entity qid qual <- groupQuals
-            <tr>
-              <td>
-                <a href=@{QualR qid}>#{qualName qual}
+            <td><strong>Project</strong>
+            <td>#{pGroupProject group}
+
+          <tr>
+            <td><strong>Meets on day</strong>
+            <td>#{fromMaybe $ pGroupMeetsOnDay group}
+
+          <tr>
+            <td><strong>Meets at time</strong>
+            <td>#{fromMaybe $ pGroupMeetsAtTime group}
+
+      <div .row>
+        <div .pull-left>
+          <a href=@{EditGroupR gid} .btn .btn-primary>
+            <span .glyphicon .glyphicon-edit>
+            Edit
+          <button #delete_group_button .btn .btn-danger type="button">
+            <span .glyphicon .glyphicon-exclamation-sign>
+            Delete
+
+    <div .col-md-3>
+      <table .table .table-bordered .table-hover> 
+        <tr>
+          <td><strong>People in this group:</strong>
+        $forall Entity pid person <- groupPeople
+          <tr>
+            <td>
+              <a href=@{PersonR pid}>#{personFirstName person} #{personLastName person}
+
+    <div .col-md-3>
+      <table .table .table-bordered .table-hover> 
+        <tr>
+          <td><strong>Qualifications offered by this group:</strong>
+        $forall Entity qid qual <- groupQuals
+          <tr>
+            <td>
+              <a href=@{QualR qid}>#{qualName qual}

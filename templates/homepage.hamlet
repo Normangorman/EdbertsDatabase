@@ -1,3 +1,6 @@
-<h2>Home page<span .h1>Foobar</span>
-<h2>Home page
-    <span .h1>Foobar</span>
+<div .col-md-6 .col-md-offset-3>
+  <h2>Info
+  <hr>
+  <p>
+      This database software was created by, and is maintained by Benjamin Gorman. For feature requests or bug reports please email him at 8076bgorman@gmail.com.<br>Be sure to change the admin password regularly, and log off when you are finished using the database, or people's information could be compromised.
+    

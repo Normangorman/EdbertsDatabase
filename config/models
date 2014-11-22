@@ -25,9 +25,8 @@ PersonGroupRelation
 QualGroupRelation
     qual            QualId
     group           PGroupId
-PersonQualOwnership
+PersonQualRelation
     person          PersonId
     qual            QualId
-    grade           Text Maybe
     
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

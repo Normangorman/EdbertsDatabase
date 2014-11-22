@@ -1,15 +1,4 @@
 $(function() {
-    var qualGroupIds = #{qualGroupIds};
-    if (qualGroupIds != []) {
-
-        for (var i=0; i < qualGroupIds.length; i++) {
-            var id = qualGroupIds[i];
-            $("#group_select option")
-              .filter('[value="' + id + '"]')
-              .prop('selected', true); 
-        };
-    
-        //Update the Chosen input box to account for the changes
-        $('#group_select').trigger('chosen:updated'); 
-    }
+    chosenPreselect( #{qualGroupIds}, "#group_select");
+    chosenPreselect( #{qualPeopleIds}, "#person_select");
 });

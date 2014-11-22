@@ -12,7 +12,9 @@
   <nav .navbar .navbar-default role="navigation">
     <div .container-fluid>
       <div .navbar-header>
-        <div .navbar-brand>Edberts Database
+        <div .navbar-brand>
+          <a href=@{HomeR}>
+            <img .logo src=@{StaticR logo_jpg}>
       <div .navbar-collapse collapse>
         <ul .nav .navbar-nav>
           <li .dropdown>
@@ -42,9 +44,9 @@
               <li>
                 <a href=@{QualsR}>View all qualifications
             
-        <form #quick_search_form action=@{QuickQueryR} name="query" .navbar-form .navbar-right role="search">
+        <form action=@{QuickQueryR} method="get" .navbar-form .navbar-right role="search">
           <div .form-group>
-            <input #quick_search_box type="text" .form-control placeholder="Find by first name">
+            <input name="query" type="text" .form-control placeholder="Find by first name">
               <button type="submit" .btn .btn-default>
                 <span .glyphicon .glyphicon-search>
                 Search

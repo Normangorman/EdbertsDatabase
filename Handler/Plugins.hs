@@ -67,5 +67,21 @@ $(".chosen_select").chosen({
     disable_search_threshold: 10,
     no_results_text: "Oops, nothing found!",
 });
+
+function chosenPreselect(items, inputDivId) {
+    if (items != []) {
+        //Loop through each item and select its respective option div,
+        //using the "value" property of the div to locate it 
+        for (var i=0; i < items.length; i++) {
+            var id = items[i];
+            $(inputDivId + " option")
+              .filter('[value="' + id + '"]')
+              .prop('selected', true); 
+        };
+
+        //Update the Chosen input box to account for the changes
+        $(inputDivId).trigger('chosen:updated'); 
+    }
+};
     |]
     

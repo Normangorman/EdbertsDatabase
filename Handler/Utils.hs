@@ -26,3 +26,9 @@ instance FromMaybe Day where
 
 instance FromMaybe Integer
 instance FromMaybe TimeOfDay
+
+class (PersistEntity a, PersistEntity b) => Related a b where
+    relations :: Key a -> Handler [Entity b]
+
+jsonKeys :: PersistEntity a => [Entity a] -> Value
+jsonKeys ents = toJSON $ map (\(Entity key _) -> key) ents

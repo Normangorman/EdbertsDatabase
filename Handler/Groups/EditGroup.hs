@@ -4,7 +4,7 @@ import Import
 import Handler.Plugins
 import Handler.Utils
 import Handler.People.PersonUtils
-import Handler.Groups.Group (getGroupPeople, getGroupQuals)
+import Handler.Groups.Group ()
 --Used for parsing textual database ids
 import Database.Persist.Sql (toSqlKey, fromSqlKey)
 import Data.Text.Read (decimal)
@@ -18,22 +18,21 @@ getEditGroupR gid = do
             redirect HomeR
         Just group -> do
             allPeople   <- runDB $ selectList ([]::[Filter Person]) []
-            groupPeople <- getGroupPeople gid
+            groupPeople <- relations gid :: Handler [Entity Person]
 
             allQuals    <- runDB $ selectList ([]::[Filter Qual])   []
-            groupQuals  <- getGroupQuals  gid
+            groupQuals  <- relations gid :: Handler [Entity Qual]
 
             --These are all interpolated in the julius file for form preselects
             let project         = (toJSON . pGroupProject) group
             let meetsOnDay      = (toJSON . fromMaybe . pGroupMeetsOnDay) group
-            let groupPeopleIds  = toJSON $ map entityKey groupPeople
-            let groupQualIds    = toJSON $ map entityKey groupQuals 
+            let groupPeopleIds  = jsonKeys groupPeople
+            let groupQualIds    = jsonKeys groupQuals 
             defaultLayout $ do
                 clockPickerWidget
                 chosenWidget
                 $(widgetFile "Groups/edit-group") 
     
-    where entityKey (Entity key _) = key
 
 postEditGroupR :: PGroupId -> Handler Html
 postEditGroupR gid = do
@@ -44,17 +43,27 @@ postEditGroupR gid = do
         <*> iopt timeField "meets_at_time"
     runDB $ replace gid editedGroup
 
-    --Create new personGroupRelations where appropriate
     personIds <- lookupPostParams "person_ids"
     runDB $ deleteWhere [PersonGroupRelationGroup ==. gid]    
-    mapM_ (insertRelation gid) personIds
+    mapM_ (insertPersonRelation gid) personIds
+
+    qualIds <- lookupPostParams "qual_ids"
+    runDB $ deleteWhere [QualGroupRelationGroup ==. gid]    
+    mapM_ (insertQualRelation gid) qualIds
 
     setMessage "Group succesfully edited."
     redirect (GroupR gid)
 
-insertRelation :: PGroupId -> Text -> Handler ()
-insertRelation _   ""       = return ()
-insertRelation gid textPid  = runDB $ do
+insertPersonRelation :: PGroupId -> Text -> Handler ()
+insertPersonRelation _   ""       = return ()
+insertPersonRelation gid textPid  = runDB $ do
     case decimal textPid of
         Left  _        -> return ()
         Right (pid, _) -> insert_ $ PersonGroupRelation (toSqlKey pid) gid
+
+insertQualRelation :: PGroupId -> Text -> Handler ()
+insertQualRelation _   ""       = return ()
+insertQualRelation gid textQid  = runDB $ do
+    case decimal textQid of
+        Left  _        -> return ()
+        Right (qid, _) -> insert_ $ QualGroupRelation (toSqlKey qid) gid

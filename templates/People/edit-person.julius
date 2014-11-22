@@ -16,18 +16,7 @@ $(function() {
         console.log("Set default nationality option.");
     }
     
-    var personGroupIds = #{personGroupIds};
-    if (personGroupIds != []) {
-
-        for (var i=0; i < personGroupIds.length; i++) {
-            var id = personGroupIds[i];
-            $("#group_select option")
-              .filter('[value="' + id + '"]')
-              .prop('selected', true); 
-        };
-    
-        //Update the Chosen input box to account for the changes
-        $('#group_select').trigger('chosen:updated'); 
-    }
+    chosenPreselect( #{personGroupIds}, "#group_select");
+    chosenPreselect( #{personQualIds}, "#qual_select");
 });
 

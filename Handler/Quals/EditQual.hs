@@ -3,7 +3,8 @@ module Handler.Quals.EditQual where
 import Import
 import Handler.Utils
 import Handler.Plugins
-import Handler.Quals.Qual (getQualGroups)
+import Handler.Quals.Qual () -- just import the instances of Related
+import Handler.People.PersonUtils (personWholeName)
 --Used for parsing textual database ids
 import Database.Persist.Sql (toSqlKey, fromSqlKey)
 import Data.Text.Read (decimal)
@@ -17,10 +18,14 @@ getEditQualR qid = do
             redirect HomeR
         Just qual -> do
             allGroups   <- runDB $ selectList ([]::[Filter PGroup]) []
-            qualGroups  <- getQualGroups qid
+            qualGroups  <- relations qid :: Handler [Entity PGroup]
+
+            allPeople   <- runDB $ selectList ([]::[Filter Person]) []
+            qualPeople  <- relations qid :: Handler [Entity Person]
 
             --These are all interpolated in the julius file for form preselects
-            let qualGroupIds  = toJSON $ map (\(Entity key _) -> key) qualGroups
+            let qualGroupIds  = jsonKeys qualGroups
+            let qualPeopleIds = jsonKeys qualPeople
             defaultLayout $ do
                 chosenWidget
                 $(widgetFile "Quals/edit-qual") 
@@ -32,17 +37,27 @@ postEditQualR qid = do
         <*> iopt textField "details"
     runDB $ replace qid editedQual
 
-    --Create new personGroupRelations where appropriate
     groupIds <- lookupPostParams "group_ids"
     runDB $ deleteWhere [QualGroupRelationQual ==. qid]    
-    mapM_ (insertRelation qid) groupIds
+    mapM_ (insertGroupRelation qid) groupIds
+
+    personIds <- lookupPostParams "person_ids"
+    runDB $ deleteWhere [PersonQualRelationQual ==. qid]    
+    mapM_ (insertPersonRelation qid) personIds
 
     setMessage "Qualification succesfully edited."
     redirect (QualR qid)
 
-insertRelation :: QualId -> Text -> Handler ()
-insertRelation _   ""       = return ()
-insertRelation qid textGid  = runDB $ do
+insertGroupRelation :: QualId -> Text -> Handler ()
+insertGroupRelation _   ""       = return ()
+insertGroupRelation qid textGid  = runDB $ do
     case decimal textGid of
         Left  _        -> return ()
         Right (gid, _) -> insert_ $ QualGroupRelation qid (toSqlKey gid) 
+
+insertPersonRelation :: QualId -> Text -> Handler ()
+insertPersonRelation _   ""       = return ()
+insertPersonRelation qid textPid  = runDB $ do
+    case decimal textPid of
+        Left  _        -> return ()
+        Right (pid, _) -> insert_ $ PersonQualRelation (toSqlKey pid) qid 

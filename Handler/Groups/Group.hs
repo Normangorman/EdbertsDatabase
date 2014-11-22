@@ -2,7 +2,7 @@ module Handler.Groups.Group where
 
 import Import
 --import Handler.Plugins
-import Handler.Utils (fromMaybe)
+import Handler.Utils
 
 getGroupR :: PGroupId -> Handler Html
 getGroupR gid = do
@@ -11,8 +11,8 @@ getGroupR gid = do
         Nothing -> defaultLayout $ do
             setMessage "No group exists with that ID!"
         Just group -> do 
-            groupPeople <- getGroupPeople gid
-            groupQuals  <- getGroupQuals  gid
+            groupPeople <- relations gid
+            groupQuals  <- relations gid
             defaultLayout $(widgetFile "Groups/group")
 
 deleteGroupR :: PGroupId -> Handler ()
@@ -21,18 +21,16 @@ deleteGroupR pgid = do
     runDB $ delete pgid
     return ()
 
-getGroupPeople :: PGroupId -> Handler [Entity Person]
-getGroupPeople gid = runDB $ do
-    relations <- selectList [PersonGroupRelationGroup ==. gid] []
-    let personKeys = map groupKey relations
+instance Related PGroup Person where
+    relations key = runDB $ do  
+        rs <- selectList [PersonGroupRelationGroup ==. key] []
+        let rKeys = map rKey rs
+        selectList [PersonId <-. rKeys] []
+        where rKey (Entity _ r) = personGroupRelationPerson r
 
-    selectList [PersonId <-. personKeys] []
-    where groupKey (Entity _ r) = personGroupRelationPerson r
-
-getGroupQuals :: PGroupId -> Handler [Entity Qual]
-getGroupQuals gid = runDB $ do
-    relations <- selectList [QualGroupRelationGroup ==. gid] []
-    let qualKeys = map qualKey relations
-
-    selectList [QualId <-. qualKeys] []
-    where qualKey (Entity _ r) = qualGroupRelationQual r
+instance Related PGroup Qual where
+    relations key = runDB $ do  
+        rs <- selectList [QualGroupRelationGroup ==. key] []
+        let rKeys = map rKey rs
+        selectList [QualId <-. rKeys] []
+        where rKey (Entity _ r) = qualGroupRelationQual r

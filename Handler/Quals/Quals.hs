@@ -2,7 +2,6 @@ module Handler.Quals.Quals where
 
 import Import
 import Handler.Utils
-import Handler.Quals.Qual (getQualGroups)
 
 getQualsR :: Handler Html
 getQualsR = do

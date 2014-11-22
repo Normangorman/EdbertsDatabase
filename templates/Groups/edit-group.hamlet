@@ -1,15 +1,12 @@
-<div .row>
-  <div .col-md-4 .col-md-offset-4>
-    <h2>Editing group details:
-    <hr>
-<div .row>
-  <div .col-md-4 .col-md-offset-4>
-    <form action=@{EditGroupR gid} method=post #edit_group_form .form-horizontal role="form">
-      <fieldset>
+<div .col-md-10 .col-md-offset-1>
+  <form action=@{EditGroupR gid} method=post .form-horizontal role="form">
+    <fieldset>
+      <legend>Editing group details:
+      <div .col-md-6>
         <div .form-group>
           <label .col-sm-3 .control-label for="textinput">Name
           <div .col-sm-9>
-            <input type="text" name="name" value="#{pGroupName group}" .form-control>
+              <input type="text" name="name" value="#{pGroupName group}" .form-control>
 
         <div .form-group>
           <label .col-sm-3 .control-label>Project
@@ -34,26 +31,30 @@
           <label .col-sm-3 .control-label>Meets at time
           <div .col-sm-9>
             <div .input-group .clockpicker>
-                <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
-                <span .input-group-addon>
-                    <span .glyphicon .glyphicon-time>
+              <input name="meets_at_time" .form-control value="#{fromMaybe $ pGroupMeetsAtTime group}">
+              <span .input-group-addon>
+                <span .glyphicon .glyphicon-time>
 
+        <div .form-group>
+          <div .col-sm-offset-3>
+            <button type="submit" .btn .btn-primary>
+              <span .glyphicon .glyphicon-ok>
+              Save Changes
+            <a href=@{GroupR gid} .btn .btn-success>
+              <span .glyphicon .glyphicon-remove>
+              Cancel
+
+      <div .col-md-6>
         <div .form-group>
           <label .col-sm-3 .control-label>Members
           <div .col-sm-9>
             <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control data-placeholder="Which people belong to this group?">
               $forall Entity pid person <- allPeople
                 <option value=#{fromSqlKey pid}>#{personWholeName person} 
-                
+              
         <div .form-group>
-          <label .col-sm-3 .control-label>Qualifications
+          <label .col-sm-3 .control-label>Qualifications offered
           <div .col-sm-9>
             <select multiple #qual_select .chosen_select name="qual_ids" type="text" .form-control data-placeholder="Which qualifications are offered by this group?">
               $forall Entity qid qual <- allQuals
                 <option value=#{fromSqlKey qid}>#{qualName qual} 
-
-        <div .form-group>
-          <div .col-sm-offset-3>
-            <button type="submit" .btn .btn-primary>
-                <span .glyphicon .glyphicon-ok>
-                Save Changes

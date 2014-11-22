@@ -1,11 +1,12 @@
 module Handler.People.PersonUtils where
 
 import Import
-import Handler.Utils (fromMaybe)
+import Handler.Utils
 import Data.Time.Calendar (Day, diffDays)
 import Data.Time.Clock (getCurrentTime, utctDay)
 import System.IO.Unsafe (unsafePerformIO)
 import qualified Data.Text as T
+import Data.Maybe (fromJust)
 
 personWholeName :: Person -> Text
 personWholeName p = personFirstName p `T.append` " " `T.append` personLastName p
@@ -18,13 +19,19 @@ getPersonAge person = do
         yearDifference :: Day -> Day -> Integer
         yearDifference x = (`div` 365) . diffDays x
 
-getPersonGroups :: PersonId -> Handler [Entity PGroup]
-getPersonGroups pid = runDB $ do
-    relations <- selectList [PersonGroupRelationPerson ==. pid] []
-    let groupKeys = map groupKey relations
+instance Related Person PGroup where
+    relations key = runDB $ do  
+        rs <- selectList [PersonGroupRelationPerson ==. key] []
+        let rKeys = map rKey rs
+        selectList [PGroupId <-. rKeys] []
+        where rKey (Entity _ r) = personGroupRelationGroup r
 
-    selectList [PGroupId <-. groupKeys] []
-    where groupKey (Entity _ r) = personGroupRelationGroup r
+instance Related Person Qual where
+    relations key = runDB $ do  
+        rs <- selectList [PersonQualRelationPerson ==. key] []
+        let rKeys = map rKey rs
+        selectList [QualId <-. rKeys] []
+        where rKey (Entity _ r) = personQualRelationQual r
 
 mkPeopleRows :: [Entity Person] -> Widget
 mkPeopleRows people = do

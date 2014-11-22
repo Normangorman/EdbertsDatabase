@@ -6,9 +6,3 @@ getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
         $(widgetFile "homepage")
-
-postHomeR :: Handler Html
-postHomeR = do
-    defaultLayout $ do
-        $(widgetFile "homepage")
-

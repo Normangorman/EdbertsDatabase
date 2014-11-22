@@ -2,7 +2,7 @@ module Handler.People.People where
 
 import Import
 import Handler.Plugins
---import Handler.Utils (fromMaybe)
+--import Handler.Utils
 import Handler.People.PersonUtils (mkPeopleRows)
 import Database.Persist.Sql (rawSql)
 import qualified Data.Text as T
