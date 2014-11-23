@@ -1,0 +1,31 @@
+#register_divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#register_container {
+    visibility: hidden;
+    opacity: 0.0;
+}
+
+.bordered_box {
+    background: rgb(238,238,238);
+    padding: 5px;
+    border: 1.5px solid rgb(231,231,231);
+    border-radius: 5px;
+    margin-bottom: 8px;
+
+    input {
+        margin-bottom: 2px;
+    }
+}
+
+#quick_add_to_group_wrapper {
+    margin-bottom: 2px;
+}
+
+.slightly-transparent {
+    opacity: 0.75;
+}
+
+

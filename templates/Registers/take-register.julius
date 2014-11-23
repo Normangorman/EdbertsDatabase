@@ -1,0 +1,129 @@
+var allPeople = #{jsonPeople};
+console.log("All people:", allPeople);
+
+$("#confirm_group_choice").click( function() {
+    var groupId = $("#group_input").val();
+    console.log("Selected group id:", groupId);
+
+    if (groupId != "") { //It's possible they clicked the empty option
+        var peopleInGroup = allPeople.filter( function(p) {
+                //person.gids :: [Int] so we need to convert before comparing
+                intGroupId = parseInt( groupId );
+
+                //inArray returns -1 if the element is not found
+                return $.inArray(intGroupId, p.gids) != -1;
+            });
+        console.log("People in group:", peopleInGroup);
+
+        //set the hidden form inputs
+        $("#hidden_group_id_input").val(groupId);
+
+        var allGroupPids = peopleInGroup.map( function(p) { return p.pid });
+        console.log("All pids:", allGroupPids);
+        $("#hidden_all_pids_input").val(allGroupPids);
+
+
+        //We can't take a register if there's no people in the group...
+        if (peopleInGroup != []) {
+
+            //Unhide the container
+            $("#register_container")
+                .css("visibility", "visible")
+                .animate({opacity: 1.0}, 500);
+
+            //Remove all the old checkboxes
+            $("#register_inputs").empty();
+
+            //Make a new form checkbox for each person and add it to the document
+            for (var i=0; i < peopleInGroup.length; i++) {
+                var person   = peopleInGroup[i];
+                console.log("Adding a checkbox for:", person);
+                addRegisterCheckbox(person);
+            }
+
+            //Disable add person to group options for any people who ARE in the group already
+            var opts = $("#quick_add_to_group_input option");
+
+            opts.attr("disabled", false) //first enable everything
+                .filter(function() {     
+                      var intPid = parseInt( $(this).val() );
+                      var inGroup = $.inArray(intPid, allGroupPids) != -1;
+                      return inGroup;
+                      })
+                .attr("disabled", true) //then disable options for people in the group 
+                .trigger("chosen:updated");
+        }
+    } // if (groupId != "")
+    else {
+        $("#register_container").css("visibility", "hidden");
+    }
+});
+
+function addRegisterCheckbox (person) {
+    var htmlString = 
+        [
+        '<div class="checkbox">',
+          '<label>',
+            '<input .person_checkbox type="checkbox" name="person_present" value=' + person.pid + '>',
+            person.name,
+          '</label>',
+        '</div>'
+        ].join('')
+
+    console.log("Adding checkbox:", htmlString);
+
+    $(htmlString).appendTo("#register_inputs");
+};
+
+function addNewPerson(personObject) {
+    allPeople.push(personObject);
+    addRegisterCheckbox(personObject);
+};
+
+$("#confirm_add_to_group").click(function() {
+    var pid = $("#quick_add_to_group_input").val();
+    var gid = $("#hidden_group_id_input").val();  
+
+    $.ajax({
+        url: '@{QuickAddPersonToGroupR}',
+        type: 'POST',
+        data: {
+            pid: pid,
+            gid: gid
+            },
+        success: function (personObject) {
+            console.log("Added person to group:", personObject);
+
+            //remove the old record of the person
+            allPeople.filter(function() { return this.pid != personObject.pid });
+            //add the new one
+            addNewPerson(personObject);
+            //reset the input and update it
+            $("#quick_add_to_group_input").val('').trigger("chosen:updated");
+        }
+    });
+});
+
+$("#add_new_person").click(function() {
+    var firstName = $("#new_person_first_name").val();
+    var lastName  = $("#new_person_last_name").val();  
+    var gid       = $("#hidden_group_id_input").val();  
+
+    $.ajax({
+        url: '@{QuickCreatePersonR}',
+        type: 'POST',
+        data: {
+            first_name: firstName,
+            last_name: lastName,
+            gid: gid
+            },
+        success: function (personObject) {
+            console.log("Created new person:", personObject);
+
+            addNewPerson(personObject);
+            //reset the inputs
+            $("#new_person_first_name").val('');
+            $("#new_person_last_name").val('');
+        }
+    });
+});

@@ -31,6 +31,7 @@ PersonQualRelation
 Register
     date            Day
     group           PGroupId
-    people          [PersonId]
+    peoplePresent   [PersonId]
+    peopleNotPresent [PersonId]
     
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

@@ -1,0 +1,10 @@
+.hint-text {
+    color: rgb(51,51,51);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+#register_submit {
+    width: 100%;
+    height: auto;
+}

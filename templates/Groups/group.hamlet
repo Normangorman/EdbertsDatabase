@@ -49,3 +49,11 @@
           <tr>
             <td>
               <a href=@{QualR qid}>#{qualName qual}
+
+      <table .table .table-bordered .table-hover> 
+        <tr>
+          <td><strong>Registers taken:</strong>
+        $forall Entity rid reg <- groupRegisters
+          <tr>
+            <td>
+              <a href=@{ViewRegisterR rid}>#{registerDate reg}

@@ -11,8 +11,9 @@ getGroupR gid = do
         Nothing -> defaultLayout $ do
             setMessage "No group exists with that ID!"
         Just group -> do 
-            groupPeople <- relations gid
-            groupQuals  <- relations gid
+            groupPeople    <- relations gid
+            groupQuals     <- relations gid
+            groupRegisters <- relations gid
             defaultLayout $(widgetFile "Groups/group")
 
 deleteGroupR :: PGroupId -> Handler ()
@@ -34,3 +35,7 @@ instance Related PGroup Qual where
         let rKeys = map rKey rs
         selectList [QualId <-. rKeys] []
         where rKey (Entity _ r) = qualGroupRelationQual r
+
+instance Related PGroup Register where
+    relations key = runDB $ do  
+        selectList [RegisterGroup ==. key] [Desc RegisterDate]

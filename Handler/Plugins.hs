@@ -55,6 +55,7 @@ chosenWidget = do
     toWidget [julius|
 $(".chosen_select").chosen({
     disable_search_threshold: 10,
+    display_disabled_options: false,
     no_results_text: "Oops, nothing found!"
 });
 

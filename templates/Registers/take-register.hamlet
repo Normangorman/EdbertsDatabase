@@ -1,0 +1,48 @@
+<div .col-md-6 .col-md-offset-3>
+  <h2>Take a register
+  <hr>
+
+  <div .row>
+    <label .col-sm-3>Pick a group then click ok:
+    <div .col-sm-6>
+      <select #group_input .form-control .chosen_select data-placeholder="Choose a group to register">
+        <option value="">
+        $forall Entity gid group <- allGroups
+          <option value="#{fromSqlKey gid}">#{pGroupName group}
+    <div .col-sm-3>
+      <button .btn .btn-block #confirm_group_choice> 
+        <span .glyphicon .glyphicon-ok>
+
+  <div #register_container .row>
+    <hr #register_divider>
+    <div .col-sm-6>
+      <form #register_form action=@{TakeRegisterR} method="post" role="form">
+
+        <input #hidden_group_id_input type="hidden" name="group_id">
+        <input #hidden_all_pids_input type="hidden" name="all_pids">
+
+        <div .bordered_box>
+          <div #register_inputs>
+          <button type="submit" .btn .btn-primary .btn-block>Submit
+    
+    <div .col-sm-6>
+      <div .bordered_box>
+        <label> Add an existing person to this group:
+        <div #quick_add_to_group_wrapper>
+          <select #quick_add_to_group_input .form-control .chosen_select data-placeholder="Choose someone...">
+            <option value="">
+            $forall SP _ pid name <- allPeople
+              <option value="#{fromSqlKey pid}">#{name}
+        <button .btn .btn-block #confirm_add_to_group> 
+          <span .glyphicon .glyphicon-plus>
+
+      <div .bordered_box>
+        <label>
+          Create a new person and add them to this group:<br>
+          <div .slightly-transparent>
+            <em>Fill in the rest of their details later.
+        <input #new_person_first_name .form-control placeholder="First name">
+        <input #new_person_last_name .form-control placeholder="Last name">
+        <button .btn .btn-block #add_new_person> 
+          <span .glyphicon .glyphicon-plus>
+

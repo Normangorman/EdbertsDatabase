@@ -1,0 +1,12 @@
+$("#delete_reg_button").click(function() {
+    var confirmation = confirm("Are you sure you want to delete this register? It cannot be recovered.");
+    if (confirmation) {
+        $.ajax({
+            url: '@{ViewRegisterR rid}',
+            type: 'DELETE',
+            success: function () {
+                window.location.assign('@{TakeRegisterR}')
+            }
+        });
+    }
+});

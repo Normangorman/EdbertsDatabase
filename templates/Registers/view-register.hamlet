@@ -1,0 +1,46 @@
+<div .row>
+  <div .col-md-8 .col-md-offset-2>
+    <h2>Viewing register details:
+    <hr>
+
+    <div .col-sm-4>
+      <div .row>
+        <table .table .table-bordered .table-hover> 
+          <tr>
+            <td><strong>Date</strong>
+            <td>#{registerDate reg}
+          <tr>
+            <td><strong>Group</strong>
+            <td>
+              $maybe g <- group
+                <a href=@{GroupR gid}>#{pGroupName g}
+              $nothing
+                Group not found!
+
+      <div .row>
+        <div .pull-left>
+          <button #delete_reg_button .btn .btn-danger type="button">
+            <span .glyphicon .glyphicon-exclamation-sign>
+            Delete
+      <div .row>
+        <p .hint-text>
+          <em>
+            <b>Hint:</b> If you make a mistake just take the register again. The old one will be deleted.
+
+    <div .col-sm-4>
+      <table .table .table-bordered .table-hover> 
+        <tr>
+          <th>People present
+        $forall Entity pid person <- peoplePresent  
+          <tr>
+            <td>
+              <a href=@{PersonR pid}>#{personWholeName person}
+
+    <div .col-sm-4>
+      <table .table .table-bordered .table-hover>
+        <tr>
+          <th>People not present
+        $forall Entity pid person <- peopleNotPresent
+          <tr>
+            <td>
+              <a href=@{PersonR pid}>#{personWholeName person}

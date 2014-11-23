@@ -5,6 +5,8 @@ import qualified Data.Text as T
 import Data.Time.Calendar (Day, toGregorian)
 import Data.Time.LocalTime (TimeOfDay)
 import Model (prettyGregorian)
+import Data.Text.Read (decimal)
+import Database.Persist.Sql (toSqlKey, SqlBackend)
 
 
 class FromMaybe a where
@@ -32,3 +34,8 @@ class (PersistEntity a, PersistEntity b) => Related a b where
 
 jsonKeys :: PersistEntity a => [Entity a] -> Value
 jsonKeys ents = toJSON $ map (\(Entity key _) -> key) ents
+
+textToSqlKey :: (ToBackendKey SqlBackend a, PersistEntity a) => Text -> Key a
+textToSqlKey = toSqlKey . fromRight . decimal
+    where fromRight (Right (x, _)) = x
+          fromRight (Left _) = error "Handler.Utils.fromRight: got a Left"

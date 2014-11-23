@@ -1,22 +1,25 @@
 /static StaticR Static getStatic
 
-/favicon.ico FaviconR GET
-/robots.txt RobotsR GET
+/favicon.ico             FaviconR      GET
+/robots.txt              RobotsR       GET
 
-/ HomeR GET
-/quickquery QuickQueryR GET
+/                        HomeR         GET
+/quickquery              QuickQueryR   GET
 
-/people PeopleR GET POST
-/person/edit/#PersonId EditPersonR GET POST
-!/person/create NewPersonR GET POST
-!/person/#PersonId PersonR GET DELETE
+/people                  PeopleR       GET POST
+/person/edit/#PersonId   EditPersonR   GET POST
+!/person/create          NewPersonR    GET POST
+!/person/#PersonId       PersonR       GET DELETE
+!/person/quickcreate     QuickCreatePersonR     POST
+!/person/quickaddtogroup QuickAddPersonToGroupR POST
 
-/groups GroupsR GET POST
-!/group/create NewGroupR GET POST
-/group/#PGroupId GroupR GET DELETE
-/group/edit/#PGroupId EditGroupR GET POST
-/quals QualsR GET
-!/qual/#QualId QualR GET DELETE
-!/qual/create NewQualR GET POST
-/qual/edit/#QualId EditQualR GET POST
-/register RegisterR GET POST
+/groups                  GroupsR       GET POST
+!/group/create           NewGroupR     GET POST
+/group/#PGroupId         GroupR        GET DELETE
+/group/edit/#PGroupId    EditGroupR    GET POST
+/quals                   QualsR        GET
+!/qual/#QualId           QualR         GET DELETE
+!/qual/create            NewQualR      GET POST
+/qual/edit/#QualId       EditQualR     GET POST
+/takeregister            TakeRegisterR GET POST
+/register/#RegisterId    ViewRegisterR GET DELETE

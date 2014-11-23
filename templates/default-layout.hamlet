@@ -43,6 +43,9 @@
                 <a href=@{NewQualR}>Add a qualification
               <li>
                 <a href=@{QualsR}>View all qualifications
+
+          <li>
+            <a href=@{TakeRegisterR}>Take a register
             
         <form action=@{QuickQueryR} method="get" .navbar-form .navbar-right role="search">
           <div .form-group>

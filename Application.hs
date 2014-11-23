@@ -43,7 +43,8 @@ import Handler.Quals.Qual
 import Handler.Quals.NewQual
 import Handler.Quals.EditQual
 
-import Handler.Registers.Register
+import Handler.Registers.TakeRegister
+import Handler.Registers.ViewRegister
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
