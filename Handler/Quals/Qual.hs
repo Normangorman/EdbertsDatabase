@@ -16,8 +16,14 @@ getQualR qid = do
     
 deleteQualR :: QualId -> Handler ()
 deleteQualR qid = do
-    setMessage "Qualification deleted succesfully."
-    runDB $ delete qid
+    setMessage "Qualification deleted successfully."
+    runDB $ do
+        deleteWhere [PersonQualRelationQual ==. qid]
+
+        deleteWhere [QualGroupRelationQual ==. qid]
+
+        delete qid
+
     return ()
 
 instance Related Qual Person where

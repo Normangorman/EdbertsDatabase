@@ -16,6 +16,6 @@ postNewGroupR = do
         <*> ireq textField "project"
         <*> iopt textField "meets_on_day"  
         <*> iopt timeField "meets_at_time"
-    runDB $ insert_ pGroup
-    setMessage "Group succesfully created!"
-    redirect GroupsR
+    gid <- runDB $ insert pGroup
+    setMessage "Group successfully created!"
+    redirect $ GroupR gid

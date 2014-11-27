@@ -40,9 +40,8 @@ getSimplePerson pid = do
 
 getAllSimplePeople :: Handler [SimplePerson]
 getAllSimplePeople = do
-    allPeople <- runDB $ selectList [] []
-    mapM toSimple allPeople 
-
+    people <- allPeople
+    mapM toSimple people 
 
 getTakeRegisterR :: Handler Html
 getTakeRegisterR = do
@@ -57,25 +56,27 @@ getTakeRegisterR = do
 
 postTakeRegisterR :: Handler () 
 postTakeRegisterR = do
-    groupId       <- lookupPostParam "group_id"
+    maybeGroupId   <- lookupPostParam "group_id"
     --This param is a string of textual person ids seperated by commas
-    allPids       <- lookupPostParam "all_pids"
+    maybeGroupPids <- lookupPostParam "group_pids"
     --An array of textual person ids
-    peoplePresent <- lookupPostParams "person_present"
+    peoplePresent  <- lookupPostParams "person_present"
 
-    if groupId == Nothing || allPids == Nothing
+    if maybeGroupId   == Nothing || maybeGroupId == Just "" ||
+       maybeGroupPids == Nothing || maybeGroupPids == Just ""
         then do
-            setMessage "Register creation unsuccessful, something went wrong."
+            setMessage "Register creation unsuccessful, something went wrong. Perhaps you tried to register a group which has no members?"
             redirect TakeRegisterR
         else do
-            --Calculate people_not_present by comparing allPids with people_present
-            let allPidsParsed    = T.splitOn "," (fromJust allPids)
-            let peopleNotPresent = allPidsParsed \\ peoplePresent
+            let groupId   = fromJust maybeGroupId
+            let groupPids = fromJust maybeGroupPids
+
+            --Calculate people_not_present by comparing groupPids with people_present
+            let peopleNotPresent = (T.splitOn "," groupPids) \\ peoplePresent
 
             --Calculate the params needed to make a Register
             date <- liftIO $ getCurrentTime >>= return . utctDay
-            let gid  = textToSqlKey (fromJust groupId)
-
+            let gid            = textToSqlKey groupId
             let presentPids    = map textToSqlKey peoplePresent
             let notPresentPids = map textToSqlKey peopleNotPresent
 

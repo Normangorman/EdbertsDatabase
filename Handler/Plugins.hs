@@ -7,14 +7,19 @@ clockPickerWidget = do
     addStylesheet $ StaticR css_clockpicker_min_css
     addScript     $ StaticR js_clockpicker_min_js
     toWidget [julius|
-        $(".clockpicker").clockpicker({ autoclose: true });|]
+$(".clockpicker").clockpicker({ autoclose: true });
+    |]
 
 datePickerWidget :: Widget
 datePickerWidget = do
     addStylesheet $ StaticR css_datepicker_css 
     addScript     $ StaticR js_datepicker_js
     toWidget [julius|
-        $(".datepicker").datepicker({ format: 'yyyy/mm/dd' });|]
+$(".datepicker").datepicker({
+    format: 'yyyy/mm/dd',
+    autoclose: true
+});
+    |]
 
 queryBuilderWidget :: Widget
 queryBuilderWidget = do
@@ -75,4 +80,13 @@ function chosenPreselect(items, inputDivId) {
     }
 };
     |]
+
+chartsWidget :: Widget
+chartsWidget = do
+    addScript $ StaticR js_Chart_js
+
+randomColorWidget :: Widget
+randomColorWidget = do
+    addScript $ StaticR js_randomColor_js
+    
     

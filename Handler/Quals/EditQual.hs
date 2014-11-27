@@ -17,11 +17,12 @@ getEditQualR qid = do
             setMessage "No qualification found with that ID."
             redirect HomeR
         Just qual -> do
-            allGroups   <- runDB $ selectList ([]::[Filter PGroup]) []
-            qualGroups  <- relations qid :: Handler [Entity PGroup]
+            --groups and people are interpolated in the hamlet file
+            groups     <- allGroups
+            qualGroups <- relations qid :: Handler [Entity PGroup]
 
-            allPeople   <- runDB $ selectList ([]::[Filter Person]) []
-            qualPeople  <- relations qid :: Handler [Entity Person]
+            people     <- allPeople
+            qualPeople <- relations qid :: Handler [Entity Person]
 
             --These are all interpolated in the julius file for form preselects
             let qualGroupIds  = jsonKeys qualGroups
@@ -45,7 +46,7 @@ postEditQualR qid = do
     runDB $ deleteWhere [PersonQualRelationQual ==. qid]    
     mapM_ (insertPersonRelation qid) personIds
 
-    setMessage "Qualification succesfully edited."
+    setMessage "Qualification successfully edited."
     redirect (QualR qid)
 
 insertGroupRelation :: QualId -> Text -> Handler ()

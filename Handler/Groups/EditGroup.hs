@@ -51,7 +51,7 @@ postEditGroupR gid = do
     runDB $ deleteWhere [QualGroupRelationGroup ==. gid]    
     mapM_ (insertQualRelation gid) qualIds
 
-    setMessage "Group succesfully edited."
+    setMessage "Group successfully edited."
     redirect (GroupR gid)
 
 insertPersonRelation :: PGroupId -> Text -> Handler ()

@@ -53,7 +53,7 @@ postEditPersonR pid = do
     runDB $ deleteWhere [PersonQualRelationPerson ==. pid]    
     mapM_ (insertQualRelation pid) qualIds
 
-    setMessage "Person succesfully edited."
+    setMessage "Person successfully edited."
     redirect (PersonR pid)
 
 insertGroupRelation :: PersonId -> Text -> Handler ()

@@ -20,6 +20,15 @@ getPersonR pid = do
 
 deletePersonR :: PersonId -> Handler ()
 deletePersonR pid = do
-    setMessage "Person deleted succesfully."
-    runDB $ delete pid
+    runDB $ do
+        --Delete all their group memberships
+        deleteWhere [PersonGroupRelationPerson ==. pid]
+
+        --Then all their qual ownerships
+        deleteWhere [PersonQualRelationPerson ==. pid]
+
+        --Finally the person themself
+        delete pid
+    
+    setMessage "Person deleted successfully."
     return ()

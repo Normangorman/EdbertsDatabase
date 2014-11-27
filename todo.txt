@@ -1,3 +1,0 @@
-TODO:
-!Make UI for adding people to Groups
--Change edit-person to use group ids rather than names

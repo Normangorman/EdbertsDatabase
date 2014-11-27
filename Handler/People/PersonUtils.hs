@@ -11,13 +11,13 @@ import Data.Maybe (fromJust)
 personWholeName :: Person -> Text
 personWholeName p = personFirstName p `T.append` " " `T.append` personLastName p
 
-getPersonAge :: Person -> IO (Maybe Integer)
+getPersonAge :: Person -> IO (Maybe Int)
 getPersonAge person = do 
     currentDay <- fmap utctDay getCurrentTime -- IO Day  (2014, 11, 14)
     return $ fmap (yearDifference currentDay) (personBirthday person)
     where
-        yearDifference :: Day -> Day -> Integer
-        yearDifference x = (`div` 365) . diffDays x
+        yearDifference :: Day -> Day -> Int 
+        yearDifference x = fromIntegral . (`div` 365) . diffDays x
 
 instance Related Person PGroup where
     relations key = runDB $ do  

@@ -106,6 +106,7 @@ instance Yesod App where
 instance YesodPersist App where
     type YesodPersistBackend App = SqlBackend
     runDB = defaultRunDB persistConfig connPool
+
 instance YesodPersistRunner App where
     getDBRunner = defaultGetDBRunner connPool
 

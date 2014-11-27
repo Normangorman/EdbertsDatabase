@@ -27,6 +27,7 @@ instance FromMaybe Day where
     fromMaybe Nothing = ""
 
 instance FromMaybe Integer
+instance FromMaybe Int
 instance FromMaybe TimeOfDay
 
 class (PersistEntity a, PersistEntity b) => Related a b where
@@ -39,3 +40,12 @@ textToSqlKey :: (ToBackendKey SqlBackend a, PersistEntity a) => Text -> Key a
 textToSqlKey = toSqlKey . fromRight . decimal
     where fromRight (Right (x, _)) = x
           fromRight (Left _) = error "Handler.Utils.fromRight: got a Left"
+
+allRegisters :: Handler [Entity Register]
+allRegisters = runDB $ selectList [] [] :: Handler [Entity Register]
+
+allPeople :: Handler [Entity Person]
+allPeople = runDB $ selectList [] [] :: Handler [Entity Person]
+
+allGroups :: Handler [Entity PGroup]
+allGroups = runDB $ selectList [] [] :: Handler [Entity PGroup]

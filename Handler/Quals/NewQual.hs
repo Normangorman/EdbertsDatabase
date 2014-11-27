@@ -12,5 +12,5 @@ postNewQualR = do
         <$> ireq textField "Name"
         <*> iopt textField "Details"
     qid <- runDB $ insert qual
-    setMessage "Qualification succesfully created!"
+    setMessage "Qualification successfully created!"
     redirect $ QualR qid

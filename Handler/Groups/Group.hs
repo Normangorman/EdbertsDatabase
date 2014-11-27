@@ -17,9 +17,21 @@ getGroupR gid = do
             defaultLayout $(widgetFile "Groups/group")
 
 deleteGroupR :: PGroupId -> Handler ()
-deleteGroupR pgid = do
-    setMessage "Group deleted succesfully."
-    runDB $ delete pgid
+deleteGroupR gid = do
+    runDB $ do
+        --Delete all their people
+        deleteWhere [PersonGroupRelationGroup ==. gid]
+        
+        --Delete all their quals
+        deleteWhere [QualGroupRelationGroup ==. gid]
+        
+        --Delete all their registers
+        deleteWhere [RegisterGroup ==. gid]
+        
+        --Finally delete the group
+        delete gid
+
+    setMessage "Group deleted successfully."
     return ()
 
 instance Related PGroup Person where
