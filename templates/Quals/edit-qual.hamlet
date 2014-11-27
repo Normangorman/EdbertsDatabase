@@ -27,12 +27,12 @@
           <label .col-sm-3 .control-label>Groups:
           <div .col-sm-9>
             <select multiple #group_select .chosen_select name="group_ids" type="text" .form-control data-placeholder="Which groups offer this qualification?">
-              $forall Entity gid group <- allGroups
+              $forall Entity gid group <- groups
                 <option value=#{fromSqlKey gid}>#{pGroupName group} 
 
         <div .form-group>
           <label .col-sm-3 .control-label>People:
           <div .col-sm-9>
             <select multiple #person_select .chosen_select name="person_ids" type="text" .form-control data-placeholder="Which people have earned this qualification?">
-              $forall Entity pid person <- allPeople
+              $forall Entity pid person <- people
                 <option value=#{fromSqlKey pid}>#{personWholeName person} 

@@ -1,0 +1,447 @@
+extendDefaultOpts = function( objExtraOptions ) {
+    var defaults = {
+        responsive: true
+    };
+
+    var opts = $.extend(defaults, objExtraOptions);
+    
+    return opts;
+};
+
+getRandomColors = function( intHowMany ) {
+    //uses randomColor library
+    //https://github.com/davidmerfield/randomColor
+    var hue        = currentState.hue;        
+    var luminosity = currentState.luminosity;
+    
+    var colors = randomColor({
+        count:      intHowMany,
+        hue:        hue,
+        luminosity: luminosity,
+        format:     "hex"
+    });
+    
+    return colors;
+};
+
+lightenColor = function(color) {   
+    // credit: http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+    var percent = -0.05;
+    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+};
+
+currentState = {
+    //Neccessary state variables.
+    //--------------------------- 
+    //A ChartJs Chart object.
+    //    Set by chartHandler.renderChart 
+    chart:      null, 
+    
+    //The unique name of the current chart.
+    //   Set by  chartHandler.display
+    //   Read by chartHandler.onDataLoad
+    //           chartHandler.changeChartType
+    chartName:  "",    
+
+    //The raw data from the server being used for the current chart 
+    //allows for chart style changes without reloading data.
+    //   Set by onDataLoad
+    //   Read by changeChartType
+    serverData: {},
+
+    //Default settings for random colour generation
+    //These can be overriden by the user changing #select-hue or #select-luminosity
+    hue:        "red",
+    luminosity: "bright"
+}
+
+
+//Public
+displayChart = function( stringChartName ) {
+    console.log("display: setting currentState.chartName to: ", stringChartName);
+    currentState.chartName = stringChartName;
+
+    //Load data from the server passing the name of the chart
+    $.ajax({
+        url:      '@{StatsDataR}',
+        data:     { chartName: stringChartName },
+        success:  onDataLoad,
+        dataType: "json"
+    });
+};
+
+//Public
+changeChartStyle = function( stringChartStyle ) {
+    //first read the state variables containing the data sent from the server and current chart name
+    var serverData = currentState.serverData;
+    var chart      = charts[ currentState.chartName ];
+
+    //Use stringChartStyle to determine which style of chart the user wants to see,
+    //and pass it to the chart object to get the processData function for that style.
+    //e.g. chart might equal 'charts.nationalities'
+    var styleHandler = chart[ stringChartStyle ];
+    
+    var data = styleHandler.processData( serverData );
+    var opts = styleHandler.opts;
+
+    renderChart(stringChartStyle, data, opts);
+};
+
+//Private
+onDataLoad = function( objDataFromServer ) {
+    //set state variable for server data
+    console.log("onDataLoad: data received from server:", objDataFromServer);
+    currentState.serverData = objDataFromServer;
+
+    console.log("onDataLoad: reading current chart name from state:", currentState.chartName);
+
+    //get the current chart handler
+    var chart = charts[ currentState.chartName ];
+
+    console.log("onDataLoad: current chart object:", chart);
+    
+
+    var chartTitle = chart.title;
+    setChartTitle( chartTitle );
+
+    //in which styles can the user choose to display this chart?
+    var availableStyles = chart.availableStyles;
+    setStyleOptions( availableStyles );
+
+    var defaultStyle    = availableStyles[0]; //the first one is taken as the default
+    var styleHandler    = chart[ defaultStyle ];
+
+    var data  = styleHandler.processData( objDataFromServer ); //ChartJs data object
+    var opts  = styleHandler.opts;                             //ChartJs config object
+
+    renderChart(defaultStyle, data, opts);  //the first style is taken as the default
+};
+
+//Private
+renderChart = function(stringChartStyle, objData, objOpts) {
+    //stringChartStyle should be "Line", "Bar" etc.
+    //objData and objOpts are both ChartJs config objects
+
+    var ctx      = $("#canvas").get(0).getContext("2d");
+
+    //destroy the old chart if it exists
+    if (currentState.chart) {
+        currentState.chart.destroy();
+    }
+
+    currentState.chart = new Chart(ctx)[stringChartStyle](objData, objOpts);
+};
+
+//Private
+setStyleOptions = function( arrayStyles ) {
+    console.log("setting style options to:", arrayStyles);
+
+    var styleSelect = $("#chart-style-select");
+    styleSelect.empty(); // remove old options
+
+    for (var i=0; i < arrayStyles.length; i++) {
+        var style = arrayStyles[i];
+
+        var newOption = $("<option></option>")
+                            .attr("style", style)
+                            .text(style);
+
+        styleSelect.append( newOption );
+    }
+};
+
+setChartTitle = function( stringTitle ) {
+    $("#chart_title").text( stringTitle );
+};
+
+var charts = {
+    nationalities: {
+        Bar: {
+            processData: function(arrayObjNatInf) {
+                //should be an array of objects of the form
+                //  { nationality: "Chinese", quantity: 5 }
+                console.log("nationalities.Bar.processData: data received:", arrayObjNatInf);
+
+                var nationalities = [];
+                var quantities    = [];
+
+                for (var i=0; i < arrayObjNatInf.length; i++) {
+                    var natInf  = arrayObjNatInf[i];
+
+                    nationalities.push( natInf.nationality );
+                    quantities.push( natInf.quantity );
+                }
+                
+                var colors = getRandomColors(4);
+
+                var data = { //ChartJs data object
+                    labels: nationalities,
+                
+                    datasets: [
+                        {
+                            label:       "All people by nationality",
+                            data:        quantities,
+
+                            fillColor:       colors[0],
+                            strokeColor:     colors[1],
+                            highlightFill:   colors[2],
+                            highlightStroke: colors[3]
+                        }
+                    ]
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Bar
+
+        Pie: {
+            processData: function(arrayObjNatInf) {
+                var data = [];
+                var colours = getRandomColors( arrayObjNatInf.length );
+
+                for (var i=0; i < arrayObjNatInf.length; i++) {
+                    var natInf  = arrayObjNatInf[i];
+                    var color   = colours[i];
+                    
+                    data.push({
+                        label: natInf.nationality,
+                        value: natInf.quantity,
+                        color: color,
+                        highlight: lightenColor(color)
+                    });
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },
+
+        Doughnut: { //exactly the same config as Pie
+            processData: function(arrayObjNatInf) {
+                var data = [];
+                var colours = getRandomColors( arrayObjNatInf.length );
+
+                for (var i=0; i < arrayObjNatInf.length; i++) {
+                    var natInf  = arrayObjNatInf[i];
+                    var color   = colours[i];
+                    
+                    data.push({
+                        label: natInf.nationality,
+                        value: natInf.quantity,
+                        color: color,
+                        highlight: lightenColor(color)
+                    });
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Doughnut
+
+        title: "All people by nationality",
+
+        availableStyles: [ "Bar", "Pie", "Doughnut" ]
+    },//end nationalities
+
+    ages: {
+        Pie: {
+            processData: function(arrayObjAgeInf) {
+                var data = [];
+                var colors = getRandomColors( arrayObjAgeInf.length );
+
+                for (var i=0; i < arrayObjAgeInf.length; i++) {
+                    var ageInf  = arrayObjAgeInf[i];
+                    var color   = colors[i];
+                    
+                    data.push({
+                        label: ageInf.ageGroup,
+                        value: ageInf.quantity,
+                        color: color,
+                        highlight: lightenColor(color)
+                    });
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Pie
+
+        Doughnut: {
+            processData: function(arrayObjAgeInf) {
+                var data = [];
+                var colors = getRandomColors( arrayObjAgeInf.length );
+
+                for (var i=0; i < arrayObjAgeInf.length; i++) {
+                    var ageInf  = arrayObjAgeInf[i];
+                    var color   = colors[i];
+                    
+                    data.push({
+                        label: ageInf.ageGroup,
+                        value: ageInf.quantity,
+                        color: color,
+                        highlight: lightenColor(color)
+                    });
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Doughnut
+
+        Bar: {
+            processData: function(arrayObjAgeInf) {
+                //should be an array of objects of the form
+                //  { ageGroup: "0-5", quantity: 5 }
+                console.log("ages.Bar.processData: data received:", arrayObjAgeInf);
+
+                var ageGroups  = [];
+                var quantities = [];
+
+                for (var i=0; i < arrayObjAgeInf.length; i++) {
+                    var ageInf  = arrayObjAgeInf[i];
+
+                    ageGroups.push(  ageInf.ageGroup );
+                    quantities.push( ageInf.quantity );
+                }
+                
+                var colors = getRandomColors(4);
+
+                var data = { //ChartJs data object
+                    labels: ageGroups,
+                
+                    datasets: [
+                        {
+                            label:       "All people by age",
+                            data:        quantities,
+
+                            fillColor:       colors[0],
+                            strokeColor:     colors[1],
+                            highlightFill:   colors[2],
+                            highlightStroke: colors[3]
+                        }
+                    ]
+                };
+
+                return data
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Bar
+            
+        title: "All people by age",
+        availableStyles: ["Bar", "Pie", "Doughnut" ]
+    },//end ages
+
+    totalFootfall: {
+        Line: {
+            processData: function( arrObjRegInf ) {
+                //should be an array of objects of the form
+                //  { date: "2014-02-25", quantity: 60 }
+                console.log("totalFootfall.Line.processData: data received:", arrObjRegInf);
+
+                var dates      = [];
+                var quantities = [];
+
+                for (var i=0; i < arrObjRegInf.length; i++) {
+                    var regInf  = arrObjRegInf[i];
+
+                    dates.push( regInf.date );
+                    quantities.push( regInf.quantity );
+                }
+                
+                var colors = getRandomColors(5);
+
+                var data = { //ChartJs data object
+                    labels: dates,
+                
+                    datasets: [
+                        {
+                            label: "Registered attendance across all groups",
+                            data:  quantities,
+
+                            fillColor:          colors[0],
+                            strokeColor:        colors[1],
+                            pointColor:         colors[2],
+                            pointStrokeColor:   colors[3],
+                            pointHighlightFill: colors[4],
+                        }
+                    ]
+                }
+                
+                return data;
+            },
+
+            opts: extendDefaultOpts({})
+        },//end Line
+
+        title: "Registered attendance across all groups",
+        availableStyles: ["Line"]
+    },//end totalFootfall
+
+    footfallByAge: {
+        Radar: {
+            processData: function( arrObjAgeInf ) {
+                //should be an array of objects of the form
+                //  { date: "2014-02-25", quantity: 60 }
+                console.log("footfallByAge.Radar.processData: data received:", arrObjAgeInf);
+
+                opts: extendDefaultOpts({})
+            }
+        },
+
+        title: "Registered attendance by age",
+        availableStyles: ["Radar"]
+    }
+}; //end charts
+
+
+//ON WINDOW LOAD
+$( function() {
+    //Display the People chart by default when the document is loaded
+    displayChart("nationalities");
+});
+
+//ON CHART SELECT
+$("#chart-select").change(function() {
+    var chartName = $(this).val();
+
+    if (chartName === "" || chartName === null) {
+        console.log("The <option> tag selected does not have a valid value attribute.");
+        return
+    }
+
+    //The value property of the <option> and the charts object
+    //have EXACTLY THE SAME NAME.
+    //the server should also have a case matching the name in getStatsDataR
+    displayChart( chartName );
+});
+
+//ON CHART STYLE SELECT
+$("#chart-style-select").change(function() {
+    var newStyle = $(this).val();
+    console.log("Style chosen:", newStyle);
+
+    changeChartStyle( newStyle );
+});
+
+//COLOR SCHEME CONTROL
+$("#select-hue").change(function() {
+    var hue = $(this).val();
+    currentState.hue = hue;
+
+    changeChartStyle( $("#chart-style-select").val() );
+});
+
+$("#select-luminosity").change(function() {
+    var luminosity = $(this).val();
+    currentState.luminosity = luminosity;
+
+    changeChartStyle( $("#chart-style-select").val() );
+});

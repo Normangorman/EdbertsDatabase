@@ -46,6 +46,9 @@
 
           <li>
             <a href=@{TakeRegisterR}>Take a register
+
+          <li>
+            <a href=@{StatsR}>Statistics
             
         <form action=@{QuickQueryR} method="get" .navbar-form .navbar-right role="search">
           <div .form-group>

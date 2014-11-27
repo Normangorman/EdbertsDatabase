@@ -1,0 +1,48 @@
+<div .col-md-8 .col-md-offset-2>
+  <h2>Statistics
+  <hr>
+  
+  <h3 #chart_title>
+  <div .col-md-8>
+    <canvas #canvas>
+
+  <div .col-md-4>
+    <div #chart-controls>
+      <strong>Choose a chart:
+      <select #chart-select .form-control> 
+        <option value="">
+        <optgroup label="People">
+          <option value="nationalities">by nationality
+          <option value="ages">by age
+        <optgroup label="Footfall">
+          <option value="totalFootfall">total
+          <option value="footfallByAge">by age
+
+      <strong>Choose a style:
+      <select #chart-style-select .form-control>
+        <option value="">
+        <option value="Bar">Bar
+        <option value="Pie">Pie
+        <option value="Doughnut">Doughnut
+        <option value="Line">Line
+        <option value="Radar">Radar
+
+      <strong>Color scheme:
+      <select #select-hue .form-control>
+        <option value="" selected disabled>Select hue
+        <option value="red">Red
+        <option value="orange">Orange
+        <option value="yellow">Yellow
+        <option value="green">Green
+        <option value="blue">Blue
+        <option value="purple">Purple
+        <option value="pink">Pink
+        <option value="monochrome">Monochrome
+        <option value="random">Random
+
+      <select #select-luminosity .form-control>
+        <option value="" selected disabled>Select luminosity
+        <option value="bright">Bright
+        <option value="light">Light
+        <option value="dark">Dark
+        <option value="random">Random

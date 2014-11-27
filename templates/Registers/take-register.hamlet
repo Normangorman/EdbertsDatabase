@@ -18,8 +18,8 @@
     <div .col-sm-6>
       <form #register_form action=@{TakeRegisterR} method="post" role="form">
 
-        <input #hidden_group_id_input type="hidden" name="group_id">
-        <input #hidden_all_pids_input type="hidden" name="all_pids">
+        <input val="" #hidden_group_id_input type="hidden" name="group_id">
+        <input val="" #hidden_group_pids_input type="hidden" name="group_pids">
 
         <div .bordered_box>
           <div #register_inputs>
