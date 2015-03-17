@@ -8,7 +8,7 @@
 #    PGDATABASE
 
 Default: &defaults
-  user: EdbertsDatabaseUser
+  user: EdbertsUser
   password: Edberts
   host: localhost
   port: 5432
