@@ -22,6 +22,10 @@
             <label .col-sm-3 .control-label>Home number
             <div .col-sm-9>
               <input type="text" name="Home number" value="#{fromMaybe $ personHomeNumber person}" .form-control>
+          <div .form-group>
+            <label .col-sm-3 .control-label>Home address
+            <div .col-sm-9>
+              <input type="text" name="Home address" value="#{fromMaybe $ personHomeAddress person}" .form-control>
 
           <div .form-group>
             <label .col-sm-3 .control-label>Mobile number
@@ -68,12 +72,12 @@
             <label .col-sm-3 .control-label>Member of groups
             <div .col-sm-9>
               <select multiple #group_select .chosen_select .form-control name="group_ids" data-placeholder="Which groups does this person belong to?">
-                $forall Entity gid group <- allGroups 
+                $forall Entity gid group <- groups 
                   <option value="#{fromSqlKey gid}">#{pGroupName group}
                   
           <div .form-group>
             <label .col-sm-3 .control-label>Qualifications awarded
             <div .col-sm-9>
               <select multiple #qual_select .chosen_select .form-control name="qual_ids" data-placeholder="Which qualifications has this person received?">
-                $forall Entity qid qual <- allQuals 
+                $forall Entity qid qual <- quals 
                   <option value="#{fromSqlKey qid}">#{qualName qual}

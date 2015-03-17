@@ -29,6 +29,12 @@ $("#query_builder").queryBuilder({
             type:   "string"
         },
 
+        {   id:     "person_home_address",
+            field:  "home_address",
+            label:  "Home address",
+            type:   "string"
+        },
+
         {   id:     "person_mobile_number",
             field:  "mobile_number",
             label:  "Mobile number",

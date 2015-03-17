@@ -7,7 +7,7 @@
     <div .col-sm-6>
       <select #group_input .form-control .chosen_select data-placeholder="Choose a group to register">
         <option value="">
-        $forall Entity gid group <- allGroups
+        $forall Entity gid group <- groups
           <option value="#{fromSqlKey gid}">#{pGroupName group}
     <div .col-sm-3>
       <button .btn .btn-block #confirm_group_choice> 
@@ -31,7 +31,7 @@
         <div #quick_add_to_group_wrapper>
           <select #quick_add_to_group_input .form-control .chosen_select data-placeholder="Choose someone...">
             <option value="">
-            $forall SP _ pid name <- allPeople
+            $forall SP _ pid name <- people
               <option value="#{fromSqlKey pid}">#{name}
         <button .btn .btn-block #confirm_add_to_group> 
           <span .glyphicon .glyphicon-plus>

@@ -16,10 +16,12 @@ getEditPersonR pid = do
             setMessage "No person found with that ID."
             redirect HomeR
         Just person -> do
-            allGroups    <- runDB $ selectList ([] :: [Filter PGroup]) []
+            -- groups and quals are used in the hamlet template to populate the lists
+            -- for adding a person to a group / giving them a qualification.
+            groups    <- allGroups -- runDB $ selectList ([] :: [Filter PGroup]) []
             personGroups <- relations pid :: Handler [Entity PGroup]
 
-            allQuals     <- runDB $ selectList ([] :: [Filter Qual])   []
+            quals     <- allQuals -- runDB $ selectList ([] :: [Filter Qual])   []
             personQuals  <- relations pid :: Handler [Entity Qual]
             --this is interpolated in the julius file and used to set the default selected options
             let gender         = (toJSON . fromMaybe . personGender) person
@@ -39,6 +41,7 @@ postEditPersonR pid = do
         <*> ireq textField "Last name"
         <*> iopt dayField  "Birthday"      
         <*> iopt textField "Home number"  
+        <*> iopt textField "Home address"
         <*> iopt textField "Mobile number"
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      

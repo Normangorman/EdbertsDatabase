@@ -7,7 +7,6 @@ import qualified Data.Text as T
 import Handler.People.PersonUtils (getPersonAge)
 import Data.List (sort, nub)
 import Data.Time.Calendar (Day, toGregorian)
-import Handler.Registers.ViewRegister (getRegisterPeople)
 
 getStatsR :: Handler Html
 getStatsR = do

@@ -28,6 +28,10 @@
             <td>#{fromMaybe $ personHomeNumber person}
 
           <tr>
+            <td><strong>Home address</strong>
+            <td>#{fromMaybe $ personHomeAddress person}
+
+          <tr>
             <td><strong>Mobile number</strong>
             <td>#{fromMaybe $ personMobileNumber person}
 

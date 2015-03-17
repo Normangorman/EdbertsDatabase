@@ -25,6 +25,11 @@
               <input type="text" name="Home number" placeholder="Home number" .form-control>
 
           <div .form-group>
+            <label .col-sm-3 .control-label for="textinput">Home address
+            <div .col-sm-9>
+              <input type="text" name="Home address" placeholder="Home address" .form-control>
+
+          <div .form-group>
             <label .col-sm-3 .control-label for="textinput">Mobile number
             <div .col-sm-9>
               <input type="text" name="Mobile number" placeholder="Mobile number" .form-control>

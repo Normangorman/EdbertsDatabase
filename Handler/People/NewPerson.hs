@@ -15,6 +15,7 @@ postNewPersonR = do
         <*> ireq textField "Last name"
         <*> iopt dayField  "Birthday"      
         <*> iopt textField "Home number"  
+        <*> iopt textField "Home address"  
         <*> iopt textField "Mobile number"
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      

@@ -43,6 +43,7 @@ mkPeopleRows people = do
             <td>#{fromMaybe $ personBirthday person}
             <td>#{fromMaybe $ unsafePerformIO $ getPersonAge person}
             <td>#{fromMaybe $ personHomeNumber person}
+            <td>#{fromMaybe $ personHomeAddress person}
             <td>#{fromMaybe $ personMobileNumber person}
             <td>#{fromMaybe $ personEmailAddress person}
             <td>#{fromMaybe $ personGender person}

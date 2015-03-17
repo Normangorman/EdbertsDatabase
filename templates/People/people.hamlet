@@ -18,6 +18,9 @@
                     <th data-sort="int">
                         Home number
                         <span .caret>
+                    <th data-sort="string">
+                        Home address
+                        <span .caret>
                     <th data-sort="int">
                         Mobile number
                         <span .caret>

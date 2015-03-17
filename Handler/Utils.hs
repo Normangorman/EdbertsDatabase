@@ -49,3 +49,6 @@ allPeople = runDB $ selectList [] [] :: Handler [Entity Person]
 
 allGroups :: Handler [Entity PGroup]
 allGroups = runDB $ selectList [] [] :: Handler [Entity PGroup]
+
+allQuals :: Handler [Entity Qual]
+allQuals =  runDB $ selectList [] [] :: Handler [Entity Qual]

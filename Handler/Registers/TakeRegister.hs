@@ -45,9 +45,9 @@ getAllSimplePeople = do
 
 getTakeRegisterR :: Handler Html
 getTakeRegisterR = do
-    allGroups <- runDB $ selectList [] [] :: Handler [Entity PGroup]
-    allPeople <- getAllSimplePeople
-    let jsonPeople = toJSON allPeople
+    groups <- runDB $ selectList [] [] :: Handler [Entity PGroup]
+    people <- getAllSimplePeople
+    let jsonPeople = toJSON people
     
     defaultLayout $ do
         chosenWidget 
@@ -113,7 +113,7 @@ postQuickCreatePersonR = do
     let gid = textToSqlKey textGid
 
     pid <- runDB $ do
-        pid <- insert $ Person firstName lastName Nothing Nothing Nothing Nothing Nothing Nothing
+        pid <- insert $ Person firstName lastName Nothing Nothing Nothing Nothing Nothing Nothing Nothing
         insert_ $ PersonGroupRelation pid gid
         return pid
         

@@ -3,6 +3,7 @@ Person
     lastName        Text
     birthday        Day Maybe
     homeNumber      Text Maybe
+    homeAddress     Text Maybe
     mobileNumber    Text Maybe
     emailAddress    Text Maybe
     gender          Text Maybe

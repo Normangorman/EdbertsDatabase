@@ -3,7 +3,6 @@ module Handler.Registers.ViewRegister where
 import Import
 import Handler.Utils
 import Handler.People.PersonUtils (personWholeName)
-import Database.Persist.Sql (fromSqlKey)
 
 getViewRegisterR :: RegisterId -> Handler Html
 getViewRegisterR rid = do
