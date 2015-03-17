@@ -23,8 +23,9 @@ instance FromMaybe Text where
     fromMaybe Nothing = ""
 
 instance FromMaybe Day where
-    fromMaybe (Just d) = let (year,month,day) = toGregorian d
-                         in show day ++ "/" ++ show month ++ "/" ++ show year
+    fromMaybe (Just d) = zeroPad day ++ "/" ++ zeroPad month ++ "/" ++ show year
+                         where (year,month,day) = toGregorian d
+                               zeroPad n = if n < 10 then '0' : show n else show n
     fromMaybe Nothing = ""
 
 instance FromMaybe Integer

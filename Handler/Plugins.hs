@@ -7,9 +7,7 @@ clockPickerWidget = do
     addStylesheet $ StaticR css_clockpicker_min_css
     addScript     $ StaticR js_clockpicker_min_js
     toWidget [julius|
-$(".clockpicker").clockpicker({ autoclose: true });
-    |]
-
+$(".clockpicker").clockpicker({ autoclose: true }); |] 
 datePickerWidget :: Widget
 datePickerWidget = do
     addStylesheet $ StaticR css_datepicker_css 

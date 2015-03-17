@@ -19,13 +19,13 @@
           <label .col-sm-3 .control-label>Meets on day
           <div .col-sm-9>
             <select #select_day .form-control name="meets_on_day">
-              <option>Monday
-              <option>Tuesday
-              <option>Wednesday
-              <option>Thursday
-              <option>Friday
-              <option>Saturday
-              <option>Sunday
+              <option value="Monday">Monday
+              <option value="Tuesday">Tuesday
+              <option value="Wednesday">Wednesday
+              <option value="Thursday">Thursday
+              <option value="Friday">Friday
+              <option value="Saturday">Saturday
+              <option value="Sunday">Sunday
 
         <div .form-group>
           <label .col-sm-3 .control-label>Meets at time

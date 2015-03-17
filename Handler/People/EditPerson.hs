@@ -10,6 +10,7 @@ import Data.Text.Read (decimal)
 
 getEditPersonR :: PersonId -> Handler Html
 getEditPersonR pid = do
+    $(logDebug) "got edit person route"
     maybePerson <- runDB $ get pid
     case maybePerson of 
         Nothing -> do
@@ -32,6 +33,7 @@ getEditPersonR pid = do
             defaultLayout $ do
                 datePickerWidget
                 chosenWidget
+                -- Client side dates are in english format. This widget converts them to international format.
                 dateValidationWidget "#edit_person_form"
                 $(widgetFile "People/edit-person") 
 

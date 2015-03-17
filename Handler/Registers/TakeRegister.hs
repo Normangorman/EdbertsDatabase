@@ -8,7 +8,7 @@ import Handler.People.PersonUtils (personWholeName) -- and the instances of Rela
 import Data.Time.Clock (getCurrentTime, utctDay)
 import Data.Maybe (fromJust)
 import qualified Data.Text as T
-import Data.List ((\\))
+import Data.List ((\\), sortBy, elemIndex)
 
 --A lightweight person representation used for displaying results in a register.
 --This will be converted to a JSON object with two properties.
@@ -45,14 +45,31 @@ getAllSimplePeople = do
 
 getTakeRegisterR :: Handler Html
 getTakeRegisterR = do
-    groups <- runDB $ selectList [] [] :: Handler [Entity PGroup]
+    unsortedGroups <- allGroups
+    -- Sort the groups in terms of the day they meet on, starting from monday to sunday.
+    let groups = sortBy groupDaySorterFunc unsortedGroups
+    
     people <- getAllSimplePeople
     let jsonPeople = toJSON people
     
     defaultLayout $ do
         chosenWidget 
         $(widgetFile "Registers/take-register")
-    
+
+    where
+        groupDaySorterFunc :: Entity PGroup -> Entity PGroup -> Ordering
+        groupDaySorterFunc (Entity _ group1) (Entity _ group2) = 
+            let
+                groupMeetingDay group = case pGroupMeetsOnDay group of
+                                            Just d  -> d 
+                                            Nothing -> "" 
+                days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", ""]
+                dayIndex group =  case elemIndex (groupMeetingDay group) days of
+                                    Just x -> x
+                                    Nothing -> 9 
+            in case dayIndex group1 `compare` dayIndex group2 of
+                EQ -> pGroupName group1 `compare` pGroupName group2
+                x  -> x
 
 postTakeRegisterR :: Handler () 
 postTakeRegisterR = do

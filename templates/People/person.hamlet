@@ -48,7 +48,7 @@
             <td>#{fromMaybe $ personNationality person}
 
           <tr>
-            <td><strong>Nationality</strong>
+            <td><strong>Emergency contact details</strong>
             <td>#{fromMaybe $ personEmergencyContact person}
 
       <div .row>
