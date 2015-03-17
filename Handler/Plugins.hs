@@ -16,7 +16,7 @@ datePickerWidget = do
     addScript     $ StaticR js_datepicker_js
     toWidget [julius|
 $(".datepicker").datepicker({
-    format: 'yyyy/mm/dd',
+    format: 'dd/mm/yyyy',
     autoclose: true
 });
     |]
@@ -88,5 +88,36 @@ chartsWidget = do
 randomColorWidget :: Widget
 randomColorWidget = do
     addScript $ StaticR js_randomColor_js
-    
-    
+
+-- Convert english dd/mm/yyyy formated 'Birthday' input field into the server-desired international format
+-- which is yyyy/mm/dd. Takes a jQuery identifier to locate the form.
+dateValidationWidget :: Text -> Widget
+dateValidationWidget formId = do
+    let jsonFormId = toJSON formId
+    toWidget [julius|
+// Change the english-formatted dd/mm/yyyy date to the yyyy/mm/dd form that will be used on the server.
+$(#{jsonFormId}).on('submit', function(event) {
+    console.log("changing date format from english to international...");
+    var oldBirthdayString = $("input[name=Birthday]").val();
+    console.log("old: ", oldBirthdayString);
+
+    if (oldBirthdayString.length > 0) {
+        var birthdayComponents = oldBirthdayString.split('/');
+
+        // As a safety measure, if the date is already in the server desired international format
+        // then don't change it. This is known if the length of the first component is 4 (i.e. it's a year).
+        if (birthdayComponents.length === 3 && !(birthdayComponents[0].length === 4)) {
+            var day = birthdayComponents[0];
+            var month = birthdayComponents[1];
+            var year = birthdayComponents[2];
+
+            var newBirthdayString = year + '/' + month + '/' + day
+            $("input[name=Birthday]").val(newBirthdayString);
+            console.log("new: ", newBirthdayString);
+        }
+        else {
+            console.log("Birthday was invalid so it was not changed");
+        }
+    }
+});
+    |]

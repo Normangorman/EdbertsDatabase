@@ -1,13 +1,14 @@
 Person
-    firstName       Text
-    lastName        Text
-    birthday        Day Maybe
-    homeNumber      Text Maybe
-    homeAddress     Text Maybe
-    mobileNumber    Text Maybe
-    emailAddress    Text Maybe
-    gender          Text Maybe
-    nationality     Text Maybe
+    firstName        Text
+    lastName         Text
+    birthday         Day Maybe
+    homeNumber       Text Maybe
+    homeAddress      Text Maybe
+    mobileNumber     Text Maybe
+    emailAddress     Text Maybe
+    gender           Text Maybe
+    nationality      Text Maybe
+    emergencyContact Text Maybe
     deriving Show
 --PGroup because SQL was getting confused by "group"
 PGroup

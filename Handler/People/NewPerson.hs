@@ -6,6 +6,8 @@ import Handler.Plugins
 getNewPersonR :: Handler Html 
 getNewPersonR = defaultLayout $ do
     datePickerWidget
+    -- Client side dates are in english format. This widget converts them to international format.
+    dateValidationWidget "#new_person_form"
     $(widgetFile "People/new-person")
 
 postNewPersonR :: Handler ()
@@ -20,6 +22,7 @@ postNewPersonR = do
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
+        <*> iopt textField "Emergency contact"
     personId <- runDB $ insert person
     setMessage "Person successfully created!"
     redirect $ PersonR personId

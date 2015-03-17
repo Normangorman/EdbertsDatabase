@@ -1,9 +1,8 @@
 <div .row>
     <div .col-md-4 .col-md-offset-4>
-      <form action=@{NewPersonR} method=post .form-horizontal role="form">
+      <form #new_person_form action=@{NewPersonR} method=post .form-horizontal role="form">
         <fieldset>
           <legend>Creating a new person:</legend>
-
           <div .form-group>
             <label .col-sm-3 .control-label for="textinput">First name
             <div .col-sm-9>
@@ -17,7 +16,7 @@
           <div .form-group>
             <label .col-sm-3 .control-label for="textinput">Birthday
             <div .col-sm-9>
-              <input type="text" name="Birthday" placeholder="1980/01/01" .datepicker .form-control>
+              <input type="text" name="Birthday" placeholder="01/01/1980" .datepicker .form-control>
 
           <div .form-group>
             <label .col-sm-3 .control-label for="textinput">Home number
@@ -43,7 +42,7 @@
           <div .form-group>
             <label .col-sm-3 .control-label>Gender
             <div .col-sm-9>
-                <select .form-control placeholder="Male" name="Gender">
+                <select .form-control placeholder="Female" name="Gender">
                     <option>Male
                     <option>Female
                     <option>Other
@@ -62,8 +61,13 @@
                     <option>Other
 
           <div .form-group>
+            <label .col-sm-3 .control-label for="textinput">Emergency contact details
+            <div .col-sm-9>
+              <input type="text" name="Emergency contact" placeholder="Who you gonna call?" .form-control>
+
+          <div .form-group>
             <div .col-sm-offset-3 .col-sm-9>
               <div .pull-right>
-                <button type="submit" .btn .btn-primary>
+                <button #submit_button type="submit" .btn .btn-primary>
                     <span .glyphicon .glyphicon-ok>
                     Create person

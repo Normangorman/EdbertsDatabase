@@ -17,9 +17,9 @@ $("#query_builder").queryBuilder({
             label:  "Birthday",
             type:   "date",
             plugin: "datepicker", //use datepicker plugin
-            plugin_config: { format: 'yyyy/mm/dd' },
+            plugin_config: { format: 'dd/mm/yyyy' },
             validation: {
-                format: "YYYY/MM/DD"
+                format: "DD/MM/YYYY"
             }
         },
 

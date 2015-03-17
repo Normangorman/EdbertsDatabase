@@ -46,6 +46,11 @@
           <tr>
             <td><strong>Nationality</strong>
             <td>#{fromMaybe $ personNationality person}
+
+          <tr>
+            <td><strong>Nationality</strong>
+            <td>#{fromMaybe $ personEmergencyContact person}
+
       <div .row>
         <div .pull-left>
           <a href=@{EditPersonR pid} .btn .btn-primary>

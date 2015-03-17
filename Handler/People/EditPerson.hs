@@ -32,6 +32,7 @@ getEditPersonR pid = do
             defaultLayout $ do
                 datePickerWidget
                 chosenWidget
+                dateValidationWidget "#edit_person_form"
                 $(widgetFile "People/edit-person") 
 
 postEditPersonR :: PersonId -> Handler Html
@@ -46,6 +47,7 @@ postEditPersonR pid = do
         <*> iopt textField "Email address"
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
+        <*> iopt textField "Emergency contact"
     runDB $ replace pid editedPerson
     
     groupIds <- lookupPostParams "group_ids"

@@ -23,7 +23,8 @@ instance FromMaybe Text where
     fromMaybe Nothing = ""
 
 instance FromMaybe Day where
-    fromMaybe (Just d) = prettyGregorian . toGregorian $ d
+    fromMaybe (Just d) = let (year,month,day) = toGregorian d
+                         in show day ++ "/" ++ show month ++ "/" ++ show year
     fromMaybe Nothing = ""
 
 instance FromMaybe Integer

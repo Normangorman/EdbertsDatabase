@@ -1,5 +1,5 @@
 <div .col-md-10 .col-md-offset-1>
-  <form action=@{EditPersonR pid} method=post #edit_person_form .form-horizontal role="form">
+  <form #edit_person_form action=@{EditPersonR pid} method=post .form-horizontal role="form">
     <fieldset>
       <legend>Editing #{personFirstName person}'s details:</legend>
         <div .col-md-6>
@@ -57,6 +57,11 @@
                 <option value="Black other">Black other
                 <option value="Chinese">Chinese
                 <option value="Other">Other
+
+          <div .form-group>
+            <label .col-sm-3 .control-label>Emergency contact details
+            <div .col-sm-9>
+              <input type="text" name="Emergency contact" value="#{fromMaybe $ personEmergencyContact person}" .form-control>
 
           <div .form-group>
             <div .pull-left>
