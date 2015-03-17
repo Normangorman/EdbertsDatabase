@@ -9,7 +9,7 @@ Person
     gender           Text Maybe
     nationality      Text Maybe
     emergencyContact Text Maybe
-    deriving Show
+    deriving Eq Show
 --PGroup because SQL was getting confused by "group"
 PGroup
     name            Text

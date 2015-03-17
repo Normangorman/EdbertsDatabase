@@ -43,8 +43,8 @@
             <label .col-sm-3 .control-label>Gender
             <div .col-sm-9>
                 <select .form-control placeholder="Female" name="Gender">
-                    <option>Male
                     <option>Female
+                    <option>Male
                     <option>Other
 
           <div .form-group>

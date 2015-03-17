@@ -25,6 +25,7 @@
 
 /takeregister            TakeRegisterR GET POST
 /register/#RegisterId    ViewRegisterR GET DELETE
+!/register/edit/#RegisterId EditRegisterR GET POST
 
 !/stats                  StatsR        GET
 !/stats/data/            StatsDataR    GET

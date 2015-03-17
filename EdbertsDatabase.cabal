@@ -38,6 +38,7 @@ library
                      Handler.Quals.EditQual
                      Handler.Registers.TakeRegister
                      Handler.Registers.ViewRegister
+                     Handler.Registers.EditRegister
                      Handler.Stats.Stats
 
     if flag(dev) || flag(library-only)

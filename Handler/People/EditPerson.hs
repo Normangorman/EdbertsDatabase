@@ -10,7 +10,6 @@ import Data.Text.Read (decimal)
 
 getEditPersonR :: PersonId -> Handler Html
 getEditPersonR pid = do
-    $(logDebug) "got edit person route"
     maybePerson <- runDB $ get pid
     case maybePerson of 
         Nothing -> do

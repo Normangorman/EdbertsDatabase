@@ -45,6 +45,7 @@ import Handler.Quals.EditQual
 
 import Handler.Registers.TakeRegister
 import Handler.Registers.ViewRegister
+import Handler.Registers.EditRegister
 
 import Handler.Stats.Stats
 

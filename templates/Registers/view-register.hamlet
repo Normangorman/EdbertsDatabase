@@ -22,10 +22,9 @@
           <button #delete_reg_button .btn .btn-danger type="button">
             <span .glyphicon .glyphicon-exclamation-sign>
             Delete
-      <div .row>
-        <p .hint-text>
-          <em>
-            <b>Hint:</b> If you make a mistake just take the register again. The old one will be deleted.
+          <a href=@{EditRegisterR rid} .btn .btn-primary>
+            <span .glyphicon .glyphicon-edit>
+            Edit
 
     <div .col-sm-4>
       <table .table .table-bordered .table-hover> 

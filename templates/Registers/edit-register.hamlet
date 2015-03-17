@@ -1,0 +1,28 @@
+<div .col-md-10 .col-md-offset-1>
+  <form #edit_register_form action=@{EditRegisterR rid} method=post .form-horizontal role="form">
+    <fieldset>
+      <legend>Editing register for #{groupName} from #{registerDate reg}:</legend>
+
+        $forall (Entity pid person) <- peoplePresent
+          <div .checkbox>
+            <label>
+              <input type="checkbox" name="person_present" value="#{fromSqlKey pid}" checked>
+              #{personFirstName person} #{personLastName person}
+
+        $forall (Entity pid person) <- peopleNotPresent
+          <div .checkbox>
+            <label>
+              <input type="checkbox" name="person_present" value="#{fromSqlKey pid}">
+              #{personFirstName person} #{personLastName person}
+
+        <br>
+        <div .form-group>
+          <div .pull-left>
+            <button type="submit" .btn .btn-primary>
+              <span .glyphicon .glyphicon-ok>
+              Save Changes
+            <a href=@{ViewRegisterR rid} .btn .btn-success>
+              <span .glyphicon .glyphicon-remove>
+              Cancel
+
+
