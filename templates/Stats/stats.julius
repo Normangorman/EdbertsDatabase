@@ -71,7 +71,21 @@ displayChart = function( stringChartName ) {
     });
 };
 
-//Public
+changeTimePeriod = function( stringTimePeriod ) {
+    if (currentState.chartName != "totalFootfall")
+        return;
+
+    var serverData = currentState.serverData;
+    var chart      = charts[ currentState.chartName ];
+
+    var styleHandler = chart[ stringChartStyle ];
+    
+    var data = styleHandler.processData( serverData );
+    var opts = styleHandler.opts;
+
+    renderChart(stringChartStyle, data, opts);
+};
+
 changeChartStyle = function( stringChartStyle ) {
     //first read the state variables containing the data sent from the server and current chart name
     var serverData = currentState.serverData;
@@ -279,9 +293,7 @@ var charts = {
 
                 for (var i=0; i < arrayObjAgeInf.length; i++) {
                     var ageInf  = arrayObjAgeInf[i];
-                    var color   = colors[i];
-                    
-                    data.push({
+                    var color   = colors[i]; data.push({
                         label: ageInf.ageGroup,
                         value: ageInf.quantity,
                         color: color,
@@ -421,6 +433,13 @@ $("#chart-select").change(function() {
     //have EXACTLY THE SAME NAME.
     //the server should also have a case matching the name in getStatsDataR
     displayChart( chartName );
+});
+
+$("#chart-time-period-select").change(function() {
+    var newTimePeriod = $(this).val();
+    console.log("Time period chosen:", newTimePeriod);
+
+    changeTimePeriod( newTimePeriod );
 });
 
 //ON CHART STYLE SELECT
