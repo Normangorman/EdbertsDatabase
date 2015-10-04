@@ -20,12 +20,17 @@
 
         <input val="" #hidden_group_id_input type="hidden" name="group_id">
         <input val="" #hidden_group_pids_input type="hidden" name="group_pids">
+        <input val="" #hidden_register_date_input value="#{dateToday}" type="hidden" name="register_date">
 
         <div .bordered_box>
           <div #register_inputs>
           <button type="submit" .btn .btn-primary .btn-block>Submit
     
     <div .col-sm-6>
+      <div .bordered_box>
+        <label>Set a date for the register:
+        <input type="text" #register_date_input value="#{dateToday}" .datepicker .form-control>
+
       <div .bordered_box>
         <label> Add an existing person to this group:
         <div #quick_add_to_group_wrapper>

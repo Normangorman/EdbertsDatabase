@@ -7,7 +7,7 @@ getNewPersonR :: Handler Html
 getNewPersonR = defaultLayout $ do
     datePickerWidget
     -- Client side dates are in english format. This widget converts them to international format.
-    dateValidationWidget "#new_person_form"
+    dateValidationWidget "#new_person_form" "Birthday"
     $(widgetFile "People/new-person")
 
 postNewPersonR :: Handler ()

@@ -117,6 +117,14 @@ function refreshAddPersonOptions() {
 /////////////
 /// INPUT ///
 /////////////
+$("#register_date_input").change(function() {
+    var dateString = $(this).val();
+    console.log("Chose date string: " + dateString);
+
+    $("#hidden_register_date_input").val(dateString);
+    console.log("Changed hidden form val to: " + $("#hidden_register_date_input").val());
+});
+
 $("#confirm_group_choice").click( function() {
     var groupId = $("#group_input").val();
     console.log("Selected group id:", groupId);

@@ -2,18 +2,25 @@
   <form #edit_register_form action=@{EditRegisterR rid} method=post .form-horizontal role="form">
     <fieldset>
       <legend>Editing register for #{groupName} from #{registerDate reg}:</legend>
+        <div .form-group>
+          <label .col-sm-3 .control-label>Change date:
+          <div .col-sm-3>
+            <input type="text" name="Date"  value="#{registerDate reg}" .datepicker .form-control>
 
-        $forall (Entity pid person) <- peoplePresent
-          <div .checkbox>
-            <label>
-              <input type="checkbox" name="person_present" value="#{fromSqlKey pid}" checked>
-              #{personFirstName person} #{personLastName person}
+        <div .form-group>
+          <label .col-sm-3 .control-label>Edit attendance:
+          <div .col-sm-3>
+            $forall (Entity pid person) <- peoplePresent
+              <div .checkbox>
+                <label>
+                <input type="checkbox" name="person_present" value="#{fromSqlKey pid}" checked>
+                #{personFirstName person} #{personLastName person}
 
-        $forall (Entity pid person) <- peopleNotPresent
-          <div .checkbox>
-            <label>
-              <input type="checkbox" name="person_present" value="#{fromSqlKey pid}">
-              #{personFirstName person} #{personLastName person}
+            $forall (Entity pid person) <- peopleNotPresent
+              <div .checkbox>
+                <label>
+                <input type="checkbox" name="person_present" value="#{fromSqlKey pid}">
+                #{personFirstName person} #{personLastName person}
 
         <br>
         <div .form-group>

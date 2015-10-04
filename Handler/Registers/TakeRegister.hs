@@ -6,6 +6,7 @@ import Database.Persist.Sql (fromSqlKey)
 import Handler.Utils
 import Handler.People.PersonUtils (personWholeName) -- and the instances of Related 
 import Data.Time.Clock (getCurrentTime, utctDay)
+import qualified Data.Time.Format as DTF
 import Data.Maybe (fromJust)
 import qualified Data.Text as T
 import Data.List ((\\), sortBy, elemIndex)
@@ -52,8 +53,12 @@ getTakeRegisterR = do
     people <- getAllSimplePeople
     let jsonPeople = toJSON people
     
+    dateToday <- liftIO $ getCurrentTime >>= return . utctDay
+
     defaultLayout $ do
         chosenWidget 
+        datePickerWidget
+        dateValidationWidget "#register_form" "register_date"
         $(widgetFile "Registers/take-register")
 
     where
@@ -73,34 +78,41 @@ getTakeRegisterR = do
 
 postTakeRegisterR :: Handler () 
 postTakeRegisterR = do
+    maybeDate <- lookupPostParam "register_date"
     maybeGroupId   <- lookupPostParam "group_id"
     --This param is a string of textual person ids seperated by commas
     maybeGroupPids <- lookupPostParam "group_pids"
     --An array of textual person ids
     peoplePresent  <- lookupPostParams "person_present"
 
-    if maybeGroupId   == Nothing || maybeGroupId == Just "" ||
+    if maybeDate      == Nothing || maybeDate == Just ""    || 
+       maybeGroupId   == Nothing || maybeGroupId == Just "" ||
        maybeGroupPids == Nothing || maybeGroupPids == Just ""
         then do
             setMessage "Register creation unsuccessful, something went wrong. Perhaps you tried to register a group which has no members?"
             redirect TakeRegisterR
         else do
+            let registerDateString = fromJust maybeDate
             let groupId   = fromJust maybeGroupId
             let groupPids = fromJust maybeGroupPids
+
+            liftIO $ putStrLn ("Register date string: " ++ (T.unpack registerDateString))
+
+            dateToday <- liftIO $ getCurrentTime >>= return . utctDay
+            let registerDate = case DTF.parseTime DTF.defaultTimeLocale "%Y/%m/%d" (T.unpack registerDateString) of
+                                Nothing -> dateToday
+                                Just date -> date
+
 
             --Calculate people_not_present by comparing groupPids with people_present
             let peopleNotPresent = (T.splitOn "," groupPids) \\ peoplePresent
 
-            --Calculate the params needed to make a Register
-            date <- liftIO $ getCurrentTime >>= return . utctDay
             let gid            = textToSqlKey groupId
             let presentPids    = map textToSqlKey peoplePresent
             let notPresentPids = map textToSqlKey peopleNotPresent
 
             rid <- runDB $ do
-                --Avoid duplicate registers for the same day
-                deleteWhere [RegisterDate ==. date, RegisterGroup ==. gid]
-                insert (Register date gid presentPids notPresentPids)
+                insert (Register registerDate gid presentPids notPresentPids)
 
             redirect $ ViewRegisterR rid
 

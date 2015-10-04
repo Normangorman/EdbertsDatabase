@@ -33,7 +33,7 @@ getEditPersonR pid = do
                 datePickerWidget
                 chosenWidget
                 -- Client side dates are in english format. This widget converts them to international format.
-                dateValidationWidget "#edit_person_form"
+                dateValidationWidget "#edit_person_form" "Birthday"
                 $(widgetFile "People/edit-person") 
 
 postEditPersonR :: PersonId -> Handler Html
