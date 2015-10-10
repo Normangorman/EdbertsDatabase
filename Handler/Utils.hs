@@ -6,8 +6,12 @@ import Data.Time.Calendar (Day, toGregorian)
 import Data.Time.LocalTime (TimeOfDay)
 import Model (prettyGregorian)
 import Data.Text.Read (decimal)
+import Data.Char(toUpper, toLower)
 import Database.Persist.Sql (toSqlKey, SqlBackend)
 
+capitalized :: String -> String
+capitalized (head : tail) = toUpper head : map toLower tail
+capitalized [] = []
 
 class FromMaybe a where
     fromMaybe :: Show a => Maybe a -> String

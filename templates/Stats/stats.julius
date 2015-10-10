@@ -53,13 +53,16 @@ currentState = {
     //Default settings for random colour generation
     //These can be overriden by the user changing #select-hue or #select-luminosity
     hue:        "red",
-    luminosity: "bright"
+    luminosity: "bright",
+
+    // Used by footfall chart. Set in chartSelect.change function
+    footfallTimePeriod: "week"
 }
 
 
 //Public
 displayChart = function( stringChartName ) {
-    console.log("display: setting currentState.chartName to: ", stringChartName);
+    //console.log("display: setting currentState.chartName to: ", stringChartName);
     currentState.chartName = stringChartName;
 
     //Load data from the server passing the name of the chart
@@ -69,21 +72,6 @@ displayChart = function( stringChartName ) {
         success:  onDataLoad,
         dataType: "json"
     });
-};
-
-changeTimePeriod = function( stringTimePeriod ) {
-    if (currentState.chartName != "totalFootfall")
-        return;
-
-    var serverData = currentState.serverData;
-    var chart      = charts[ currentState.chartName ];
-
-    var styleHandler = chart[ stringChartStyle ];
-    
-    var data = styleHandler.processData( serverData );
-    var opts = styleHandler.opts;
-
-    renderChart(stringChartStyle, data, opts);
 };
 
 changeChartStyle = function( stringChartStyle ) {
@@ -105,15 +93,15 @@ changeChartStyle = function( stringChartStyle ) {
 //Private
 onDataLoad = function( objDataFromServer ) {
     //set state variable for server data
-    console.log("onDataLoad: data received from server:", objDataFromServer);
+    //console.log("onDataLoad: data received from server:", objDataFromServer);
     currentState.serverData = objDataFromServer;
 
-    console.log("onDataLoad: reading current chart name from state:", currentState.chartName);
+    //console.log("onDataLoad: reading current chart name from state:", currentState.chartName);
 
     //get the current chart handler
     var chart = charts[ currentState.chartName ];
 
-    console.log("onDataLoad: current chart object:", chart);
+    //console.log("onDataLoad: current chart object:", chart);
     
 
     var chartTitle = chart.title;
@@ -149,7 +137,7 @@ renderChart = function(stringChartStyle, objData, objOpts) {
 
 //Private
 setStyleOptions = function( arrayStyles ) {
-    console.log("setting style options to:", arrayStyles);
+    //console.log("setting style options to:", arrayStyles);
 
     var styleSelect = $("#chart-style-select");
     styleSelect.empty(); // remove old options
@@ -175,7 +163,7 @@ var charts = {
             processData: function(arrayObjNatInf) {
                 //should be an array of objects of the form
                 //  { nationality: "Chinese", quantity: 5 }
-                console.log("nationalities.Bar.processData: data received:", arrayObjNatInf);
+                //console.log("nationalities.Bar.processData: data received:", arrayObjNatInf);
 
                 var nationalities = [];
                 var quantities    = [];
@@ -311,7 +299,7 @@ var charts = {
             processData: function(arrayObjAgeInf) {
                 //should be an array of objects of the form
                 //  { ageGroup: "0-5", quantity: 5 }
-                console.log("ages.Bar.processData: data received:", arrayObjAgeInf);
+                //console.log("ages.Bar.processData: data received:", arrayObjAgeInf);
 
                 var ageGroups  = [];
                 var quantities = [];
@@ -337,8 +325,7 @@ var charts = {
                             strokeColor:     colors[1],
                             highlightFill:   colors[2],
                             highlightStroke: colors[3]
-                        }
-                    ]
+                        } ]
                 };
 
                 return data
@@ -355,28 +342,121 @@ var charts = {
         Line: {
             processData: function( arrObjRegInf ) {
                 //should be an array of objects of the form
-                //  { date: "2014-02-25", quantity: 60 }
-                console.log("totalFootfall.Line.processData: data received:", arrObjRegInf);
+                //  { date: "2014/02/25", quantity: 60 }
+                //console.log("totalFootfall.Line.processData: data received:", arrObjRegInf);
 
-                var dates      = [];
-                var quantities = [];
+                var stringToDateObj = function(dateString) {
+                    var datePieces = dateString.split("/").map(function(x) { return parseInt(x); });
+                    var yyyy = datePieces[0];
+                    var mm   = datePieces[1];
+                    var dd   = datePieces[2];
+                    return new Date(yyyy, mm-1, dd); // months are indexed from 0
+                }
 
+                var today = new Date();
+                var dateToFootfall = {}; // maps date strings to footfall for that date
+
+                // Populate dateToFootfall from the register data
                 for (var i=0; i < arrObjRegInf.length; i++) {
                     var regInf  = arrObjRegInf[i];
 
-                    dates.push( regInf.date );
-                    quantities.push( regInf.quantity );
+                    if (!dateToFootfall.hasOwnProperty(regInf.date))
+                        dateToFootfall[regInf.date] = 0;
+
+                    dateToFootfall[regInf.date] += regInf.quantity;
+                }
+
+                // Prepare data for the chart
+                var dataLabels = [];
+                var dataQuantities = [];
+                var millisecondsInDay = 86400000;
+                var monthNames = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"
+                ];
+
+                switch(currentState.footfallTimePeriod) {
+                    case "week":
+                        for (var date in dateToFootfall) {
+                            if (dateToFootfall.hasOwnProperty(date)) {
+                                var dateObj = stringToDateObj(date);
+                                var timeSinceDateMillis = today - dateObj;
+
+                                if (timeSinceDateMillis < 7 * millisecondsInDay) {
+                                    dataLabels.push(date);
+                                    dataQuantities.push(dateToFootfall[date]);
+                                }
+                            }
+                        }
+                        break;
+                    case "month":
+                        for (var date in dateToFootfall) {
+                            if (dateToFootfall.hasOwnProperty(date)) {
+                                var dateObj = stringToDateObj(date);
+
+                                if (dateObj.getUTCFullYear() == today.getUTCFullYear() && dateObj.getUTCMonth() == today.getUTCMonth()) {
+                                    dataLabels.push(date);
+                                    dataQuantities.push(dateToFootfall[date]);
+                                }
+                            }
+                        }
+                        break;
+                    case "year":
+                        var monthToFootfall = {};
+                        for (var month=0; month < 12; month++) {
+                            monthToFootfall[month] = 0;
+                        }
+
+                        for (var date in dateToFootfall) {
+                            if (dateToFootfall.hasOwnProperty(date)) {
+                                var dateObj = stringToDateObj(date);
+                                if (dateObj.getUTCFullYear() == today.getUTCFullYear()) {
+                                    var month = dateObj.getUTCMonth();
+                                    monthToFootfall[month] += dateToFootfall[date];
+                                }
+                            }
+                        }
+
+                        for (var month=0; month < 12; month++) {
+                            var monthName = monthNames[month];
+                            var monthFootfall = monthToFootfall[month];
+
+                            dataLabels.push(monthName);
+                            dataQuantities.push(monthFootfall);
+                        }
+                        break;
+                    case "allTime":
+                        var yearToFootfall = {};
+
+                        for (var date in dateToFootfall) {
+                            if (dateToFootfall.hasOwnProperty(date)) {
+                                var dateObj = stringToDateObj(date);
+
+                                var year = dateObj.getUTCFullYear();
+
+                                if (!yearToFootfall.hasOwnProperty(year))
+                                    yearToFootfall[year] = 0;
+
+                                yearToFootfall[year] += dateToFootfall[date];
+                            }
+                        }
+
+                        for (var year in yearToFootfall) {
+                            if (yearToFootfall.hasOwnProperty(year)) {
+                                dataLabels.push(year.toString());
+                                dataQuantities.push(yearToFootfall[year]);
+                            }
+                        }
+                        break;
                 }
                 
                 var colors = getRandomColors(5);
-
                 var data = { //ChartJs data object
-                    labels: dates,
+                    labels: dataLabels,
                 
                     datasets: [
                         {
                             label: "Registered attendance across all groups",
-                            data:  quantities,
+                            data:  dataQuantities,
 
                             fillColor:          colors[0],
                             strokeColor:        colors[1],
@@ -402,7 +482,7 @@ var charts = {
             processData: function( arrObjAgeInf ) {
                 //should be an array of objects of the form
                 //  { date: "2014-02-25", quantity: 60 }
-                console.log("footfallByAge.Radar.processData: data received:", arrObjAgeInf);
+                //console.log("footfallByAge.Radar.processData: data received:", arrObjAgeInf);
 
                 opts: extendDefaultOpts({})
             }
@@ -423,29 +503,28 @@ $( function() {
 //ON CHART SELECT
 $("#chart-select").change(function() {
     var chartName = $(this).val();
+    //console.log("chart-select changed to: " + chartName);
 
     if (chartName === "" || chartName === null) {
-        console.log("The <option> tag selected does not have a valid value attribute.");
-        return
+        //console.log("The <option> tag selected does not have a valid value attribute.");
+        return;
     }
 
-    //The value property of the <option> and the charts object
-    //have EXACTLY THE SAME NAME.
-    //the server should also have a case matching the name in getStatsDataR
-    displayChart( chartName );
-});
+    if (chartName.split("_")[0] === "totalFootfall") {
+        currentState.footfallTimePeriod = chartName.split("_")[1];
+        //console.log("Set currentState.footfallTimePeriod to " + currentState.footfallTimePeriod); 
 
-$("#chart-time-period-select").change(function() {
-    var newTimePeriod = $(this).val();
-    console.log("Time period chosen:", newTimePeriod);
-
-    changeTimePeriod( newTimePeriod );
+        displayChart("totalFootfall");
+    }
+    else {
+        displayChart(chartName);
+    }
 });
 
 //ON CHART STYLE SELECT
 $("#chart-style-select").change(function() {
     var newStyle = $(this).val();
-    console.log("Style chosen:", newStyle);
+    //console.log("Style chosen:", newStyle);
 
     changeChartStyle( newStyle );
 });

@@ -5,7 +5,7 @@ import Handler.Plugins
 import Handler.Utils
 import qualified Data.Text as T
 import Handler.People.PersonUtils (getPersonAge)
-import Data.List (sort, nub)
+import Data.List (sort)
 import Data.Time.Calendar (Day, toGregorian)
 
 getStatsR :: Handler Html
@@ -54,13 +54,11 @@ peopleNationalitiesHandler = do
             q <- count [PersonNationality ==. Just n]
             return $ NatInf n q
 
-
 data AgeInfo = AgeInf (Int, Int) Int
 instance ToJSON AgeInfo where
     toJSON (AgeInf (l, u) q) =
         let ageGroup = show l ++ "-" ++ show u
         in  object ["ageGroup" .= ageGroup, "quantity" .= q]
-
 
 peopleAgesHandler :: Handler Value
 peopleAgesHandler = do
@@ -88,16 +86,16 @@ peopleAgesHandler = do
 data RegInfo = RegInf Day Int
 instance ToJSON RegInfo where
     toJSON (RegInf date q) =
-        let (_, m, d) = toGregorian date
-            prettyDay = show m ++ "-" ++ show d
-        in object ["date" .= prettyDay, "quantity" .= q]
+        let (y, m, d) = toGregorian date
+            dayString = show y ++ "/" ++ show m ++ "/" ++ show d
+        in object ["date" .= dayString, "quantity" .= q]
         
 
 totalFootfallHandler :: Handler Value
 totalFootfallHandler = do
     rs <- fmap (map fromEntity) allRegisters
     
-    let allDates = sort . nub $ map registerDate rs
+    let allDates = sort $ map registerDate rs
 
     fmap toJSON $ mapM (getRegInf rs) allDates
     where

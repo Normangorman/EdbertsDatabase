@@ -15,18 +15,11 @@
           <option value="nationalities">by nationality
           <option value="ages">by age
         <optgroup label="Footfall">
-          <option value="totalFootfall">total
+          <option value="totalFootfall_week">total - week
+          <option value="totalFootfall_month">total - month
+          <option value="totalFootfall_year">total - year
+          <option value="totalFootfall_allTime">total - all time
           <option value="footfallByAge">by age
-
-      <!--
-      <strong>Choose a time period:
-      <select #chart-time-period-select .form-control> 
-        <option value="">
-        <option value="Week">Week
-        <option value="Month">Month
-        <option value="Year">Year
-        <option value="All time">All time
-      -->
 
       <strong>Choose a style:
       <select #chart-style-select .form-control>
