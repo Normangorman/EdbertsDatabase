@@ -74,7 +74,19 @@ $("#query_builder").queryBuilder({
                 "Chinese"           :"Chinese",
                 "Other"             :"Other"
             }
-        }
+        },
+
+        {   id :    "person_emergency_contact",
+            field:  "emergency_contact",
+            label:  "Emergency contact",
+            type:   "string"
+        },
+
+        {   id :    "person_other_information",
+            field:  "other_information",
+            label:  "Other information",
+            type:   "string"
+        },
     ]
 });
 

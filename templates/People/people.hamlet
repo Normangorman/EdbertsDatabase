@@ -33,5 +33,11 @@
                     <th data-sort="string">
                         Nationality
                         <span .caret>
+                    <th data-sort="int">
+                        Emergency contact
+                        <span .caret>
+                    <th data-sort="string">
+                        Other information
+                        <span .caret>
             <tbody>
                 ^{peopleTableRows}

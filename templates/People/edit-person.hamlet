@@ -64,6 +64,11 @@
               <input type="text" name="Emergency contact" value="#{fromMaybe $ personEmergencyContact person}" .form-control>
 
           <div .form-group>
+            <label .col-sm-3 .control-label>Other information (e.g. disabilities)
+            <div .col-sm-9>
+              <input type="text" name="Other information" value="#{fromMaybe $ personOtherInformation person}" .form-control>
+
+          <div .form-group>
             <div .pull-left>
               <button type="submit" .btn .btn-primary>
                 <span .glyphicon .glyphicon-ok>

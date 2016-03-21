@@ -48,4 +48,6 @@ mkPeopleRows people = do
             <td>#{fromMaybe $ personEmailAddress person}
             <td>#{fromMaybe $ personGender person}
             <td>#{fromMaybe $ personNationality person}
+            <td>#{fromMaybe $ personEmergencyContact person}
+            <td>#{fromMaybe $ personOtherInformation person}
     |]

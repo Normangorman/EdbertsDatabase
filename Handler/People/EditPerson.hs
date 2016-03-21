@@ -49,6 +49,7 @@ postEditPersonR pid = do
         <*> iopt textField "Gender"      
         <*> iopt textField "Nationality"
         <*> iopt textField "Emergency contact"
+        <*> iopt textField "Other information"
     runDB $ replace pid editedPerson
     
     groupIds <- lookupPostParams "group_ids"
