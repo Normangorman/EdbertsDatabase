@@ -73,7 +73,7 @@ peopleAgesHandler = do
     where
         getAgeInf :: [Person] -> (Int, Int) -> IO AgeInfo
         getAgeInf ps bounds = do
-            total <- fmap length $ mapM (personAgeInRange bounds) ps
+            total <- fmap (length . filter (\p -> p == True)) $ mapM (personAgeInRange bounds) ps
             return (AgeInf bounds total)
 
         personAgeInRange :: (Int, Int) -> Person -> IO Bool
@@ -90,7 +90,6 @@ instance ToJSON RegInfo where
             dayString = show y ++ "/" ++ show m ++ "/" ++ show d
         in object ["date" .= dayString, "quantity" .= q]
         
-
 totalFootfallHandler :: Handler Value
 totalFootfallHandler = do
     rs <- fmap (map fromEntity) allRegisters

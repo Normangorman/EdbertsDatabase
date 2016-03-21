@@ -299,7 +299,7 @@ var charts = {
             processData: function(arrayObjAgeInf) {
                 //should be an array of objects of the form
                 //  { ageGroup: "0-5", quantity: 5 }
-                //console.log("ages.Bar.processData: data received:", arrayObjAgeInf);
+                console.log("ages.Bar.processData: data received:", arrayObjAgeInf);
 
                 var ageGroups  = [];
                 var quantities = [];
@@ -524,7 +524,7 @@ $("#chart-select").change(function() {
 //ON CHART STYLE SELECT
 $("#chart-style-select").change(function() {
     var newStyle = $(this).val();
-    //console.log("Style chosen:", newStyle);
+    console.log("Style chosen:", newStyle);
 
     changeChartStyle( newStyle );
 });
