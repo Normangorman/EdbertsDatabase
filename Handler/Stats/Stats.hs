@@ -3,6 +3,7 @@ module Handler.Stats.Stats where
 import Import
 import Handler.Plugins
 import Handler.Utils
+import Data.List (nub)
 import qualified Data.Text as T
 import Handler.People.PersonUtils (getPersonAge)
 import Data.List (sort)
@@ -11,6 +12,7 @@ import Data.Time.Calendar (Day, toGregorian)
 getStatsR :: Handler Html
 getStatsR = do
     defaultLayout $ do
+        datePickerWidget
         chartsWidget
         randomColorWidget
         $(widgetFile "Stats/stats")
@@ -27,10 +29,17 @@ getStatsDataR = do
         
         Just x  -> error $ "getStatsDataR: option unrecognized: " ++ (T.unpack x) 
         Nothing -> error "getStatsDataR: no 'chart_name' parameter passed"
-        
---Helper functions
-fromEntity :: Entity a -> a 
+
+fromEntity :: Entity a -> a
 fromEntity (Entity _ a) = a
+        
+getStatsNumbersR :: Day -> Day -> Handler Value
+getStatsNumbersR startDay endDay = do
+    registersWithinRange <- runDB $ selectList [RegisterDate >=. startDay, RegisterDate <=. endDay] []
+    let registerPeople = foldl (++) [] $ fmap (registerPeoplePresent . fromEntity) registersWithinRange
+    let totalPeople = length registerPeople
+    let totalUniquePeople = (length . nub) registerPeople
+    return (toJSON (totalPeople, totalUniquePeople))
 
 countList :: (a -> Bool) -> [a] -> Int
 countList _ []     = 0

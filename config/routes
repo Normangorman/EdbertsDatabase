@@ -29,3 +29,4 @@
 
 !/stats                  StatsR        GET
 !/stats/data/            StatsDataR    GET
+!/stats/numbers/#Day/#Day StatsNumbersR GET

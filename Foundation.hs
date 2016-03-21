@@ -11,6 +11,7 @@ import Settings.Development (development)
 import qualified Database.Persist
 import Database.Persist.Sql (SqlBackend)
 import Settings.StaticFiles
+import Data.Time.Calendar (Day)
 import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)

@@ -493,6 +493,23 @@ var charts = {
     }
 }; //end charts
 
+parseDate = function(dateString) {
+    // String should have the format dd/mm/yyyy
+    try {
+        var datePieces = dateString.split("/").map(function(x) { return parseInt(x); });
+        var dd   = datePieces[0];
+        var mm   = datePieces[1];
+        var yyyy = datePieces[2];
+        if (datePieces.length != 3 || yyyy == null || mm == null || dd == null)
+            throw false;
+
+        return new Date(yyyy, mm-1, dd); // months are indexed from 0
+    }
+    catch(err) {
+        console.log("Could not parse date from", dateString);
+        return null;
+    }
+}
 
 //ON WINDOW LOAD
 $( function() {
@@ -518,6 +535,47 @@ $("#chart-select").change(function() {
     }
     else {
         displayChart(chartName);
+    }
+});
+
+Date.prototype.yyyymmdd = function() {
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+    var dd  = this.getDate().toString();
+    return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+};
+
+$("#numbers-form").submit(function(event) {
+    event.preventDefault();
+
+    console.log("numbersForm submitted called.");
+    var startDateString = $("#start-date-input").val();
+    var endDateString = $("#end-date-input").val();
+    console.log([startDateString, endDateString]);
+
+    var startDate = parseDate(startDateString);
+    var endDate = parseDate(endDateString);
+    console.log([startDate, endDate]);
+
+    if (startDate && endDate) {
+        var startDateServerFormatted = startDate.yyyymmdd();
+        var endDateServerFormatted = endDate.yyyymmdd();
+        console.log([startDateServerFormatted, endDateServerFormatted]);
+
+        console.log("Making ajax request to StatsNumbersR");
+        $.get("@{StatsR}/numbers/" + startDateServerFormatted + "/" + endDateServerFormatted, function(data) {
+            console.log("Server data:");
+            console.log(data);
+
+            var totalPeople = data[0];
+            var totalUniquePeople = data[1];
+
+            $("#total-people-seen-cell").text(totalPeople);
+            $("#total-unique-people-seen-cell").text(totalUniquePeople);
+        });
+    }
+    else {
+        console.log("Either startDate or endDate was empty so not continuing");
     }
 });
 

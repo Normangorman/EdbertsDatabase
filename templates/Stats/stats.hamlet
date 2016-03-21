@@ -1,7 +1,32 @@
 <div .col-md-8 .col-md-offset-2>
   <h2>Statistics
   <hr>
-  
+
+  <h3>Footfall numbers
+  <form #numbers-form .form-horizontal role="form">
+    <div .col-sm-6>
+      <div .form-group>
+        <label .col-sm-3 .control-label>From:
+        <input #start-date-input type="text" name="Start date" placeholder="01/01/2000" .datepicker>
+      <div .form-group>
+        <label .col-sm-3 .control-label>To:
+        <input #end-date-input type="text" name="End date" placeholder="01/01/2016" .datepicker>
+    <div .col-sm-6>
+      <button type="submit" .btn .btn-primary>
+        <span .glyphicon .glyphicon-ok>
+        Search
+
+  <table .table .table-bordered .table-hover>
+    <tr>
+        <td><strong>Total people seen</strong>
+        <td #total-people-seen-cell>0
+
+    <tr>
+        <td><strong>Total unique people seen</strong>
+        <td #total-unique-people-seen-cell>0
+
+  <hr>
+
   <h3 #chart_title>
   <div .col-md-8>
     <canvas #canvas>
