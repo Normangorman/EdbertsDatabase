@@ -447,6 +447,95 @@ var charts = {
                             }
                         }
                         break;
+
+                    case "custom":
+                        var start_date_string = $("#start-date-input").val();
+                        var end_date_string = $("#end-date-input").val();
+
+                        var start_date = stringToDateObj(start_date_string.split("/").reverse().join("/"));
+                        var end_date = stringToDateObj(end_date_string.split("/").reverse().join("/"));
+
+                        var millisecondsInDay = 86400000;
+                        var time_delta_days = Math.ceil((end_date.getTime() - start_date.getTime())/millisecondsInDay);
+                        console.log("Time delta days:", time_delta_days);
+
+                        if (time_delta_days <= 60) { // display all days as labels
+                            console.log("Displaying labels as day names");
+                            var dayBuckets = [];
+                            var numDays = time_delta_days + 1; 
+
+                            for(var i=0; i < numDays; i++) { dayBuckets.push(0) }
+
+                            for (var date in dateToFootfall) {
+                                if (dateToFootfall.hasOwnProperty(date)) {
+                                    var dateObj = stringToDateObj(date);
+
+                                    if (start_date <= dateObj && dateObj <= end_date) {
+                                        var bucketNum = Math.ceil((dateObj.getTime() - start_date.getTime())/millisecondsInDay);
+                                        dayBuckets[bucketNum] = dateToFootfall[date];
+                                    }
+                                }
+                            }
+
+                            for (var i=0; i < numDays; i++) {
+                                var date = new Date(start_date.getTime() + i * millisecondsInDay);
+                                dataLabels.push(date.yyyymmdd());
+                                dataQuantities.push(dayBuckets[i]);
+                            }
+                        }
+                        else if (time_delta_days <= 365*2) { //display labels as month names
+                            console.log("Displaying labels as month names");
+                            var monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"
+                            ];
+                            var monthBuckets = [];
+
+                            var numMonths = end_date.getMonth() - start_date.getMonth() + 1 + (end_date.getYear() - start_date.getYear()) * 12;
+                            for(var i=0; i < numMonths; i++) { monthBuckets.push(0) }
+
+                            for (var date in dateToFootfall) {
+                                if (dateToFootfall.hasOwnProperty(date)) {
+                                    var dateObj = stringToDateObj(date);
+
+                                    if (start_date <= dateObj && dateObj <= end_date) {
+                                        var bucketNum = dateObj.getMonth() - start_date.getMonth() + (dateObj.getYear() - start_date.getYear()) * 12;
+                                        monthBuckets[bucketNum] += dateToFootfall[date];
+                                    }
+                                }
+                            }
+
+                            for (var i=0; i < numMonths; i++) {
+                                var monthName = monthNames[(i + start_date.getMonth()) % 12];
+                                dataLabels.push(monthName);
+                                dataQuantities.push(monthBuckets[i]);
+                            }
+                        }
+                        else { // display labels as year names
+                            console.log("Displaying labels as year names");
+                            var yearBuckets = [];
+
+                            var numYears = end_date.getFullYear() - start_date.getFullYear() + 1;
+                            for(var i=0; i < numYears; i++) { yearBuckets.push(0) }
+
+                            for (var date in dateToFootfall) {
+                                if (dateToFootfall.hasOwnProperty(date)) {
+                                    var dateObj = stringToDateObj(date);
+
+                                    if (start_date <= dateObj && dateObj <= end_date) {
+                                        var bucketNum = dateObj.getFullYear() - start_date.getFullYear();
+                                        yearBuckets[bucketNum] += dateToFootfall[date];
+                                    }
+                                }
+                            }
+
+                            console.log(start_date.getFullYear());
+                            console.log(String(start_date.getFullYear() + 1));
+                            for (var i=0; i < numYears; i++) {
+                                dataLabels.push(String(start_date.getFullYear() + i));
+                                dataQuantities.push(yearBuckets[i]);
+                            }
+                        }
+                        break;
                 }
                 
                 var colors = getRandomColors(5);
@@ -557,6 +646,15 @@ $("#numbers-form").submit(function(event) {
     var endDate = parseDate(endDateString);
     console.log([startDate, endDate]);
 
+    if (startDate > endDate) {
+        var tmp = startDate;
+        startDate = endDate;
+        endDate = tmp;
+
+        $("#start-date-input").val(endDateString);
+        $("#end-date-input").val(startDateString);
+    }
+
     if (startDate && endDate) {
         var startDateServerFormatted = startDate.yyyymmdd();
         var endDateServerFormatted = endDate.yyyymmdd();
@@ -573,9 +671,13 @@ $("#numbers-form").submit(function(event) {
             $("#total-people-seen-cell").text(totalPeople);
             $("#total-unique-people-seen-cell").text(totalUniquePeople);
         });
+        
+        // Update the chart display
+        currentState.footfallTimePeriod = "custom";
+        displayChart("totalFootfall");
     }
     else {
-        console.log("Either startDate or endDate was empty so not continuing");
+        console.log("Either startDate or endDate was empty or startDate wasn't <= endDate so not continuing");
     }
 });
 
