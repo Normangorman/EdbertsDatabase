@@ -103,7 +103,7 @@ totalFootfallHandler :: Handler Value
 totalFootfallHandler = do
     rs <- fmap (map fromEntity) allRegisters
     
-    let allDates = sort $ map registerDate rs
+    let allDates = sort . nub $ map registerDate rs
 
     fmap toJSON $ mapM (getRegInf rs) allDates
     where
