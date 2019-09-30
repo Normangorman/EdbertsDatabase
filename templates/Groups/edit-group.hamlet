@@ -12,6 +12,7 @@
           <label .col-sm-3 .control-label>Project
           <div .col-sm-9>
             <select #select_project .form-control name="project">
+                <option value="Beacon Lough">Beacon Lough
                 <option value="High Lanes">High Lanes
                 <option value="The Fold">The Fold
 
