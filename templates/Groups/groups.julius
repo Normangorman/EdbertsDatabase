@@ -12,6 +12,7 @@ $("#query_builder").queryBuilder({
             type:   "string",
             input:  "select",
             values: {
+                "Beacon Lough" : "Beacon Lough",
                 "High Lanes" : "High Lanes",
                 "The Fold"   : "The Fold"
             }

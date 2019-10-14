@@ -1,3 +1,4 @@
+{-# LANGUAGE UndecidableInstances #-}
 module Model where
 
 import Yesod
