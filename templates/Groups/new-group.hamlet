@@ -13,6 +13,7 @@
             <label .col-sm-3 .control-label>Project
             <div .col-sm-9>
                 <select .form-control placeholder="High Lanes" name="project">
+                    <option>Beacon Lough
                     <option>High Lanes
                     <option>The Fold
 

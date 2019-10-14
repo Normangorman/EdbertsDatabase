@@ -77,9 +77,9 @@ instance Yesod App where
 
     -- This is done to provide an optimization for serving static files from
     -- a separate domain. Please see the staticRoot setting in Settings.hs
-    urlRenderOverride y (StaticR s) =
-        Just $ uncurry (joinPath y (Settings.staticRoot $ settings y)) $ renderRoute s
-    urlRenderOverride _ _ = Nothing
+    -- urlRenderOverride y (StaticR s) =
+    --    Just $ uncurry (joinPath y (Settings.staticRoot $ settings y)) $ renderRoute s
+    -- urlRenderOverride _ _ = Nothing
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -98,8 +98,8 @@ instance Yesod App where
 
     -- What messages should be logged. The following includes all messages when
     -- in development, and warnings and errors in production.
-    shouldLog _ _source level =
-        development || level == LevelWarn || level == LevelError
+    --shouldLog _ _source level =
+    --    development || level == LevelWarn || level == LevelError
 
     makeLogger = return . appLogger
 

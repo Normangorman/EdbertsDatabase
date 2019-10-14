@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+  postgres:
+    build: ./postgres-build
+    restart: "no"
+    environment:
+      POSTGRES_USER: EdbertsUser
+      POSTGRES_PASSWORD: Edberts
+      POSTGRES_DB: EdbertsDatabase
+    ports:
+      - 5432:5432
+  edberts:
+    image: edberts-database:latest
+    entrypoint: ./EdbertsDatabase
+    command: Development -p 5000
+    # build: 
+    #   context: .
+    restart: "no"
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGUSER: EdbertsUser
+      PGPASS: Edberts
+      PGDATABASE: EdbertsDatabase
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres
