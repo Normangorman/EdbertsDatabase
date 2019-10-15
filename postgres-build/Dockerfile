@@ -1,4 +1,4 @@
-FROM postgres:10-alpine as base
+FROM postgres:9.4 as base
 
 FROM base as sample-data
 
