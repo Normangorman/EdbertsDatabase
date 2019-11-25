@@ -9,20 +9,43 @@ services:
       POSTGRES_DB: EdbertsDatabase
     ports:
       - 5432:5432
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
   edberts:
-    image: edberts-database:latest
+    image: edberts-database:24-11-19
     entrypoint: ./EdbertsDatabase
     command: Development -p 5000
     # build: 
     #   context: .
-    restart: "no"
+    restart: "always"
     environment:
       PGHOST: postgres
       PGPORT: 5432
       PGUSER: EdbertsUser
       PGPASS: Edberts
       PGDATABASE: EdbertsDatabase
-    ports:
-      - 5000:5000
+    # ports:
+    #   - 5000:5000
     depends_on:
       - postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+  nginx:
+    image: nginx:1.17
+    depends_on:
+      - edberts
+    ports:
+      - 8080:8080
+      - 5000:5000
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx.htpasswd:/etc/nginx/.htpasswd:ro
+    restart: "always"

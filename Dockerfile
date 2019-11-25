@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS build
+FROM ubuntu:18.04 AS dev
 
 # zlib headers required to compile the zlib Haskell package
 # libpq required for postgresql-libpq Haskell package
@@ -32,6 +32,8 @@ RUN cabal update
 RUN cabal install alex-3.2.4
 RUN cabal install happy-1.19.12
 RUN cabal install language-javascript-0.6.0.0
+
+FROM dev as build
 RUN cabal install
 
 FROM ubuntu:18.04 AS production
