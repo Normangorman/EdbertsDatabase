@@ -10,6 +10,7 @@ Person
     nationality      Text Maybe
     emergencyContact Text Maybe
     otherInformation Text Maybe
+    project          Text Maybe
     deriving Eq Show
 --PGroup because SQL was getting confused by "group"
 PGroup

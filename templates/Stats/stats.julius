@@ -638,9 +638,10 @@ $("#numbers-form").submit(function(event) {
     event.preventDefault();
 
     console.log("numbersForm submitted called.");
+    var projectFilterString = $("#project-filter-select").val();
     var startDateString = $("#start-date-input").val();
     var endDateString = $("#end-date-input").val();
-    console.log([startDateString, endDateString]);
+    console.log([projectFilterString, startDateString, endDateString]);
 
     var startDate = parseDate(startDateString);
     var endDate = parseDate(endDateString);
@@ -661,7 +662,7 @@ $("#numbers-form").submit(function(event) {
         console.log([startDateServerFormatted, endDateServerFormatted]);
 
         console.log("Making ajax request to StatsNumbersR");
-        $.get("@{StatsR}/numbers/" + startDateServerFormatted + "/" + endDateServerFormatted, function(data) {
+        $.get("@{StatsR}/numbers/" + projectFilterString + "/" + startDateServerFormatted + "/" + endDateServerFormatted, function(data) {
             console.log("Server data:");
             console.log(data);
 

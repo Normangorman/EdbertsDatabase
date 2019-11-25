@@ -69,6 +69,14 @@
               <input type="text" name="Other information" value="#{fromMaybe $ personOtherInformation person}" .form-control>
 
           <div .form-group>
+            <label .col-sm-3 .control-label>Project
+            <div .col-sm-9>
+              <select #select-project name="Project" .form-control>
+                  <option>Beacon Lough
+                  <option>High Lanes
+                  <option>The Fold
+
+          <div .form-group>
             <div .pull-left>
               <button type="submit" .btn .btn-primary>
                 <span .glyphicon .glyphicon-ok>

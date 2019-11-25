@@ -142,7 +142,7 @@ postQuickCreatePersonR = do
     let gid = textToSqlKey textGid
 
     pid <- runDB $ do
-        pid <- insert $ Person firstName lastName Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing
+        pid <- insert $ Person firstName lastName Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing Nothing
         insert_ $ PersonGroupRelation pid gid
         return pid
         

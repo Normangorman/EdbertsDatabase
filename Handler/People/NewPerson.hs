@@ -24,6 +24,7 @@ postNewPersonR = do
         <*> iopt textField "Nationality"
         <*> iopt textField "Emergency contact"
         <*> iopt textField "Other information"
+        <*> iopt textField "Project"
     personId <- runDB $ insert person
     setMessage "Person successfully created!"
     redirect $ PersonR personId

@@ -26,6 +26,7 @@ getEditPersonR pid = do
             --this is interpolated in the julius file and used to set the default selected options
             let gender         = (toJSON . fromMaybe . personGender) person
             let nationality    = (toJSON . fromMaybe . personNationality) person
+            let project        = (toJSON . fromMaybe . personProject) person
             let personGroupIds = jsonKeys personGroups
             let personQualIds  = jsonKeys personQuals
 
@@ -50,6 +51,7 @@ postEditPersonR pid = do
         <*> iopt textField "Nationality"
         <*> iopt textField "Emergency contact"
         <*> iopt textField "Other information"
+        <*> iopt textField "Project"
     runDB $ replace pid editedPerson
     
     groupIds <- lookupPostParams "group_ids"

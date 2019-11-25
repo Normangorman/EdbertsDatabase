@@ -33,8 +33,11 @@ getStatsDataR = do
 fromEntity :: Entity a -> a
 fromEntity (Entity _ a) = a
         
-getStatsNumbersR :: Day -> Day -> Handler Value
-getStatsNumbersR startDay endDay = do
+getStatsNumbersR :: Text -> Day -> Day -> Handler Value
+getStatsNumbersR projectFilter startDay endDay = do
+    groupEntitiesFromProject <- runDB $ selectList [PGroupProject ==. projectFilter] []
+    let groupIdsFromProject = map id groupEntitiesFromProject
+    -- TODO: Filter only the registers associated to a group from the above list
     registersWithinRange <- runDB $ selectList [RegisterDate >=. startDay, RegisterDate <=. endDay] []
     let registerPeople = foldl (++) [] $ fmap (registerPeoplePresent . fromEntity) registersWithinRange
     let totalPeople = length registerPeople

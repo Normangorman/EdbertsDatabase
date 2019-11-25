@@ -1,8 +1,10 @@
 $(function() {
     var gender = #{gender};
     var nationality = #{nationality};
+    var project = #{project};
     console.log("Gender:", gender);
     console.log("Nationality:", nationality);
+    console.log("Project:", project);
     
     if (gender != "") {
         $("#select_gender").val(gender);
@@ -12,6 +14,11 @@ $(function() {
     if (nationality != "") {
         $("#select_nationality").val(nationality);
         console.log("Set default nationality option.");
+    }
+
+    if (project != "") {
+        $("#select_project").val(project);
+        console.log("Set default project option.");
     }
     
     chosenPreselect( #{personGroupIds}, "#group_select");

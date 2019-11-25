@@ -39,5 +39,8 @@
                     <th data-sort="string">
                         Other information
                         <span .caret>
+                    <th data-sort="string">
+                        Project
+                        <span .caret>
             <tbody>
                 ^{peopleTableRows}

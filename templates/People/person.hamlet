@@ -55,6 +55,10 @@
             <td><strong>Other information (e.g. disabilities)</strong>
             <td>#{fromMaybe $ personOtherInformation person}
 
+          <tr>
+            <td><strong>Project</strong>
+            <td>#{fromMaybe $ personProject person}
+
       <div .row>
         <div .pull-left>
           <a href=@{EditPersonR pid} .btn .btn-primary>

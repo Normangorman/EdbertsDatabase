@@ -2,9 +2,18 @@
   <h2>Statistics
   <hr>
 
+  <h3>Project
+  <hr>
+
   <h3>Footfall numbers
   <form #numbers-form .form-horizontal role="form">
     <div .col-sm-6>
+      <div .form-group>
+        <label .col-sm-3 .control-label>Project filter:
+        <select #project-filter-select .form-control> 
+          <option value="Beacon Lough">Beacon Lough
+          <option value="High Lanes">High Lanes
+          <option value="The Fold">The Fold
       <div .form-group>
         <label .col-sm-3 .control-label>From:
         <input #start-date-input type="text" name="Start date" placeholder="01/01/2000" .datepicker>

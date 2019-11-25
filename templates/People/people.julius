@@ -87,6 +87,12 @@ $("#query_builder").queryBuilder({
             label:  "Other information",
             type:   "string"
         },
+
+        {   id :    "person_project",
+            field:  "project",
+            label:  "Project",
+            type:   "string"
+        },
     ]
 });
 
